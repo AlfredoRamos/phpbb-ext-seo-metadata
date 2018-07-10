@@ -24,6 +24,14 @@ class m1_seometadata_data extends migration
 		return [
 			[
 				'config.add',
+				['seo_metadata_desc_length', 160]
+			],
+			[
+				'config.add',
+				['seo_metadata_default_image', '']
+			],
+			[
+				'config.add',
 				['seo_metadata_open_graph', 1]
 			]
 		];

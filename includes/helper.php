@@ -48,7 +48,9 @@ class helper
 					$this->config['site_desc']
 				),
 				'og:type' => 'website',
-				'og:image' => '',
+				'og:image' => $this->clean_image(
+					$this->config['seo_metadata_default_image']
+				),
 				'og:url' => vsprintf(
 					'%1$s/%2$s',
 					[
@@ -109,19 +111,16 @@ class helper
 		}
 	}
 
-	public function clean_description($description = '', $max_length = 160)
+	public function clean_description($description = '')
 	{
 		// Cast values
 		$description = (string) $description;
-		$max_length = abs((int) $max_length);
+		$max_length = (int) $this->config['seo_metadata_desc_length'];
 
 		if (empty($description))
 		{
 			return '';
 		}
-
-		// max_length can't be greater than 255
-		$max_length = ($max_length > 255) ? 255 : $max_length;
 
 		// Remove BBCode
 		strip_bbcode($description);
@@ -137,5 +136,24 @@ class helper
 		}
 
 		return trim($description);
+	}
+
+	public function clean_image($uri = '')
+	{
+		if (empty($uri))
+		{
+			return '';
+		}
+
+		// Clean URI
+		$uri = preg_replace('/^\.\//', '', $uri);
+
+		return vsprintf(
+			'%1$s/images/%2$s',
+			[
+				generate_board_url(),
+				$uri
+			]
+		);
 	}
 }

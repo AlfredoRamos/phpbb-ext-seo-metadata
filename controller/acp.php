@@ -90,6 +90,21 @@ class acp
 				$this->request->variable('seo_metadata_open_graph', 0)
 			);
 
+			// Description length
+			$desc_length = $this->request->variable('seo_metadata_desc_length', 160);
+			$desc_length = ($desc_length < 50) ? 50 : $desc_length;
+			$desc_length = ($desc_length > 255) ? 255 : $desc_length;
+			$this->config->set(
+				'seo_metadata_desc_length',
+				$desc_length
+			);
+
+			// Default image
+			$this->config->set(
+				'seo_metadata_default_image',
+				$this->request->variable('seo_metadata_default_image', '')
+			);
+
 			// Admin log
 			$this->log->add(
 				'admin',
@@ -109,7 +124,10 @@ class acp
 
 		// Assign template variables
 		$this->template->assign_vars([
-			'SEO_METADATA_OPEN_GRAPH' => (bool) $this->config['seo_metadata_open_graph']
+			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
+			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
+			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
+			'BOARD_URL' => generate_board_url() . '/images/'
 		]);
 	}
 

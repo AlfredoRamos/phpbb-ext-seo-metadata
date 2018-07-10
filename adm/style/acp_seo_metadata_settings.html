@@ -2,21 +2,46 @@
 
 <h1>{{ lang('ACP_SEO_METADATA') }}</h1>
 
+<div class="errorbox notice">
+	<p>{{ lang('ACP_SEO_METADATA_EXPLAIN') }}</p>
+</div>
+
 <form id="seo_metadata_settings" method="POST" action="{{ U_ACTION }}">
+
+	<fieldset>
+		<legend>{{ lang('ACP_GLOBAL_SETTINGS') }}</legend>
+		<dl>
+			<dt>
+				<label for="seo_metadata_desc_length">{{ lang('ACP_SEO_METADATA_DESC_LENGTH') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="number" id="seo_metadata_desc_length" name="seo_metadata_desc_length" min="50" max="255" value="{% if not SEO_METADATA_DESC_LENGTH %}160{% else %}{{ SEO_METADATA_DESC_LENGTH }}{% endif %}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_default_image">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_URL) }}</span>
+			</dt>
+			<dd>
+				<input type="text" id="seo_metadat_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full" />
+			</dd>
+		</dl>
+	</fieldset>
 
 	<fieldset>
 		<legend>{{ lang('ACP_OPEN_GRAPH_SETTINGS') }}</legend>
 		<dl>
 			<dt>
 				<label for="seo_metadata_open_graph">{{ lang('ACP_OPEN_GRAPH') }}{{ lang('COLON') }}</label>
-				<br><span>{{ lang('ACP_OPEN_GRAPH_EXPLAIN') }}</span>
+				<br /><span>{{ lang('ACP_OPEN_GRAPH_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
-
 	</fieldset>
 
 	<fieldset>
