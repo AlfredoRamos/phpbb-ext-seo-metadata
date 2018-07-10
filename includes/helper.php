@@ -66,7 +66,9 @@ class helper
 		if (!empty($key) && !empty($this->metadata[$key]))
 		{
 			$this->metadata = array_merge($this->metadata[$key], $data);
-		} else {
+		}
+		else
+		{
 			$this->metadata = array_merge($this->metadata, $data);
 		}
 	}
