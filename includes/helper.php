@@ -110,6 +110,9 @@ class helper
 
 		// Remove BBCode
 		strip_bbcode($description);
+
+		// Remove whitespaces
+		$description = preg_replace('/\s+/', ' ', $description);
 		$description = trim($description);
 
 		// Check description length

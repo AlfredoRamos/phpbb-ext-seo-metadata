@@ -44,6 +44,7 @@ class listener implements EventSubscriberInterface
 	{
 		global $phpbb_container;
 
+		$this->db = $phpbb_container->get('dbal.conn');
 		$this->config = $config;
 		$this->template = $template;
 		$this->routing_helper = $routing_helper;
@@ -59,8 +60,9 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.page_header_after' => 'page_header_after',
-			'core.viewforum_get_topic_data' => 'viewforum_get_topic_data'
+			'core.page_header_after' => 'page_header',
+			'core.viewforum_generate_page_after' => 'viewforum',
+			'core.viewtopic_modify_post_data' => 'viewtopic'
 		];
 	}
 
@@ -71,7 +73,7 @@ class listener implements EventSubscriberInterface
 	 *
 	 * @return void
 	 */
-	public function page_header_after($event)
+	public function page_header($event)
 	{
 		$data = [];
 
@@ -95,7 +97,7 @@ class listener implements EventSubscriberInterface
 		$this->helper->metadata_template_vars($data);
 	}
 
-	public function viewforum_get_topic_data($event)
+	public function viewforum($event)
 	{
 		if (empty($event['forum_data']['forum_desc']))
 		{
@@ -108,6 +110,51 @@ class listener implements EventSubscriberInterface
 			[
 				'og:description' => $this->helper->clean_description($event['forum_data']['forum_desc'])
 			]
+		);
+
+		if ((bool) $this->config['seo_metadata_open_graph'])
+		{
+			$data = array_merge(
+				$data,
+				[
+					'open_graph' => $this->helper->get_metadata('open_graph')
+				]
+			);
+		}
+
+		$this->helper->metadata_template_vars($data);
+	}
+
+	public function viewtopic($event)
+	{
+		if ((int) $event['start'] > 0)
+		{
+			$sql = 'SELECT post_text
+				FROM ' . POSTS_TABLE . '
+				WHERE ' . $this->db->sql_build_array('SELECT', [
+					'post_id' => (int) $event['topic_data']['topic_first_post_id']
+				]);
+			$result = $this->db->sql_query($sql);
+			$description = $this->db->fetch_field('post_text');
+			$this->db_freeresult($result);
+		}
+		else
+		{
+			$description = $event['rowset'][$event['topic_data']['topic_first_post_id']]['post_text'];
+		}
+
+		if (empty($description))
+		{
+			return;
+		}
+
+		$data = [];
+
+		$this->helper->set_metadata(
+			[
+				'og:description' => $this->helper->clean_description($description)
+			],
+			'open_graph'
 		);
 
 		if ((bool) $this->config['seo_metadata_open_graph'])
