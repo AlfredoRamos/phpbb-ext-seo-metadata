@@ -84,6 +84,12 @@ class acp
 				);
 			}
 
+			// Open Graph
+			$this->config->set(
+				'seo_metadata_open_graph',
+				$this->request->variable('seo_metadata_open_graph', 0)
+			);
+
 			// Admin log
 			$this->log->add(
 				'admin',
@@ -102,7 +108,9 @@ class acp
 		}
 
 		// Assign template variables
-		$this->template->assign_vars([]);
+		$this->template->assign_vars([
+			'SEO_METADATA_OPEN_GRAPH' => (bool) $this->config['seo_metadata_open_graph']
+		]);
 	}
 
 }

@@ -9,47 +9,37 @@
 
 namespace alfredoramos\seometadata\event;
 
+use phpbb\db\driver\factory as database;
 use phpbb\config\config;
-use phpbb\template\template;
-use phpbb\routing\helper as routing_helper;
-use phpbb\session;
+use alfredoramos\seometadata\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
 
+	/** @var \phpbb\db\driver\factory */
+	protected $db;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
-	protected $template;
-
-	/** @var \phpbb\routing\helper */
-	protected $routing_helper;
-
-	protected $user;
-
+	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\routing\helper		$routing_helper
+	 * @param \phpbb\db\driver\factory					$db
+	 * @param \phpbb\config\config						$config
+	 * @param \alfredoramos\seometadata\includes\helper	$helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper)
+	public function __construct(database $db, config $config, helper $helper)
 	{
-		global $phpbb_container;
-
-		$this->db = $phpbb_container->get('dbal.conn');
+		$this->db = $db;
 		$this->config = $config;
-		$this->template = $template;
-		$this->routing_helper = $routing_helper;
-		$this->user = $phpbb_container->get('user');
-		$this->helper = $phpbb_container->get('alfredoramos.seometadata.helper');
+		$this->helper = $helper;
 	}
 
 	/**
@@ -67,7 +57,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Assign template variables.
+	 * Assign default template variables.
 	 *
 	 * @param object $event
 	 *
@@ -97,6 +87,13 @@ class listener implements EventSubscriberInterface
 		$this->helper->metadata_template_vars($data);
 	}
 
+	/**
+	 * Assign forum template variables.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
 	public function viewforum($event)
 	{
 		if (empty($event['forum_data']['forum_desc']))
@@ -125,6 +122,13 @@ class listener implements EventSubscriberInterface
 		$this->helper->metadata_template_vars($data);
 	}
 
+	/**
+	 * Assign topic template variables.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
 	public function viewtopic($event)
 	{
 		if ((int) $event['start'] > 0)

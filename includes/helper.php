@@ -9,23 +9,36 @@
 
 namespace alfredoramos\seometadata\includes;
 
+use phpbb\config\config;
+use phpbb\template\template;
+use phpbb\user;
+
 class helper
 {
 
+	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var string */
+	protected $root_path;
+
+	/** @var array */
 	protected $metadata;
 
-	public function __construct()
+	public function __construct(config $config, template $template, user $user, $root_path)
 	{
-		global $phpbb_container, $phpbb_root_path;
+		$this->config = $config;
+		$this->template = $template;
+		$this->user = $user;
+		$this->root_path;
 
-		$this->config = $phpbb_container->get('config');
-		$this->template = $phpbb_container->get('template');
-		$this->user = $phpbb_container->get('user');
-
-		$current_page = $this->user->extract_current_page($phpbb_root_path);
+		$current_page = $this->user->extract_current_page($this->root_path);
 		$this->metadata = [
 			'open_graph' => [
 				'og:locale' => $this->config['default_lang'],

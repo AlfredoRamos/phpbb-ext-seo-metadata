@@ -2,9 +2,9 @@ services:
     alfredoramos.seometadata.listener:
         class: alfredoramos\seometadata\event\listener
         arguments:
+            - '@dbal.conn'
             - '@config'
-            - '@template'
-            - '@routing.helper'
+            - '@alfredoramos.seometadata.helper'
         tags:
             - { name: event.listener }
 
@@ -20,3 +20,8 @@ services:
 
     alfredoramos.seometadata.helper:
         class: alfredoramos\seometadata\includes\helper
+        arguments:
+            - '@config'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
