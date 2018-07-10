@@ -1,0 +1,5 @@
+{%- macro metatag(property, content) -%}
+{%- if property is not empty and content is not empty -%}
+<meta property="{{ property | escape }}" content="{{ content | escape }}">
+{% endif %}
+{%- endmacro -%}

@@ -1,0 +1,6 @@
+{%- import '@alfredoramos_seometadata/metatag.html' as seo_metadata -%}
+{%- for CATEGORIES in SEO_METADATA -%}
+	{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
+		{{- seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}
+	{%- endfor -%}
+{%- endfor -%}

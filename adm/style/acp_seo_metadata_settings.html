@@ -1,0 +1,33 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_SEO_METADATA') }}</h1>
+
+<form id="seo_metadata_settings" method="POST" action="{{ U_ACTION }}">
+
+	<fieldset>
+		<legend>{{ lang('ACP_OPEN_GRAPH_SETTINGS') }}</legend>
+		<dl>
+			<dt>
+				<label for="seo_metadata_open_graph">{{ lang('ACP_OPEN_GRAPH') }}{{ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_OPEN_GRAPH_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
+			<input type="reset" class="button1" value="{{ lang('RESET') }}" />
+		</p>
+	</fieldset>
+
+	{{ S_FORM_TOKEN }}
+</form>
+
+{% include 'overall_footer.html' %}

@@ -1,0 +1,22 @@
+services:
+    alfredoramos.seometadata.listener:
+        class: alfredoramos\seometadata\event\listener
+        arguments:
+            - '@config'
+            - '@template'
+            - '@routing.helper'
+        tags:
+            - { name: event.listener }
+
+    alfredoramos.seometadata.acp.controller:
+        class: alfredoramos\seometadata\controller\acp
+        arguments:
+            - '@config'
+            - '@template'
+            - '@request'
+            - '@language'
+            - '@user'
+            - '@log'
+
+    alfredoramos.seometadata.helper:
+        class: alfredoramos\seometadata\includes\helper

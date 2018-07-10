@@ -1,0 +1,38 @@
+{
+	"name": "alfredoramos/seometadata",
+	"type": "phpbb-extension",
+	"description": "SEO Metadata Extension for phpBB 3.2.x",
+	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-seo-metadata",
+	"version": "0.1.0-dev",
+	"time": "2018-07-09",
+	"keywords": ["phpbb", "extension", "seo", "metadata", "open-graph", "microdata"],
+	"license": "GPL-2.0-only",
+	"authors": [
+		{
+			"name": "Alfredo Ramos",
+			"email": "alfredo.ramos@yandex.com",
+			"homepage": "https://github.com/AlfredoRamos",
+			"role": "Lead Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.6",
+		"composer/installers": "~1.4.0"
+	},
+	"require-dev": {
+		"phing/phing": "~2.16.0",
+		"pear/archive_tar": "~1.4.0"
+	},
+	"extra": {
+		"display-name": "SEO Metadata",
+		"soft-require": {
+			"phpbb/phpbb": "~3.2.0"
+		},
+		"version-check": {
+			"host": "alfredoramos.github.io",
+			"directory": "/phpbb-extensions",
+			"filename": "seo-metadata.json",
+			"ssl": true
+		}
+	}
+}
