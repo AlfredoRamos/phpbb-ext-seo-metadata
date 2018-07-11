@@ -149,7 +149,7 @@ class helper
 		// Check description length
 		if (mb_strlen($description, $encoding) > $max_length)
 		{
-			switch($strategy)
+			switch ($strategy)
 			{
 				case 1: // Ellipsis
 					$ellipsis = '…'; // UTF-8 ellipsis
