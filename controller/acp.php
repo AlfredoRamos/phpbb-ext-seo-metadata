@@ -105,7 +105,7 @@ class acp
 				'seo_metadata_desc_length',
 				$desc_length
 			);
-			
+
 			// Description handling
 			$this->config->set(
 				'seo_metadata_desc_handling',
