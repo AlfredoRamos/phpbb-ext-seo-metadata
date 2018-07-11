@@ -28,6 +28,10 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
+				['seo_metadata_desc_handling', 1]
+			],
+			[
+				'config.add',
 				['seo_metadata_default_image', '']
 			],
 			[

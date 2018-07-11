@@ -21,6 +21,17 @@
 		</dl>
 		<dl>
 			<dt>
+				<label for="seo_metadata_desc_handling">{{ lang('ACP_SEO_METADATA_DESC_HANDLING') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DESC_HANDLING_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="radio" id="seo_metadata_desc_handling_exact" name="seo_metadata_desc_handling" value="1"{% if SEO_METADATA_DESC_HANDLING == 1 %} checked="checked"{% endif %}>Exact<br>
+				<input type="radio" id="seo_metadata_desc_handling_ellipsis" name="seo_metadata_desc_handling" value="2"{% if SEO_METADATA_DESC_HANDLING == 2 %} checked="checked"{% endif %}>Ellipsis<br>
+				<input type="radio" id="seo_metadata_desc_handling_break" name="seo_metadata_desc_handling" value="3"{% if SEO_METADATA_DESC_HANDLING == 3 %} checked="checked"{% endif %}>Break
+			</dd>
+		</dl>
+		<dl>
+			<dt>
 				<label for="seo_metadata_default_image">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_URL) }}</span>
 			</dt>

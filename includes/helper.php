@@ -130,6 +130,7 @@ class helper
 		// Cast values
 		$description = (string) $description;
 		$max_length = (int) $this->config['seo_metadata_desc_length'];
+		$handling = (int) $this->config['seo_metadata_desc_handling'];
 
 		if (empty($description))
 		{
@@ -146,7 +147,19 @@ class helper
 		// Check description length
 		if (mb_strlen($description, 'UTF-8') > $max_length)
 		{
-			$description = mb_substr($description, 0, $max_length, 'UTF-8');
+			if ($handling == 1) // Exact
+			{
+				$description = mb_substr($description, 0, $max_length, 'UTF-8');
+			}
+			else if ($handling == 2) // Ellipsis
+			{
+				$description = mb_substr($description, 0, $max_length, 'UTF-8') . "...";
+			}
+			else if ($handling == 3) // Break
+			{
+				$last_space_pos = mb_strrpos(substr($description, 0, $max_length), ' ');
+				$description = mb_substr($description, 0, ($last_space_pos ? $last_space_pos : $max_length), 'UTF-8');
+			}
 		}
 
 		return trim($description);

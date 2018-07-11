@@ -105,6 +105,12 @@ class acp
 				'seo_metadata_desc_length',
 				$desc_length
 			);
+			
+			// Description handling
+			$this->config->set(
+				'seo_metadata_desc_handling',
+				$this->request->variable('seo_metadata_desc_handling', 1)
+			);
 
 			// Default image
 			$this->config->set(
@@ -132,6 +138,7 @@ class acp
 		// Assign template variables
 		$this->template->assign_vars([
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
+			'SEO_METADATA_DESC_HANDLING' => (int) $this->config['seo_metadata_desc_handling'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
