@@ -130,8 +130,8 @@ class listener implements EventSubscriberInterface
 					'post_id' => (int) $event['topic_data']['topic_first_post_id']
 				]);
 			$result = $this->db->sql_query($sql);
-			$description = $this->db->fetch_field('post_text');
-			$this->db_freeresult($result);
+			$description = $this->db->sql_fetchfield('post_text');
+			$this->db->sql_freeresult($result);
 		}
 		else
 		{
