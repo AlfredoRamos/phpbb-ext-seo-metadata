@@ -39,7 +39,7 @@ class helper
 		$this->root_path;
 
 		$current_page = $this->user->extract_current_page($this->root_path);
-		$current_url = vsprintf('%1$s/%1$s', [generate_board_url(), $current_page['page']]);
+		$current_url = vsprintf('%1$s/%2$s', [generate_board_url(), $current_page['page']]);
 
 		$this->metadata = [
 			'open_graph' => [
