@@ -28,7 +28,7 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
-				['seo_metadata_desc_handling', 1]
+				['seo_metadata_desc_strategy', 0]
 			],
 			[
 				'config.add',

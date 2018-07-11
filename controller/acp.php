@@ -73,6 +73,13 @@ class acp
 			return;
 		}
 
+		// Allowed description strategies
+		$desc_strategies = [
+			'cut',
+			'ellipsis',
+			'break_words'
+		];
+
 		// Request form data
 		if ($this->request->is_set_post('submit'))
 		{
@@ -106,10 +113,12 @@ class acp
 				$desc_length
 			);
 
-			// Description handling
+			// Description strategy
+			$desc_strategy = $this->request->variable('seo_metadata_desc_strategy', 0);
+			$desc_strategy = (in_array($desc_strategy, array_keys($desc_strategies))) ? $desc_strategy : 0;
 			$this->config->set(
-				'seo_metadata_desc_handling',
-				$this->request->variable('seo_metadata_desc_handling', 1)
+				'seo_metadata_desc_strategy',
+				$desc_strategy
 			);
 
 			// Default image
@@ -138,12 +147,20 @@ class acp
 		// Assign template variables
 		$this->template->assign_vars([
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
-			'SEO_METADATA_DESC_HANDLING' => (int) $this->config['seo_metadata_desc_handling'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
 			'BOARD_URL' => generate_board_url() . '/images/'
 		]);
+
+		foreach ($desc_strategies as $key => $value)
+		{
+			$this->template->assign_block_vars('SEO_METADATA_DESC_STRATEGIES', [
+				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_DESC_%s', strtoupper($value))),
+				'VALUE' => $key,
+				'SELECTED' => ($key === (int) $this->config['seo_metadata_desc_strategy'])
+			]);
+		}
 	}
 
 }

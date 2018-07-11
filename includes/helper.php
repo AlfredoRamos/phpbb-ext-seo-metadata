@@ -130,39 +130,52 @@ class helper
 		// Cast values
 		$description = (string) $description;
 		$max_length = (int) $this->config['seo_metadata_desc_length'];
-		$handling = (int) $this->config['seo_metadata_desc_handling'];
+		$strategy = (int) $this->config['seo_metadata_desc_strategy'];
 
 		if (empty($description))
 		{
 			return '';
 		}
 
+		// Helpers
+		$encoding = 'UTF-8';
+
 		// Remove BBCode
 		strip_bbcode($description);
 
 		// Remove whitespaces
-		$description = preg_replace('/\s+/', ' ', $description);
-		$description = trim($description);
+		$description = trim(preg_replace('/\s+/', ' ', $description));
 
 		// Check description length
-		if (mb_strlen($description, 'UTF-8') > $max_length)
+		if (mb_strlen($description, $encoding) > $max_length)
 		{
-			if ($handling == 1) // Exact
+			switch($strategy)
 			{
-				$description = mb_substr($description, 0, $max_length, 'UTF-8');
-			}
-			else if ($handling == 2) // Ellipsis
-			{
-				$description = mb_substr($description, 0, $max_length, 'UTF-8') . "...";
-			}
-			else if ($handling == 3) // Break
-			{
-				$last_space_pos = mb_strrpos(substr($description, 0, $max_length), ' ');
-				$description = mb_substr($description, 0, ($last_space_pos ? $last_space_pos : $max_length), 'UTF-8');
+				case 1: // Ellipsis
+					$ellipsis = '…'; // UTF-8 ellipsis
+					$desc_length = $max_length - strlen($ellipsis);
+					$description = vsprintf(
+						'%1$s%2$s',
+						[
+							trim(mb_substr($description, 0, $desc_length, $encoding)),
+							$ellipsis
+						]
+					);
+				break;
+
+				case 2: // Break words
+					$last_space_pos = mb_strrpos(substr($description, 0, $max_length), ' ');
+					$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
+					$description = trim(mb_substr($description, 0, $desc_length, $encoding));
+				break;
+
+				default: // Cut
+					$description = trim(mb_substr($description, 0, $max_length, $encoding));
+				break;
 			}
 		}
 
-		return trim($description);
+		return $description;
 	}
 
 	public function clean_image($uri = '')
