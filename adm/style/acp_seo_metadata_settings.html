@@ -35,11 +35,25 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_open_graph">{{ lang('ACP_OPEN_GRAPH') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_OPEN_GRAPH_EXPLAIN') }}</span>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('ACP_JSON_LD_SETTINGS') }}</legend>
+		<dl>
+			<dt>
+				<label for="seo_metadata_json_ld">{{ lang('ACP_JSON_LD') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_json_ld" name="seo_metadata_json_ld" value="1"{% if SEO_METADATA_JSON_LD %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_json_ld" value="0"{% if not SEO_METADATA_JSON_LD %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 	</fieldset>

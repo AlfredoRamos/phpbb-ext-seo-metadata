@@ -39,6 +39,8 @@ class helper
 		$this->root_path;
 
 		$current_page = $this->user->extract_current_page($this->root_path);
+		$current_url = vsprintf('%1$s/%1$s', [generate_board_url(), $current_page['page']]);
+
 		$this->metadata = [
 			'open_graph' => [
 				'og:locale' => $this->config['default_lang'],
@@ -51,12 +53,18 @@ class helper
 				'og:image' => $this->clean_image(
 					$this->config['seo_metadata_default_image']
 				),
-				'og:url' => vsprintf(
-					'%1$s/%2$s',
-					[
-						generate_board_url(),
-						$current_page['page']
-					]
+				'og:url' => $current_url
+			],
+			'json_ld' => [
+				'@context' => 'http://schema.org',
+				'@type' => 'DiscussionForumPosting',
+				'@id' => $current_url,
+				'headline' => '',
+				'description' => $this->clean_description(
+					$this->config['site_desc']
+				),
+				'image' => $this->clean_image(
+					$this->config['seo_metadata_default_image']
 				)
 			]
 		];
@@ -67,11 +75,11 @@ class helper
 	{
 		if (!empty($key) && !empty($this->metadata[$key]))
 		{
-			$this->metadata = array_merge($this->metadata[$key], $data);
+			$this->metadata = array_replace($this->metadata[$key], $data);
 		}
 		else
 		{
-			$this->metadata = array_merge($this->metadata, $data);
+			$this->metadata = array_replace_recursive($this->metadata, $data);
 		}
 	}
 
@@ -85,12 +93,18 @@ class helper
 		return $this->metadata;
 	}
 
-	public function metadata_template_vars($data = [])
+	public function metadata_template_vars()
 	{
 		$this->template->destroy_block_vars('SEO_METADATA');
+		$data = $this->get_metadata();
 
 		foreach ($data as $key => $value)
 		{
+			if (!((int) $this->config[sprintf('seo_metadata_%s', $key)] === 1))
+			{
+				continue;
+			}
+
 			$this->template->assign_block_vars(
 				'SEO_METADATA',
 				[

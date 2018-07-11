@@ -65,26 +65,21 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header($event)
 	{
-		$data = [];
+		// Helper
+		$page_title = $event['page_title'];
 
 		$this->helper->set_metadata(
 			[
-				'og:title' => $event['page_title']
-			],
-			'open_graph'
+				'open_graph' => [
+					'og:title' => $page_title
+				],
+				'json_ld' => [
+					'headline' => $page_title
+				]
+			]
 		);
 
-		if ((bool) $this->config['seo_metadata_open_graph'])
-		{
-			$data = array_merge(
-				$data,
-				[
-					'open_graph' => $this->helper->get_metadata('open_graph')
-				]
-			);
-		}
-
-		$this->helper->metadata_template_vars($data);
+		$this->helper->metadata_template_vars();
 	}
 
 	/**
@@ -101,25 +96,21 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$data = [];
+		// Helper
+		$description = $this->helper->clean_description($event['forum_data']['forum_desc']);
 
 		$this->helper->set_metadata(
 			[
-				'og:description' => $this->helper->clean_description($event['forum_data']['forum_desc'])
+				'open_graph' => [
+					'og:description' => $description
+				],
+				'json_ld' => [
+					'description' => $description
+				]
 			]
 		);
 
-		if ((bool) $this->config['seo_metadata_open_graph'])
-		{
-			$data = array_merge(
-				$data,
-				[
-					'open_graph' => $this->helper->get_metadata('open_graph')
-				]
-			);
-		}
-
-		$this->helper->metadata_template_vars($data);
+		$this->helper->metadata_template_vars();
 	}
 
 	/**
@@ -152,26 +143,21 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$data = [];
+		// Helper
+		$description = $this->helper->clean_description($description);
 
 		$this->helper->set_metadata(
 			[
-				'og:description' => $this->helper->clean_description($description)
-			],
-			'open_graph'
+				'open_graph' => [
+					'og:description' => $description
+				],
+				'json_ld' => [
+					'description' => $description
+				]
+			]
 		);
 
-		if ((bool) $this->config['seo_metadata_open_graph'])
-		{
-			$data = array_merge(
-				$data,
-				[
-					'open_graph' => $this->helper->get_metadata('open_graph')
-				]
-			);
-		}
-
-		$this->helper->metadata_template_vars($data);
+		$this->helper->metadata_template_vars();
 	}
 
 }

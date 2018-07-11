@@ -33,6 +33,10 @@ class m1_seometadata_data extends migration
 			[
 				'config.add',
 				['seo_metadata_open_graph', 1]
+			],
+			[
+				'config.add',
+				['seo_metadata_json_ld', 1]
 			]
 		];
 	}
