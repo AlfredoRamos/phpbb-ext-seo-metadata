@@ -47,8 +47,8 @@ $lang = array_merge($lang, [
 	'ACP_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
 	'ACP_OPEN_GRAPH' => 'Enable Open Graph',
 
-	'ACP_JSON_LD_SETTINGS' => 'JSON+LD settings',
-	'ACP_JSON_LD' => 'Enable JSON+LD',
+	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
+	'ACP_JSON_LD' => 'Enable JSON-LD',
 
 	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br />» %s'
 ]);
