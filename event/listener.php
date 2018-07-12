@@ -129,7 +129,7 @@ class listener implements EventSubscriberInterface
 				WHERE ' . $this->db->sql_build_array('SELECT', [
 					'post_id' => (int) $event['topic_data']['topic_first_post_id']
 				]);
-			$result = $this->db->sql_query($sql);
+			$result = $this->db->sql_query($sql, (1 * 60 * 60)); // Cache query for 1 hour
 			$description = $this->db->sql_fetchfield('post_text');
 			$this->db->sql_freeresult($result);
 		}

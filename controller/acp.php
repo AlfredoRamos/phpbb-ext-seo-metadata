@@ -153,6 +153,7 @@ class acp
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);
 
+		// Description strategies
 		foreach ($desc_strategies as $key => $value)
 		{
 			$this->template->assign_block_vars('SEO_METADATA_DESC_STRATEGIES', [

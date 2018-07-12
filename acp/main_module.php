@@ -58,18 +58,18 @@ class main_module
 
 		switch ($mode)
 		{
-		case 'settings':
-			$this->tpl_name = 'acp_seo_metadata_settings';
-			$this->page_title = $this->language->lang('ACP_SEO_METADATA');
-			$this->acp_controller->settings_mode($this->u_action);
+			case 'settings':
+				$this->tpl_name = 'acp_seo_metadata_settings';
+				$this->page_title = $this->language->lang('ACP_SEO_METADATA');
+				$this->acp_controller->settings_mode($this->u_action);
 			break;
 
-		default:
-			trigger_error(
-				$this->language->lang('NO_MODE') .
-				adm_back_link($this->u_action),
-				E_USER_WARNING
-			);
+			default:
+				trigger_error(
+					$this->language->lang('NO_MODE') .
+					adm_back_link($this->u_action),
+					E_USER_WARNING
+				);
 			break;
 		}
 
