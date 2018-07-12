@@ -21,6 +21,8 @@ class seometadata_test extends phpbb_functional_test_case
 		return ['alfredoramos/seometadata'];
 	}
 
+	protected $expected_data;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -39,6 +41,13 @@ class seometadata_test extends phpbb_functional_test_case
 		$db->sql_query($sql);
 		$db->sql_close();
 		unset($db);
+
+		$this->expected_data = [
+			'title' => 'Welcome to phpBB3',
+			'description' => 'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'url' => 'http://localhost/viewtopic.php?t=1',
+			'image' => 'http://localhost/images/seo/default_image.png'
+		];
 	}
 
 	public function test_open_graph()
@@ -76,11 +85,11 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['site_name']->attr('content')
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			$this->expected_data['title'],
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			$this->expected_data['description'],
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -88,12 +97,67 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['type']->attr('content')
 		);
 		$this->assertSame(
-			'http://localhost/viewtopic.php?t=1',
+			$this->expected_data['url'],
 			$elements['url']->attr('content')
 		);
 		$this->assertSame(
-			'http://localhost/images/seo/default_image.png',
+			$this->expected_data['image'],
 			$elements['image']->attr('content')
+		);
+	}
+
+	public function test_json_ld()
+	{
+		$crawler = self::request('GET', sprintf(
+			'viewtopic.php?t=1&sid=%s',
+			$this->sid
+		));
+
+		$elements = [
+			'script' => $crawler->filter('script[type="application/ld+json"]')
+		];
+		$json_ld = [
+			'@context',
+			'@type',
+			'@id',
+			'headline',
+			'description',
+			'image'
+		];
+		$array_data = json_decode($elements['script']->text(), true);
+
+		$this->assertSame(1, $elements['script']->count());
+		$this->assertFalse(empty($array_data));
+
+		foreach ($json_ld as $property)
+		{
+			$elements[$property] = $array_data[$property];
+			$this->assertFalse(empty($elements[$property]));
+		}
+
+		$this->assertSame(
+			'http://schema.org',
+			$elements['@context']
+		);
+		$this->assertSame(
+			'DiscussionForumPosting',
+			$elements['@type']
+		);
+		$this->assertSame(
+			$this->expected_data['url'],
+			$elements['@id']
+		);
+		$this->assertSame(
+			$this->expected_data['title'],
+			$elements['headline']
+		);
+		$this->assertSame(
+			$this->expected_data['description'],
+			$elements['description']
+		);
+		$this->assertSame(
+			$this->expected_data['image'],
+			$elements['image']
 		);
 	}
 
