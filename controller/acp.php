@@ -150,7 +150,7 @@ class acp
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
-			'BOARD_URL' => generate_board_url() . '/images/'
+			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);
 
 		foreach ($desc_strategies as $key => $value)

@@ -31,6 +31,16 @@ class helper
 	/** @var array */
 	protected $metadata;
 
+	/**
+	 * Helper constructor.
+	 *
+	 * @param \phpbb\config\config		$config
+	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\user				$user
+	 * @param string					$root_path
+	 *
+	 * @return void
+	 */
 	public function __construct(config $config, template $template, user $user, $root_path)
 	{
 		$this->config = $config;
@@ -38,9 +48,13 @@ class helper
 		$this->user = $user;
 		$this->root_path;
 
+		// Current page
 		$current_page = $this->user->extract_current_page($this->root_path);
+
+		// Absolute URL of current page
 		$current_url = vsprintf('%1$s/%2$s', [generate_board_url(), $current_page['page']]);
 
+		// Set initial metadata
 		$this->metadata = [
 			'open_graph' => [
 				'og:locale' => $this->config['default_lang'],
@@ -71,6 +85,14 @@ class helper
 
 	}
 
+	/**
+	 * Add or replace metadata.
+	 *
+	 * @param array		$data
+	 * @param string	$key	(Optional)
+	 *
+	 * @return void
+	 */
 	public function set_metadata($data = [], $key = '')
 	{
 		if (!empty($key) && !empty($this->metadata[$key]))
@@ -83,6 +105,13 @@ class helper
 		}
 	}
 
+	/**
+	 * Get internal metadata.
+	 *
+	 * @param string $key (Optional)
+	 *
+	 * @return array
+	 */
 	public function get_metadata($key = '')
 	{
 		if (!empty($key) && !empty($this->metadata[$key]))
@@ -93,6 +122,11 @@ class helper
 		return $this->metadata;
 	}
 
+	/**
+	 * Assign or update template variables.
+	 *
+	 * @return void
+	 */
 	public function metadata_template_vars()
 	{
 		$this->template->destroy_block_vars('SEO_METADATA');
@@ -100,7 +134,14 @@ class helper
 
 		foreach ($data as $key => $value)
 		{
+			// Ignore disabled options
 			if (!((int) $this->config[sprintf('seo_metadata_%s', $key)] === 1))
+			{
+				continue;
+			}
+
+			// Ignore empty options
+			if (empty($value))
 			{
 				continue;
 			}
@@ -114,6 +155,12 @@ class helper
 
 			foreach ($value as $k => $v)
 			{
+				// Ignore empty options
+				if (empty($k) || empty($v))
+				{
+					continue;
+				}
+
 				$this->template->assign_block_vars(
 					sprintf('SEO_METADATA.%s', strtoupper($key)),
 					[
@@ -125,6 +172,13 @@ class helper
 		}
 	}
 
+	/**
+	 * Clean text to be used as description.
+	 *
+	 * @param string $description
+	 *
+	 * @return string
+	 */
 	public function clean_description($description = '')
 	{
 		// Cast values
@@ -137,7 +191,7 @@ class helper
 			return '';
 		}
 
-		// Helpers
+		// Global encoding
 		$encoding = 'UTF-8';
 
 		// Remove BBCode
@@ -178,6 +232,13 @@ class helper
 		return $description;
 	}
 
+	/**
+	 * Clean URI to be used as image URL.
+	 *
+	 * @param string $uri
+	 *
+	 * @return string
+	 */
 	public function clean_image($uri = '')
 	{
 		if (empty($uri))
@@ -188,6 +249,7 @@ class helper
 		// Clean URI
 		$uri = preg_replace('/^\.\//', '', $uri);
 
+		// Absolute URL
 		return vsprintf(
 			'%1$s/images/%2$s',
 			[
@@ -196,4 +258,5 @@ class helper
 			]
 		);
 	}
+
 }
