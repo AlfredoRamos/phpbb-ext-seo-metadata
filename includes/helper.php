@@ -46,7 +46,7 @@ class helper
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
-		$this->root_path;
+		$this->root_path = $root_path;
 
 		// Current page
 		$current_page = $this->user->extract_current_page($this->root_path);
@@ -82,7 +82,6 @@ class helper
 				)
 			]
 		];
-
 	}
 
 	/**
@@ -218,7 +217,7 @@ class helper
 				break;
 
 				case 2: // Break words
-					$last_space_pos = mb_strrpos(substr($description, 0, $max_length), ' ');
+					$last_space_pos = mb_strrpos(mb_substr($description, 0, $max_length), ' ');
 					$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
 					$description = trim(mb_substr($description, 0, $desc_length, $encoding));
 				break;
