@@ -19,9 +19,7 @@ SEO Metadata Extension for phpBB 3.2.x
 
 ### Usage
 
-It will dynamically generate Open Graph data based on your board forum data and the current page information.
-
-If available, it will generate and include the following data inside the `<head>` tag:
+If available, it will dynamically generate and include the following data inside the `<head>` tag:
 
 Open Grah:
 ```html
