@@ -28,6 +28,9 @@ class helper
 	/** @var string */
 	protected $root_path;
 
+	/** @var string */
+	protected $php_ext;
+
 	/** @var array */
 	protected $metadata;
 
@@ -38,15 +41,17 @@ class helper
 	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\user				$user
 	 * @param string					$root_path
+	 * @param string					$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, user $user, $root_path)
+	public function __construct(config $config, template $template, user $user, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
 		$this->root_path = $root_path;
+		$this->php_ext = $php_ext;
 
 		// Current page
 		$current_page = $this->user->extract_current_page($this->root_path);
@@ -67,12 +72,12 @@ class helper
 				'og:image' => $this->clean_image(
 					$this->config['seo_metadata_default_image']
 				),
-				'og:url' => $current_url
+				'og:url' => $this->clean_url($current_url)
 			],
 			'json_ld' => [
 				'@context' => 'http://schema.org',
 				'@type' => 'DiscussionForumPosting',
-				'@id' => $current_url,
+				'@id' => $this->clean_url($current_url),
 				'headline' => '',
 				'description' => $this->clean_description(
 					$this->config['site_desc']
@@ -204,26 +209,26 @@ class helper
 		{
 			switch ($strategy)
 			{
-				case 1: // Ellipsis
-					$ellipsis = '…'; // UTF-8 ellipsis
-					$desc_length = $max_length - strlen($ellipsis);
-					$description = vsprintf(
-						'%1$s%2$s',
-						[
-							trim(mb_substr($description, 0, $desc_length, $encoding)),
-							$ellipsis
-						]
-					);
+			case 1: // Ellipsis
+				$ellipsis = '…'; // UTF-8 ellipsis
+				$desc_length = $max_length - strlen($ellipsis);
+				$description = vsprintf(
+					'%1$s%2$s',
+					[
+						trim(mb_substr($description, 0, $desc_length, $encoding)),
+						$ellipsis
+					]
+				);
 				break;
 
-				case 2: // Break words
-					$last_space_pos = mb_strrpos(mb_substr($description, 0, $max_length), ' ');
-					$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
-					$description = trim(mb_substr($description, 0, $desc_length, $encoding));
+			case 2: // Break words
+				$last_space_pos = mb_strrpos(mb_substr($description, 0, $max_length), ' ');
+				$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
+				$description = trim(mb_substr($description, 0, $desc_length, $encoding));
 				break;
 
-				default: // Cut
-					$description = trim(mb_substr($description, 0, $max_length, $encoding));
+			default: // Cut
+				$description = trim(mb_substr($description, 0, $max_length, $encoding));
 				break;
 			}
 		}
@@ -256,6 +261,33 @@ class helper
 				$uri
 			]
 		);
+	}
+
+	/**
+	 * Clean URL to be used as metadata.
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public function clean_url($url)
+	{
+		if (empty($url))
+		{
+			return '';
+		}
+
+		// Remove index.php if there's no other parameters
+		$url = preg_replace('/index\.' . $this->php_ext . '$/', '', $url);
+
+		// Remove app.php/ from URL
+		if ((int) $this->config['enable_mod_rewrite'] === 1)
+		{
+			//$url = str_replace(sprintf('app.%s/', $this->php_ext), '', $url);
+			$url = preg_replace('/app\.' . $this->php_ext . '\/(.+)$/', '\1', $url);
+		}
+
+		return $url;
 	}
 
 }
