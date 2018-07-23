@@ -2,7 +2,7 @@
 
 SEO Metadata Extension for phpBB 3.2.x
 
-[![Build Status](https://api.travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata.svg?branch=master)](https://travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata) [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?label=stable&maxAge=3600)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases) [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
+[![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata) [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases) [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
 
 ### Dependencies
 
