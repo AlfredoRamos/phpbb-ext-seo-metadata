@@ -198,11 +198,21 @@ class helper
 		// Global encoding
 		$encoding = 'UTF-8';
 
+		// Text censoring
+		censor_text($description);
+
 		// Remove BBCode
 		strip_bbcode($description);
 
+		// Remove images
+		$description = trim(preg_replace(
+			'#(?:http(?:s)?://)(?:[\w-./]+)(?:\.[a-z]{2,4})#',
+			'',
+			$description
+		));
+
 		// Remove whitespaces
-		$description = trim(preg_replace('/\s+/', ' ', $description));
+		$description = trim(preg_replace('#\s+#', ' ', $description));
 
 		// Check description length
 		if (mb_strlen($description, $encoding) > $max_length)
@@ -233,6 +243,9 @@ class helper
 			}
 		}
 
+		// Convert HTML characters
+		$description = htmlspecialchars($description, ENT_COMPAT, $encoding);
+
 		return $description;
 	}
 
@@ -251,7 +264,7 @@ class helper
 		}
 
 		// Clean URI
-		$uri = preg_replace('/^\.\//', '', $uri);
+		$uri = preg_replace('#^\./#', '', $uri);
 
 		// Absolute URL
 		return vsprintf(
@@ -278,13 +291,12 @@ class helper
 		}
 
 		// Remove index.php if there's no other parameters
-		$url = preg_replace('/index\.' . $this->php_ext . '$/', '', $url);
+		$url = preg_replace('#index\.' . $this->php_ext . '$#', '', $url);
 
 		// Remove app.php/ from URL
 		if ((int) $this->config['enable_mod_rewrite'] === 1)
 		{
-			//$url = str_replace(sprintf('app.%s/', $this->php_ext), '', $url);
-			$url = preg_replace('/app\.' . $this->php_ext . '\/(.+)$/', '\1', $url);
+			$url = preg_replace('#app\.' . $this->php_ext . '/(.+)$#', '\1', $url);
 		}
 
 		return $url;
