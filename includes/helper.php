@@ -199,7 +199,7 @@ class helper
 		$encoding = 'UTF-8';
 
 		// Text censoring
-		censor_text($description);
+		$description = censor_text($description);
 
 		// Remove BBCode
 		strip_bbcode($description);
