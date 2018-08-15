@@ -290,7 +290,7 @@ class helper
 			return '';
 		}
 
-		// Remove index.php if there's no other parameters
+		// Remove index.php without parameters
 		$url = preg_replace('#index\.' . $this->php_ext . '$#', '', $url);
 
 		// Remove app.php/ from URL
@@ -298,6 +298,9 @@ class helper
 		{
 			$url = preg_replace('#app\.' . $this->php_ext . '/(.+)$#', '\1', $url);
 		}
+
+		// Escape ampersand
+		$url = str_replace(['&amp;', '&'], ['&', '&amp;'], $url);
 
 		return $url;
 	}
