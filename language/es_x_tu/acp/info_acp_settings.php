@@ -35,6 +35,11 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DESC_ELLIPSIS' => 'Puntos suspensivos',
 	'ACP_SEO_METADATA_DESC_BREAK_WORDS' => 'Dividir palabras',
 
+	'ACP_SEO_METADATA_IMAGE_STRATEGY' => 'Estrategia para la imagen',
+	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>Primera encontrada</samp> selecciona la primer imagen encontrada que pueda ser usada dentro del cuerpo del mensaje.<br /><samp>Dimensiones de imagen</samp> selecciona la imagen con mayor dimensiones (ancho, alto) dentro del cuerpo del mensaje.',
+	'ACP_SEO_METADATA_IMAGE_FIRST' => 'Primera encontrada',
+	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Dimensiones de imagen',
+
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La ruta debe ser relativa a <samp>%s</samp>',
 

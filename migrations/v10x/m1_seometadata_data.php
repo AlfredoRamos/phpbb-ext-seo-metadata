@@ -36,6 +36,10 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
+				['seo_metadata_image_strategy', 0]
+			],
+			[
+				'config.add',
 				['seo_metadata_open_graph', 1]
 			],
 			[

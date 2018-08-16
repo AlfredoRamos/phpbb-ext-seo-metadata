@@ -9,18 +9,26 @@
 
 namespace alfredoramos\seometadata\includes;
 
+use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\template\template;
+use phpbb\cache\driver\driver_interface as cache;
 use phpbb\user;
 
 class helper
 {
+
+	/** @var \phpbb\db\driver\factory */
+	protected $db;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\cache\driver\driver_interface */
+	protected $cache;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -37,18 +45,22 @@ class helper
 	/**
 	 * Helper constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\user				$user
-	 * @param string					$root_path
-	 * @param string					$php_ext
+	 * @param \phpbb\db\driver\factory				$db
+	 * @param \phpbb\config\config					$config
+	 * @param \phpbb\template\template				$template
+	 * @param \phpbb\user							$user
+	 * @param \phpbb\cache\driver\driver_interface	$cache
+	 * @param string								$root_path
+	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, user $user, $root_path, $php_ext)
+	public function __construct(database $db, config $config, template $template, cache $cache, user $user, $root_path, $php_ext)
 	{
+		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
+		$this->cache = $cache;
 		$this->user = $user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -187,8 +199,8 @@ class helper
 	{
 		// Cast values
 		$description = (string) $description;
-		$max_length = (int) $this->config['seo_metadata_desc_length'];
-		$strategy = (int) $this->config['seo_metadata_desc_strategy'];
+		$max_length = abs((int) $this->config['seo_metadata_desc_length']);
+		$strategy = abs((int) $this->config['seo_metadata_desc_strategy']);
 
 		if (empty($description))
 		{
@@ -244,7 +256,7 @@ class helper
 		}
 
 		// Convert HTML characters
-		$description = htmlspecialchars($description, ENT_COMPAT, $encoding);
+		$description = utf8_htmlspecialchars($description);
 
 		return $description;
 	}
@@ -267,13 +279,15 @@ class helper
 		$uri = preg_replace('#^\./#', '', $uri);
 
 		// Absolute URL
-		return vsprintf(
+		$url = preg_match('#^https?#', $uri) ? $uri : vsprintf(
 			'%1$s/images/%2$s',
 			[
 				generate_board_url(),
 				$uri
 			]
 		);
+
+		return $url;
 	}
 
 	/**
@@ -303,6 +317,128 @@ class helper
 		$url = str_replace(['&amp;', '&'], ['&', '&amp;'], $url);
 
 		return $url;
+	}
+
+	/**
+	 * Generate description from post body.
+	 *
+	 * @param integer $post_id
+	 *
+	 * @return string
+	 */
+	public function extract_description($post_id = 0)
+	{
+		$post_id = (int) $post_id;
+
+		if (empty($post_id))
+		{
+			return '';
+		}
+
+		$sql = 'SELECT post_text
+			FROM ' . POSTS_TABLE . '
+			WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
+		$result = $this->db->sql_query($sql, (1 * 60 * 60)); // Cache query for 1 hour
+		$description = $this->db->sql_fetchfield('post_text');
+		$this->db->sql_freeresult($result);
+
+		return $description;
+	}
+
+
+	/**
+	 * Generate image from post body.
+	 *
+	 * @param string	$description
+	 * @param integer	$post_id
+	 * @param integer	$max_images
+	 *
+	 * @return array
+	 */
+	public function extract_image($description = '', $post_id = 0, $max_images = 3)
+	{
+		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
+		$post_id = (int) $post_id;
+
+		if (empty($description) || empty($post_id))
+		{
+			return '';
+		}
+
+		$max_images = abs((int) $max_images);
+		$max_images = empty($max_images) ? 3 : $max_images;
+		$max_images = ($max_images > 5) ? 5 : $max_images;
+		$cache_name = sprintf('seo_metadata_image_post_%d', $post_id);
+		$cached_image = $this->cache->get($cache_name);
+		$images = [];
+
+		// Check cached image first
+		if (!empty($cached_image))
+		{
+			return $cached_image['url'];
+		}
+
+		// Get images from description
+		preg_match_all('#https?://(?:[\w-./]+)(?:\.jp(?:e?)g|png)#', $description, $images);
+
+		// Remove duplicated images
+		$images = array_unique($images[0]);
+
+		// Limit array length
+		if (count($images) > $max_images)
+		{
+			$images = array_slice($images, 0, $max_images);
+		}
+
+		// Get image dimensions
+		foreach ($images as $key => $value)
+		{
+			list($width, $height, $type) = @getimagesize($value);
+
+			if (empty($width) || empty($height))
+			{
+				unset($images[$key]);
+				continue;
+			}
+
+			$images[$key] = [
+				'url' => $value,
+				'width' => $width,
+				'height' => $height,
+				'type' => image_type_to_mime_type($type)
+			];
+		}
+
+		// Sort images array
+		switch ($image_strategy)
+		{
+			case 1: // Image dimensions
+				array_multisort(
+					array_column($images, 'width'),
+					SORT_DESC,
+					array_column($images, 'height'),
+					SORT_DESC,
+					$images
+				);
+			break;
+
+			default: // First found
+			break;
+		}
+
+		// Fallback image
+		if (empty($images[0]))
+		{
+			return $this->clean_image(
+				$this->config['seo_metadata_default_image']
+			);
+		}
+
+		// Add image to cache
+		$cached_image = $images[0];
+		$this->cache->put($cache_name, $cached_image);
+
+		return $cached_image['url'];
 	}
 
 }

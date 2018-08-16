@@ -34,6 +34,19 @@
 		</dl>
 		<dl>
 			<dt>
+				<label for="seo_metadata_image_strategy">{{ lang('ACP_SEO_METADATA_IMAGE_STRATEGY') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select id="seo_metadata_image_strategy" name="seo_metadata_image_strategy">
+					{%- for STRATEGY in SEO_METADATA_IMAGE_STRATEGIES -%}
+					<option value="{{ STRATEGY.VALUE }}"{% if STRATEGY.SELECTED %} selected="selected"{% endif %}>{{ STRATEGY.NAME }}</option>
+					{%- endfor -%}
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
 				<label for="seo_metadata_default_image">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_IMAGES_URL) }}</span>
 			</dt>

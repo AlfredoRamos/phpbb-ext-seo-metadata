@@ -35,6 +35,11 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DESC_ELLIPSIS' => 'Ellipsis',
 	'ACP_SEO_METADATA_DESC_BREAK_WORDS' => 'Break words',
 
+	'ACP_SEO_METADATA_IMAGE_STRATEGY' => 'Image strategy',
+	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>First found</samp> selects the first image found that could be used within the post body.<br /><samp>Image dimensions</samp> selects the image with greater dimensions (width, height) within the post body.',
+	'ACP_SEO_METADATA_IMAGE_FIRST' => 'First found',
+	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Image dimensions',
+
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be relative to <samp>%s</samp>',
 

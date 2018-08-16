@@ -124,14 +124,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ((int) $event['start'] > 0)
 		{
-			$sql = 'SELECT post_text
-				FROM ' . POSTS_TABLE . '
-				WHERE ' . $this->db->sql_build_array('SELECT', [
-					'post_id' => (int) $event['topic_data']['topic_first_post_id']
-				]);
-			$result = $this->db->sql_query($sql, (1 * 60 * 60)); // Cache query for 1 hour
-			$description = $this->db->sql_fetchfield('post_text');
-			$this->db->sql_freeresult($result);
+			$description = $this->helper->extract_description($event['topic_data']['topic_first_post_id']);
 		}
 		else
 		{
@@ -143,16 +136,25 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		// Helper
+		// Extract image
+		$image = $this->helper->extract_image(
+			$description,
+			$event['topic_data']['topic_first_post_id']
+		);
+
+		// Helpers
 		$description = $this->helper->clean_description($description);
+		$image = $this->helper->clean_image($image);
 
 		$this->helper->set_metadata(
 			[
 				'open_graph' => [
-					'og:description' => $description
+					'og:description' => $description,
+					'og:image' => $image
 				],
 				'json_ld' => [
-					'description' => $description
+					'description' => $description,
+					'image'	=> $image
 				]
 			]
 		);

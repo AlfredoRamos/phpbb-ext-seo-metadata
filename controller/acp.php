@@ -80,6 +80,12 @@ class acp
 			'break_words'
 		];
 
+		// Allowed image strategies
+		$image_strategies = [
+			'first',
+			'dimensions'
+		];
+
 		// Request form data
 		if ($this->request->is_set_post('submit'))
 		{
@@ -121,6 +127,14 @@ class acp
 				$desc_strategy
 			);
 
+			// Image strategy
+			$image_strategy = $this->request->variable('seo_metadata_image_strategy', 0);
+			$image_strategy = (in_array($image_strategy, array_keys($image_strategies))) ? $image_strategy : 0;
+			$this->config->set(
+				'seo_metadata_image_strategy',
+				$image_strategy
+			);
+
 			// Default image
 			$this->config->set(
 				'seo_metadata_default_image',
@@ -160,6 +174,16 @@ class acp
 				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_DESC_%s', strtoupper($value))),
 				'VALUE' => $key,
 				'SELECTED' => ($key === (int) $this->config['seo_metadata_desc_strategy'])
+			]);
+		}
+
+		// Image strategies
+		foreach ($image_strategies as $key => $value)
+		{
+			$this->template->assign_block_vars('SEO_METADATA_IMAGE_STRATEGIES', [
+				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_IMAGE_%s', strtoupper($value))),
+				'VALUE' => $key,
+				'SELECTED' => ($key === (int) $this->config['seo_metadata_image_strategy'])
 			]);
 		}
 	}
