@@ -26,5 +26,6 @@ services:
             - '@template'
             - '@cache.driver'
             - '@user'
+            - '@upload_imagesize'
             - '%core.root_path%'
             - '%core.php_ext%'

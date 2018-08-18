@@ -13,6 +13,7 @@ use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\cache\driver\driver_interface as cache;
+use FastImageSize\FastImageSize;
 use phpbb\user;
 
 class helper
@@ -33,6 +34,9 @@ class helper
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \FastImageSize\FastImageSize */
+	protected $imagesize;
+
 	/** @var string */
 	protected $root_path;
 
@@ -48,20 +52,22 @@ class helper
 	 * @param \phpbb\db\driver\factory				$db
 	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\template\template				$template
-	 * @param \phpbb\user							$user
 	 * @param \phpbb\cache\driver\driver_interface	$cache
+	 * @param \phpbb\user							$user
+	 * @param \FastImageSize\FastImageSize			$imagesize
 	 * @param string								$root_path
 	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, template $template, cache $cache, user $user, $root_path, $php_ext)
+	public function __construct(database $db, config $config, template $template, cache $cache, user $user, FastImageSize $imagesize, $root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->user = $user;
+		$this->imagesize = $imagesize;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
@@ -379,10 +385,14 @@ class helper
 		}
 
 		// Get images from description
-		preg_match_all('#https?://(?:[\w-./]+)(?:\.jp(?:e?)g|png)#', $description, $images);
+		preg_match_all(
+			'#<IMG src="(https?://(?:[\w-./]+)(?:\.jp(?:e?)g|png))"#',
+			$description,
+			$images
+		);
 
 		// Remove duplicated images
-		$images = array_unique($images[0]);
+		$images = array_unique($images[1]);
 
 		// Limit array length
 		if (count($images) > $max_images)
@@ -393,9 +403,17 @@ class helper
 		// Get image dimensions
 		foreach ($images as $key => $value)
 		{
-			list($width, $height, $type) = @getimagesize($value);
+			$size = $this->imagesize->getImageSize($value);
 
-			if (empty($width) || empty($height))
+			// Can't get image dimensions
+			if (empty($size))
+			{
+				unset($images[$key]);
+				continue;
+			}
+
+			// Images should be at least 200x200 px
+			if (($size['width'] < 200) || ($size['height'] < 200))
 			{
 				unset($images[$key]);
 				continue;
@@ -403,27 +421,30 @@ class helper
 
 			$images[$key] = [
 				'url' => $value,
-				'width' => $width,
-				'height' => $height,
-				'type' => image_type_to_mime_type($type)
+				'width' => $size['width'],
+				'height' => $size['height'],
+				'type' => image_type_to_mime_type($size['type'])
 			];
 		}
 
 		// Sort images array
-		switch ($image_strategy)
+		if (count($images) > 1)
 		{
-			case 1: // Image dimensions
-				array_multisort(
-					array_column($images, 'width'),
-					SORT_DESC,
-					array_column($images, 'height'),
-					SORT_DESC,
-					$images
-				);
-			break;
+			switch ($image_strategy)
+			{
+				case 1: // Image dimensions
+					array_multisort(
+						array_column($images, 'width'),
+						SORT_DESC,
+						array_column($images, 'height'),
+						SORT_DESC,
+						$images
+					);
+				break;
 
-			default: // First found
-			break;
+				default: // First found
+				break;
+			}
 		}
 
 		// Fallback image
