@@ -56,7 +56,7 @@ JSON+LD:
 
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
 - Click on `Disable` and confirm
-- Go back to `Manage extensions` > `Imgur` > `Delete data` and confirm
+- Go back to `Manage extensions` > `SEO Metadata` > `Delete data` and confirm
 
 ### Upgrade
 
