@@ -122,13 +122,11 @@ class listener implements EventSubscriberInterface
 	 */
 	public function viewtopic($event)
 	{
+		$description = $event['rowset'][$event['topic_data']['topic_first_post_id']]['post_text'];
+
 		if ((int) $event['start'] > 0)
 		{
 			$description = $this->helper->extract_description($event['topic_data']['topic_first_post_id']);
-		}
-		else
-		{
-			$description = $event['rowset'][$event['topic_data']['topic_first_post_id']]['post_text'];
 		}
 
 		if (empty($description))
