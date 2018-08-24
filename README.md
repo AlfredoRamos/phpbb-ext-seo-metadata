@@ -27,9 +27,12 @@ Open Grah:
 <meta property="og:site_name" content="...">
 <meta property="og:title" content="...">
 <meta property="og:description" content="...">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:url" content="...">
 <meta property="og:image" content="...">
+<meta property="article:published_time" content="...">
+<meta property="article:author:username" content="...">
+<meta property="article:section" content="...">
 ```
 
 JSON+LD:
