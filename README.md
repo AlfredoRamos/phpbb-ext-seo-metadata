@@ -23,16 +23,17 @@ If available, it will dynamically generate and include the following data inside
 
 Open Grah:
 ```html
+<meta property="fb:app_id" content="...">
 <meta property="og:locale" content="...">
 <meta property="og:site_name" content="...">
+<meta property="og:url" content="...">
+<meta property="og:type" content="article">
 <meta property="og:title" content="...">
 <meta property="og:description" content="...">
-<meta property="og:type" content="article">
-<meta property="og:url" content="...">
 <meta property="og:image" content="...">
 <meta property="article:published_time" content="...">
-<meta property="article:author:username" content="...">
 <meta property="article:section" content="...">
+<meta property="article:publisher" content="...">
 ```
 
 JSON+LD:
