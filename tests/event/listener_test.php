@@ -22,12 +22,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener_test extends phpbb_test_case
 {
 
-	/** @var \phpbb\db\driver\factory */
-	protected $db;
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
 
@@ -35,10 +29,6 @@ class listener_test extends phpbb_test_case
 	{
 		parent::setUp();
 
-		$this->db = $this->getMockBuilder(database::class)
-			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder(config::class)
-			->disableOriginalConstructor()->getMock();
 		$this->helper = $this->getMockBuilder(helper::class)
 			->disableOriginalConstructor()->getMock();
 	}
@@ -47,18 +37,14 @@ class listener_test extends phpbb_test_case
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener($this->db, $this->config, $this->helper)
+			new listener($this->helper)
 		);
 	}
 
 	public function test_suscribed_events()
 	{
 		$this->assertSame(
-			[
-				'core.page_header_after',
-				'core.viewforum_generate_page_after',
-				'core.viewtopic_modify_post_data'
-			],
+			['core.viewtopic_modify_post_data'],
 			array_keys(listener::getSubscribedEvents())
 		);
 	}

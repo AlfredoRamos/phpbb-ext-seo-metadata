@@ -2,8 +2,6 @@ services:
     alfredoramos.seometadata.listener:
         class: alfredoramos\seometadata\event\listener
         arguments:
-            - '@dbal.conn'
-            - '@config'
             - '@alfredoramos.seometadata.helper'
         tags:
             - { name: event.listener }

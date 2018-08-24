@@ -82,11 +82,11 @@ class helper
 			'open_graph' => [
 				'og:locale' => $this->config['default_lang'],
 				'og:site_name' => $this->config['sitename'],
+				'og:type' => 'article',
 				'og:title' => '',
 				'og:description' => $this->clean_description(
 					$this->config['site_desc']
 				),
-				'og:type' => 'website',
 				'og:image' => $this->clean_image(
 					$this->config['seo_metadata_default_image']
 				),
@@ -105,6 +105,23 @@ class helper
 				)
 			]
 		];
+	}
+
+	/**
+	 * Check if the current page is a topic.
+	 *
+	 * @return boolean
+	 */
+	public function is_topic()
+	{
+		$page = $this->user->extract_current_page($this->root_path);
+		$page['page_name'] = str_replace(
+			sprintf('.%s', $this->php_ext),
+			'',
+			$page['page_name']
+		);
+
+		return ($page['page_name'] === 'viewtopic');
 	}
 
 	/**
@@ -151,6 +168,11 @@ class helper
 	 */
 	public function metadata_template_vars()
 	{
+		if (!$this->is_topic())
+		{
+			return;
+		}
+
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
 

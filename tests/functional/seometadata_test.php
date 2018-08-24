@@ -107,7 +107,7 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
-			'website',
+			'article',
 			$elements['type']->attr('content')
 		);
 		$this->assertSame(
