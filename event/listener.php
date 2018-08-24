@@ -79,8 +79,8 @@ class listener implements EventSubscriberInterface
 					'og:description' => $data['description'],
 					'og:image' => $data['image'],
 					'article:published_time' => $data['datetime'],
-					'article:author:username' => $data['author'],
-					'article:section' => $data['section']
+					'article:section' => $data['section'],
+					'article:author:profile:username' => $data['author']
 				],
 				'json_ld' => [
 					'headline' => $data['title'],

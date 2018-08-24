@@ -98,18 +98,6 @@ class acp
 				);
 			}
 
-			// Open Graph
-			$this->config->set(
-				'seo_metadata_open_graph',
-				$this->request->variable('seo_metadata_open_graph', 0)
-			);
-
-			// JSON+LD
-			$this->config->set(
-				'seo_metadata_json_ld',
-				$this->request->variable('seo_metadata_json_ld', 0)
-			);
-
 			// Description length
 			$desc_length = $this->request->variable('seo_metadata_desc_length', 160);
 			$desc_length = ($desc_length < 50) ? 50 : $desc_length;
@@ -141,6 +129,30 @@ class acp
 				$this->request->variable('seo_metadata_default_image', '')
 			);
 
+			// Open Graph
+			$this->config->set(
+				'seo_metadata_open_graph',
+				$this->request->variable('seo_metadata_open_graph', 0)
+			);
+
+			// Facebook application ID
+			$this->config->set(
+				'seo_metadata_facebook_application',
+				$this->request->variable('seo_metadata_facebook_application', 0)
+			);
+
+			// Facebook publisher
+			$this->config->set(
+				'seo_metadata_facebook_publisher',
+				$this->request->variable('seo_metadata_facebook_publisher', '')
+			);
+
+			// JSON+LD
+			$this->config->set(
+				'seo_metadata_json_ld',
+				$this->request->variable('seo_metadata_json_ld', 0)
+			);
+
 			// Admin log
 			$this->log->add(
 				'admin',
@@ -163,6 +175,8 @@ class acp
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
+			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
+			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);

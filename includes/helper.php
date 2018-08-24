@@ -80,8 +80,10 @@ class helper
 		// Set initial metadata
 		$this->metadata = [
 			'open_graph' => [
+				'fb:app_id' => $this->config['seo_metadata_facebook_application'],
 				'og:locale' => $this->config['default_lang'],
 				'og:site_name' => $this->config['sitename'],
+				'og:url' => $this->clean_url($current_url),
 				'og:type' => 'article',
 				'og:title' => '',
 				'og:description' => $this->clean_description(
@@ -90,7 +92,10 @@ class helper
 				'og:image' => $this->clean_image(
 					$this->config['seo_metadata_default_image']
 				),
-				'og:url' => $this->clean_url($current_url)
+				'article:publised_time' => '',
+				'article:section' => '',
+				'article:publisher' => $this->config['seo_metadata_facebook_publisher'],
+				'article:author:profile:username' => ''
 			],
 			'json_ld' => [
 				'@context' => 'http://schema.org',
@@ -366,7 +371,7 @@ class helper
 		$sql = 'SELECT post_text
 			FROM ' . POSTS_TABLE . '
 			WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
-		$result = $this->db->sql_query($sql, (1 * 60 * 60)); // Cache query for 1 hour
+		$result = $this->db->sql_query($sql, (6 * 60 * 60)); // Cache query for 6 hour
 		$description = $this->db->sql_fetchfield('post_text');
 		$this->db->sql_freeresult($result);
 
@@ -401,7 +406,7 @@ class helper
 		$images = [];
 
 		// Check cached image first
-		if (!empty($cached_image))
+		if (!empty($cached_image['url']))
 		{
 			return $cached_image['url'];
 		}

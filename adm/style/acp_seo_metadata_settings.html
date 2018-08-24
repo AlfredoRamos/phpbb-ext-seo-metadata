@@ -51,7 +51,7 @@
 				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_IMAGES_URL) }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadat_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full" />
+				<input type="text" id="seo_metadata_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full" />
 			</dd>
 		</dl>
 	</fieldset>
@@ -66,6 +66,24 @@
 			<dd>
 				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_facebook_application">{{ lang('ACP_FACEBOOK_APPLICATION') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_FACEBOOK_APPLICATION_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" id="seo_metadata_facebook_application" name="seo_metadata_facebook_application"{% if SEO_METADATA_FACEBOOK_APPLICATION %} value="{{ SEO_METADATA_FACEBOOK_APPLICATION }}"{% endif %} class="full" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_facebook_publisher">{{ lang('ACP_FACEBOOK_PUBLISHER') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_FACEBOOK_PUBLISHER_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" id="seo_metadata_facebook_publisher" name="seo_metadata_facebook_publisher"{% if SEO_METADATA_FACEBOOK_PUBLISHER %} value="{{ SEO_METADATA_FACEBOOK_PUBLISHER }}"{% endif %} class="full" />
 			</dd>
 		</dl>
 	</fieldset>

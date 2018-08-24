@@ -52,6 +52,11 @@ $lang = array_merge($lang, [
 	'ACP_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
 	'ACP_OPEN_GRAPH' => 'Enable Open Graph',
 
+	'ACP_FACEBOOK_APPLICATION' => 'Facebook application ID',
+	'ACP_FACEBOOK_APPLICATION_EXPLAIN' => 'Identifier of your Facebook application.',
+	'ACP_FACEBOOK_PUBLISHER' => 'Facebook publisher',
+	'ACP_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
+
 	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_JSON_LD' => 'Enable JSON-LD',
 
