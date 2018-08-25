@@ -9,11 +9,15 @@
 
 namespace alfredoramos\seometadata\event;
 
+use phpbb\config\config;
 use alfredoramos\seometadata\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
+
+	/** @var \phpbb\config\config */
+	protected $config;
 
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
@@ -21,12 +25,14 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \alfredoramos\seometadata\includes\helper $helper
+	 * @param \phpbb\config\config						$config
+	 * @param \alfredoramos\seometadata\includes\helper	$helper
 	 *
 	 * @return void
 	 */
-	public function __construct(helper $helper)
+	public function __construct(config $config, helper $helper)
 	{
+		$this->config = $config;
 		$this->helper = $helper;
 	}
 
@@ -38,8 +44,67 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
+			'core.page_header_after' => 'page_header',
+			'core.viewforum_generate_page_after' => 'viewforum',
 			'core.viewtopic_modify_post_data' => 'viewtopic'
 		];
+	}
+
+	/**
+	 * Assign default template variables.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
+	public function page_header($event)
+	{
+		// Helper
+		$data['title'] = $event['page_title'];
+
+		$this->helper->set_metadata(
+			[
+				'open_graph' => [
+					'og:title' => $data['title']
+				],
+				'json_ld' => [
+					'headline' => $data['title']
+				]
+			]
+		);
+
+		$this->helper->metadata_template_vars();
+	}
+
+	/**
+	 * Assign forum template variables.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
+	public function viewforum($event)
+	{
+		if (empty($event['forum_data']['forum_desc']))
+		{
+			return;
+		}
+
+		// Helper
+		$data['description'] = $this->helper->clean_description($event['forum_data']['forum_desc']);
+
+		$this->helper->set_metadata(
+			[
+				'open_graph' => [
+					'og:description' => $data['description']
+				],
+				'json_ld' => [
+					'description' => $data['description']
+				]
+			]
+		);
+
+		$this->helper->metadata_template_vars();
 	}
 
 	/**
@@ -69,18 +134,19 @@ class listener implements EventSubscriberInterface
 		$data['description'] = $this->helper->clean_description($data['description']);
 		$data['image'] = $this->helper->clean_image($data['image']);
 		$data['datetime'] = date('c', $event['topic_data']['topic_time']);
-		$data['author'] = $event['topic_data']['topic_first_poster_name'];
 		$data['section'] = $event['topic_data']['forum_name'];
+		$data['publisher'] = $this->config['seo_metadata_facebook_publisher'];
 
 		$this->helper->set_metadata(
 			[
 				'open_graph' => [
+					'og:type' => 'article',
 					'og:title' => $data['title'],
 					'og:description' => $data['description'],
 					'og:image' => $data['image'],
-					'article:published_time' => $data['datetime'],
+					'article:publised_time' => $data['datetime'],
 					'article:section' => $data['section'],
-					'article:author:profile:username' => $data['author']
+					'article:publisher' => $data['publisher'],
 				],
 				'json_ld' => [
 					'headline' => $data['title'],

@@ -10,7 +10,6 @@
 namespace alfredoramos\seometadata\tests\event;
 
 use phpbb_test_case;
-use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use alfredoramos\seometadata\includes\helper;
 use alfredoramos\seometadata\event\listener;
@@ -22,6 +21,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener_test extends phpbb_test_case
 {
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
 
@@ -29,6 +31,8 @@ class listener_test extends phpbb_test_case
 	{
 		parent::setUp();
 
+		$this->config = $this->getMockBuilder(config::class)
+			->disableOriginalConstructor()->getMock();
 		$this->helper = $this->getMockBuilder(helper::class)
 			->disableOriginalConstructor()->getMock();
 	}
@@ -37,14 +41,18 @@ class listener_test extends phpbb_test_case
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener($this->helper)
+			new listener($this->config, $this->helper)
 		);
 	}
 
 	public function test_suscribed_events()
 	{
 		$this->assertSame(
-			['core.viewtopic_modify_post_data'],
+			[
+				'core.page_header_after',
+				'core.viewforum_generate_page_after',
+				'core.viewtopic_modify_post_data'
+			],
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
