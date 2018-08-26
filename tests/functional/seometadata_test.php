@@ -73,21 +73,31 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$elements = [];
 		$open_graph = [
-			'locale',
-			'site_name',
-			'title',
-			'description',
-			'type',
-			'url',
-			'image'
+			'og' => [
+				'locale',
+				'site_name',
+				'url',
+				'type',
+				'title',
+				'description',
+				'image'
+			],
+			'article' => [
+				'published_time',
+				'section'
+			]
 		];
 
-		foreach ($open_graph as $property)
+		foreach ($open_graph as $key => $value)
 		{
-			$elements[$property] = $crawler->filter(
-				sprintf('meta[property="og:%s"]', $property)
-			);
-			$this->assertSame(1, $elements[$property]->count());
+			foreach ($value as $k => $v)
+			{
+				$elements[$v] = $crawler->filter(
+					vsprintf('meta[property="%1$s:%2$s"]', [$key, $v])
+				);
+
+				$this->assertSame(1, $elements[$v]->count());
+			}
 		}
 
 		$this->assertSame(
@@ -99,6 +109,14 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['site_name']->attr('content')
 		);
 		$this->assertSame(
+			$this->expected_data['url'],
+			$elements['url']->attr('content')
+		);
+		$this->assertSame(
+			'article',
+			$elements['type']->attr('content')
+		);
+		$this->assertSame(
 			$this->expected_data['title'],
 			$elements['title']->attr('content')
 		);
@@ -107,16 +125,19 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
-			'article',
-			$elements['type']->attr('content')
-		);
-		$this->assertSame(
-			$this->expected_data['url'],
-			$elements['url']->attr('content')
-		);
-		$this->assertSame(
 			$this->expected_data['image'],
 			$elements['image']->attr('content')
+		);
+		$this->assertSame(
+			1,
+			preg_match(
+				'#^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$#',
+				$elements['published_time']->attr('content')
+			)
+		);
+		$this->assertSame(
+			'Your first forum',
+			$elements['section']->attr('content')
 		);
 	}
 
