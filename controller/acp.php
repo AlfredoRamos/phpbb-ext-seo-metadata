@@ -167,7 +167,7 @@ class acp
 				$twitter_publisher
 			);
 
-			// JSON+LD
+			// JSON-LD
 			$this->config->set(
 				'seo_metadata_json_ld',
 				$this->request->variable('seo_metadata_json_ld', 0)

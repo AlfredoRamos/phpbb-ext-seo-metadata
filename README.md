@@ -42,7 +42,7 @@ Twitter Cards
 <meta name="twitter:site" content="...">
 ```
 
-JSON+LD:
+JSON-LD:
 ```html
 <script type="application/ld+json">
 {
