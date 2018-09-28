@@ -36,6 +36,11 @@ Open Grah:
 <meta property="article:publisher" content="...">
 ```
 
+```html
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="...">
+```
+
 JSON+LD:
 ```html
 <script type="application/ld+json">
