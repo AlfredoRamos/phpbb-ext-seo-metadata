@@ -57,6 +57,11 @@ $lang = array_merge($lang, [
 	'ACP_FACEBOOK_PUBLISHER' => 'Facebook publisher',
 	'ACP_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
 
+	'ACP_TWITTER_CARD_SETTINGS' => 'Twitter Cards settings',
+	'ACP_TWITTER_CARDS' => 'Enable Twitter Cards',
+	'ACP_TWITTER_PUBLISHER' => 'Twitter publisher',
+	'ACP_TWITTER_PUBLISHER_EXPLAIN' => 'The username of your website Twitter account.',
+
 	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_JSON_LD' => 'Enable JSON-LD',
 
