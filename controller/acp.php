@@ -157,7 +157,8 @@ class acp
 			$twitter_publisher = $this->request->variable('seo_metadata_twitter_publisher', '');
 
 			// Add "@" before the Twitter username
-			if (!empty($twitter_publisher) && strpos($twitter_publisher, '@') === false) {
+			if (!empty($twitter_publisher) && strpos($twitter_publisher, '@') === false)
+			{
 				$twitter_publisher = sprintf('@%s', $twitter_publisher);
 			}
 
