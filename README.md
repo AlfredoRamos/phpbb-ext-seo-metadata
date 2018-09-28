@@ -36,7 +36,7 @@ Open Grah:
 <meta property="article:publisher" content="...">
 ```
 
-Twitter Cards
+Twitter Cards:
 ```html
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="...">
