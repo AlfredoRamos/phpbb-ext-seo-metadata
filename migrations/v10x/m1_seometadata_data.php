@@ -32,11 +32,15 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
+				['seo_metadata_image_strategy', 0]
+			],
+			[
+				'config.add',
 				['seo_metadata_default_image', '']
 			],
 			[
 				'config.add',
-				['seo_metadata_image_strategy', 0]
+				['seo_metadata_open_graph', 1]
 			],
 			[
 				'config.add',
@@ -48,15 +52,11 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
-				['seo_metadata_twitter_publisher', '']
-			],
-			[
-				'config.add',
-				['seo_metadata_open_graph', 1]
-			],
-			[
-				'config.add',
 				['seo_metadata_twitter_cards', 1]
+			],
+			[
+				'config.add',
+				['seo_metadata_twitter_publisher', '']
 			],
 			[
 				'config.add',
