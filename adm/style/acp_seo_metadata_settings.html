@@ -89,6 +89,29 @@
 	</fieldset>
 
 	<fieldset>
+		<legend>{{ lang('ACP_TWITTER_CARD_SETTINGS') }}</legend>
+		<dl>
+			<dt>
+				<label for="seo_metadata_twitter_cards">{{ lang('ACP_TWITTER_CARDS') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_twitter_cards" name="seo_metadata_twitter_cards" value="1"{% if SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_twitter_cards" value="0"{% if not SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_twitter_publisher">{{ lang('ACP_TWITTER_PUBLISHER') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_TWITTER_PUBLISHER_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" id="seo_metadata_twitter_publisher" name="seo_metadata_twitter_publisher"{% if SEO_METADATA_TWITTER_PUBLISHER %} value="{{ SEO_METADATA_TWITTER_PUBLISHER }}"{% endif %} class="full" />
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
 		<legend>{{ lang('ACP_JSON_LD_SETTINGS') }}</legend>
 		<dl>
 			<dt>

@@ -147,6 +147,20 @@ class acp
 				$this->request->variable('seo_metadata_facebook_publisher', '')
 			);
 
+			// Twitter Cards
+			$this->config->set(
+				'seo_metadata_twitter_cards',
+				$this->request->variable('seo_metadata_twitter_cards', 0)
+			);
+
+			// Twitter publisher
+			$twitter_publisher = $this->request->variable('seo_metadata_twitter_publisher', '');
+			$twitter_publisher = (strpos($twitter_publisher, '@') === false) ? sprintf('@%s', $twitter_publisher) : $twitter_publisher;
+			$this->config->set(
+				'seo_metadata_twitter_publisher',
+				$twitter_publisher
+			);
+
 			// JSON+LD
 			$this->config->set(
 				'seo_metadata_json_ld',
@@ -177,6 +191,8 @@ class acp
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
 			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
+			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config['seo_metadata_twitter_cards'] === 1),
+			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);

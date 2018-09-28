@@ -1,5 +1,10 @@
 {%- import '@alfredoramos_seometadata/metatag.html' as seo_metadata -%}
 {%- for CATEGORIES in SEO_METADATA -%}
+	{%- if CATEGORIES.NAME is same as('TWITTER_CARDS') -%}
+		{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
+			{{- seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}
+		{%- endfor -%}
+	{%- endif -%}
 	{%- if CATEGORIES.NAME is same as('OPEN_GRAPH') -%}
 		{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
 			{{- seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}

@@ -79,6 +79,10 @@ class helper
 
 		// Set initial metadata
 		$this->metadata = [
+			'twitter_cards' => [
+				'twitter:card' => 'summary',
+				'twitter:site' => $this->config['seo_metadata_twitter_publisher']
+			],
 			'open_graph' => [
 				'fb:app_id' => $this->config['seo_metadata_facebook_application'],
 				'og:locale' => $this->config['default_lang'],
