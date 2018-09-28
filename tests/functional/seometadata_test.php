@@ -141,6 +141,38 @@ class seometadata_test extends phpbb_functional_test_case
 		);
 	}
 
+	public function test_twitter_cards()
+	{
+		$crawler = self::request('GET', sprintf(
+			'viewtopic.php?t=1&sid=%s',
+			$this->sid
+		));
+
+		$elements = [];
+		$twitter_cards = [
+			'twitter' => [
+				'card'
+			]
+		];
+
+		foreach ($twitter_cards as $key => $value)
+		{
+			foreach ($value as $k => $v)
+			{
+				$elements[$v] = $crawler->filter(
+					vsprintf('meta[name="%1$s:%2$s"]', [$key, $v])
+				);
+
+				$this->assertSame(1, $elements[$v]->count());
+			}
+		}
+
+		$this->assertSame(
+			'summary',
+			$elements['card']->attr('content')
+		);
+	}
+
 	public function test_json_ld()
 	{
 		$crawler = self::request('GET', sprintf(
