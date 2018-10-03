@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "SEO Metadata Extension for phpBB 3.2.x",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-seo-metadata",
-	"version": "0.7.0-beta",
-	"time": "2018-09-28",
+	"version": "0.8.0-rc",
+	"time": "2018-10-03",
 	"keywords": [
 		"phpbb",
 		"extension",
@@ -29,7 +29,7 @@
 	],
 	"require": {
 		"php": ">=5.6",
-		"composer/installers": "^1.5.0"
+		"composer/installers": "^1.6.0"
 	},
 	"require-dev": {
 		"phing/phing": "^2.16.0",
