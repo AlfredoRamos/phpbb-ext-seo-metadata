@@ -227,10 +227,10 @@ class helper
 		// Remove BBCode
 		strip_bbcode($description);
 
-		// Remove images
+		// Remove links
 		$description = trim(preg_replace(
-			'#(?:http(?:s)?://)(?:[\w-./]+)(?:\.[a-z]{2,4})#',
-			'',
+			'#https?://(?:[-\w\.]+[-\w])+(?:\d+)?(?:/(?:[\w/_\.\#-]*(?:\?\S+)?[^\.\s])?)?#',
+			' ',
 			$description
 		));
 
