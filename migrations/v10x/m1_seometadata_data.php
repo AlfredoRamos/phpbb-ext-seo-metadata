@@ -15,7 +15,7 @@ class m1_seometadata_data extends migration
 {
 
 	/**
-	 * Add Imgur configuration.
+	 * Add configuration.
 	 *
 	 * @return array
 	 */

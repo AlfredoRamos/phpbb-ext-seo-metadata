@@ -27,7 +27,7 @@ class main_module
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \alfredoramos\imgur\controller\acp */
+	/** @var \alfredoramos\seometadata\controller\acp */
 	protected $acp_controller;
 
 	/**
