@@ -271,17 +271,11 @@ class helper
 			}
 		}
 
-		/**
-		 * Manipulate description after it has been clened up with using DOM.
-		 *
-		 * @event alfredoramos.seometadata.clean_description_after
-		 *
-		 * @var string description Description in XML format.
-		 *
-		 * @since 1.0.0
-		 */
-		$vars = ['description'];
-		extract($this->dispatcher->trigger_event('alfredoramos.seometadata.clean_description_after', compact($vars)));
+		// Remove spoilers
+		foreach($xpath->query('/*/SPOILER') as $node)
+		{
+			$node->parentNode->removeChild($node);
+		}
 
 		// Save changes
 		$description = $dom->saveXML($dom->documentElement);
@@ -541,6 +535,13 @@ class helper
 		return $images[0]['url'];
 	}
 
+	/**
+	 * Checks if is a valid XML string.
+	 *
+	 * @param string $xml
+	 *
+	 * @return bool
+	 */
 	private function is_valid_xml($xml = '')
 	{
 		$xml = trim($xml);
