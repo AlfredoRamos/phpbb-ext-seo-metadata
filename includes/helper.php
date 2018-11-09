@@ -272,7 +272,7 @@ class helper
 		}
 
 		// Remove spoilers
-		foreach($xpath->query('/*/SPOILER') as $node)
+		foreach ($xpath->query('/*/SPOILER') as $node)
 		{
 			$node->parentNode->removeChild($node);
 		}
