@@ -217,7 +217,6 @@ class helper
 		$description = trim($description);
 		$max_length = abs((int) $this->config['seo_metadata_desc_length']);
 		$strategy = abs((int) $this->config['seo_metadata_desc_strategy']);
-		$server_name = $this->config['server_name'];
 
 		if (empty($description))
 		{
