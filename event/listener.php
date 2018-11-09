@@ -15,7 +15,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -118,6 +117,7 @@ class listener implements EventSubscriberInterface
 	{
 		$data['description'] = $event['rowset'][$event['topic_data']['topic_first_post_id']]['post_text'];
 
+		// Extract description
 		if ((int) $event['start'] > 0)
 		{
 			$data['description'] = $this->helper->extract_description($event['topic_data']['topic_first_post_id']);
@@ -158,5 +158,4 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->metadata_template_vars();
 	}
-
 }

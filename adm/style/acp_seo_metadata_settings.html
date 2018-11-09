@@ -54,6 +54,16 @@
 				<input type="text" id="seo_metadata_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full" />
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_local_images">{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN', SERVER_NAME) }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_local_images" name="seo_metadata_local_images" value="1"{% if SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_local_images" value="0"{% if not SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
 	</fieldset>
 
 	<fieldset>

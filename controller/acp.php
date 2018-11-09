@@ -18,7 +18,6 @@ use phpbb\log\log;
 
 class acp
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -109,7 +108,7 @@ class acp
 
 			// Description strategy
 			$desc_strategy = $this->request->variable('seo_metadata_desc_strategy', 0);
-			$desc_strategy = (in_array($desc_strategy, array_keys($desc_strategies))) ? $desc_strategy : 0;
+			$desc_strategy = (in_array($desc_strategy, array_keys($desc_strategies), true)) ? $desc_strategy : 0;
 			$this->config->set(
 				'seo_metadata_desc_strategy',
 				$desc_strategy
@@ -117,7 +116,7 @@ class acp
 
 			// Image strategy
 			$image_strategy = $this->request->variable('seo_metadata_image_strategy', 0);
-			$image_strategy = (in_array($image_strategy, array_keys($image_strategies))) ? $image_strategy : 0;
+			$image_strategy = (in_array($image_strategy, array_keys($image_strategies), true)) ? $image_strategy : 0;
 			$this->config->set(
 				'seo_metadata_image_strategy',
 				$image_strategy
@@ -129,10 +128,20 @@ class acp
 				$this->request->variable('seo_metadata_default_image', '')
 			);
 
+			// Local images
+			$local_images = $this->request->variable('seo_metadata_local_images', 1);
+			$local_images = (in_array($local_images, [0, 1], true)) ? $local_images : 1;
+			$this->config->set(
+				'seo_metadata_local_images',
+				$local_images
+			);
+
 			// Open Graph
+			$open_graph = $this->request->variable('seo_metadata_open_graph', 1);
+			$open_graph = (in_array($open_graph, [0, 1], true)) ? $open_graph : 1;
 			$this->config->set(
 				'seo_metadata_open_graph',
-				$this->request->variable('seo_metadata_open_graph', 0)
+				$open_graph
 			);
 
 			// Facebook application ID
@@ -148,9 +157,11 @@ class acp
 			);
 
 			// Twitter Cards
+			$twitter_cards = $this->request->variable('seo_metadata_twitter_cards', 1);
+			$twitter_cards = (in_array($twitter_cards, [0, 1], true)) ? $twitter_cards : 1;
 			$this->config->set(
 				'seo_metadata_twitter_cards',
-				$this->request->variable('seo_metadata_twitter_cards', 0)
+				$twitter_cards
 			);
 
 			// Twitter publisher
@@ -168,9 +179,11 @@ class acp
 			);
 
 			// JSON-LD
+			$json_ld = $this->request->variable('seo_metadata_json_ld', 1);
+			$json_ld = (in_array($json_ld, [0, 1], true)) ? $json_ld : 1;
 			$this->config->set(
 				'seo_metadata_json_ld',
-				$this->request->variable('seo_metadata_json_ld', 0)
+				$json_ld
 			);
 
 			// Admin log
@@ -194,12 +207,14 @@ class acp
 		$this->template->assign_vars([
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
+			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
 			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
 			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config['seo_metadata_twitter_cards'] === 1),
 			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
+			'SERVER_NAME' => $this->config['server_name'],
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);
 
@@ -223,5 +238,4 @@ class acp
 			]);
 		}
 	}
-
 }

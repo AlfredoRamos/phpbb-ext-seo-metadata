@@ -254,6 +254,9 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_default_image'));
 		$this->assertSame('seo/default_image.png', $form->get('seo_metadata_default_image')->getValue());
 
+		$this->assertTrue($form->has('seo_metadata_local_images'));
+		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
+
 		$this->assertTrue($form->has('seo_metadata_open_graph'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_open_graph')->getValue());
 
@@ -261,7 +264,7 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(1, (int) $form->get('seo_metadata_json_ld')->getValue());
 	}
 
-	public function test_extracted_image_first_found()
+	public function test_extracted_image_first_found_local()
 	{
 		$this->login();
 
@@ -286,7 +289,7 @@ class seometadata_test extends phpbb_functional_test_case
 			]
 		));
 
-		$image = 'https://dummyimage.com/250x250/fff/000.jpg';
+		$image = 'http://localhost/images/seo/default_image.png';
 		$elements = [];
 
 		// Open Graph image

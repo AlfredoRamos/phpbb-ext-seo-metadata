@@ -11,7 +11,6 @@ namespace alfredoramos\seometadata\acp;
 
 class main_info
 {
-
 	/**
 	 * Set up ACP module.
 	 *
@@ -31,5 +30,4 @@ class main_info
 			]
 		];
 	}
-
 }

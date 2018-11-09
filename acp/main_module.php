@@ -11,7 +11,6 @@ namespace alfredoramos\seometadata\acp;
 
 class main_module
 {
-
 	/** @var string */
 	public $u_action;
 
@@ -60,7 +59,11 @@ class main_module
 		{
 			case 'settings':
 				$this->tpl_name = 'acp_seo_metadata_settings';
-				$this->page_title = $this->language->lang('ACP_SEO_METADATA');
+				$this->page_title = sprintf(
+					'%s - %s',
+					$this->language->lang('SETTINGS'),
+					$this->language->lang('ACP_SEO_METADATA')
+				);
 				$this->acp_controller->settings_mode($this->u_action);
 			break;
 
@@ -76,5 +79,4 @@ class main_module
 		// Assign global template variables
 		$this->template->assign_var('U_ACTION', $this->u_action);
 	}
-
 }

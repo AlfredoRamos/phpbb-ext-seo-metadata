@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA' => 'Ajuses de Metadatos SEO',
+	'ACP_SEO_METADATA' => 'Metadatos SEO',
 	'ACP_SEO_METADATA_EXPLAIN' => 'Después de cambiar éstos valores, tal vez necesite limpiar la caché.',
 
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Longitud de la descripción',
@@ -42,6 +42,9 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La ruta debe ser relativa a <samp>%s</samp>',
+
+	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Imágenes locales',
+	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Extrae imágenes del cuerpo del mensaje únicamente de su dominio (<samp>%s</samp>). Éste ajuste también afecta la imagen por defecto.',
 
 	'ACP_SEO_METADATA_SETTINGS_SAVED' => 'Los ajustes de Metadatos SEO Metadata han sido guardados satisfactoriamente.',
 

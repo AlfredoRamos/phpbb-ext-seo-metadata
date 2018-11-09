@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA' => 'SEO Metadata settings',
+	'ACP_SEO_METADATA' => 'SEO Metadata',
 	'ACP_SEO_METADATA_EXPLAIN' => 'After changing these values, you might need to purge the cache.',
 
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Description length',
@@ -42,6 +42,9 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be relative to <samp>%s</samp>',
+
+	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Local images',
+	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Only extract post images from your domain (<samp>%s</samp>). This setting also affects the default image.',
 
 	'ACP_SEO_METADATA_SETTINGS_SAVED' => 'SEO Metadata settings have been succesfully saved.',
 

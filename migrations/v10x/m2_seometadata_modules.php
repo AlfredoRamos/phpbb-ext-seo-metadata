@@ -13,7 +13,6 @@ use phpbb\db\migration\migration;
 
 class m2_seometadata_modules extends migration
 {
-
 	/**
 	 * Add SEO Metadata ACP settings.
 	 *
@@ -43,5 +42,4 @@ class m2_seometadata_modules extends migration
 			]
 		];
 	}
-
 }

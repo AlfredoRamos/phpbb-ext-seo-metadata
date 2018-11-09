@@ -13,7 +13,6 @@ use phpbb\db\migration\migration;
 
 class m1_seometadata_data extends migration
 {
-
 	/**
 	 * Add configuration.
 	 *
@@ -33,6 +32,10 @@ class m1_seometadata_data extends migration
 			[
 				'config.add',
 				['seo_metadata_image_strategy', 0]
+			],
+			[
+				'config.add',
+				['seo_metadata_local_images', 1]
 			],
 			[
 				'config.add',
@@ -64,5 +67,4 @@ class m1_seometadata_data extends migration
 			]
 		];
 	}
-
 }

@@ -13,12 +13,12 @@ use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\cache\driver\driver_interface as cache;
-use FastImageSize\FastImageSize;
 use phpbb\user;
+use phpbb\event\dispatcher_interface as dispatcher;
+use FastImageSize\FastImageSize;
 
 class helper
 {
-
 	/** @var \phpbb\db\driver\factory */
 	protected $db;
 
@@ -33,6 +33,9 @@ class helper
 
 	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $dispatcher;
 
 	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
@@ -54,19 +57,21 @@ class helper
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\cache\driver\driver_interface	$cache
 	 * @param \phpbb\user							$user
+	 * @param \phpbb\event\dispatcher_interface		$dispatcher
 	 * @param \FastImageSize\FastImageSize			$imagesize
 	 * @param string								$root_path
 	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, template $template, cache $cache, user $user, FastImageSize $imagesize, $root_path, $php_ext)
+	public function __construct(database $db, config $config, template $template, cache $cache, user $user, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->user = $user;
+		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -209,30 +214,83 @@ class helper
 	public function clean_description($description = '')
 	{
 		// Cast values
-		$description = (string) $description;
+		$description = trim($description);
 		$max_length = abs((int) $this->config['seo_metadata_desc_length']);
 		$strategy = abs((int) $this->config['seo_metadata_desc_strategy']);
+		$server_name = $this->config['server_name'];
 
 		if (empty($description))
 		{
 			return '';
 		}
 
+		// Ensure it's XML
+		if (!preg_match('#^<[rt][ >]#', $description))
+		{
+			$description = sprintf('<t>%s</t>', $description);
+		}
+
+		// Try to fix XML
+		if (!$this->is_valid_xml($description))
+		{
+			$uid = $bitfield = $flags = null;
+			generate_text_for_storage($description, $uid, $bitfield, $flags, true, true, true);
+			$description = generate_text_for_display($description, $uid, $bitfield, $flags);
+		}
+
 		// Global encoding
 		$encoding = 'UTF-8';
+
+		// DOM manipulation
+		$dom = new \DOMDocument;
+		$dom->preserveWhiteSpace = false;
+		$dom->loadXML($description);
+		$xpath = new \DOMXPath($dom);
+
+		// Remove images
+		foreach ($xpath->query('/*/IMG') as $node)
+		{
+			$node->parentNode->removeChild($node);
+		}
+
+		// Remove URLs
+		foreach ($xpath->query('/*/URL/text()') as $node)
+		{
+			// Replace URL with its text
+			// or remove it if it's the same as the URL
+			if ($node->parentNode->getAttribute('url') === $node->nodeValue)
+			{
+				$node->parentNode->parentNode->removeChild($node->parentNode);
+			}
+			else
+			{
+				$node->parentNode->parentNode->replaceChild(
+					$node,
+					$node->parentNode
+				);
+			}
+		}
+
+		/**
+		 * Manipulate description after it has been clened up with using DOM.
+		 *
+		 * @event alfredoramos.seometadata.clean_description_after
+		 *
+		 * @var string description Description in XML format.
+		 *
+		 * @since 1.0.0
+		 */
+		$vars = ['description'];
+		extract($this->dispatcher->trigger_event('alfredoramos.seometadata.clean_description_after', compact($vars)));
+
+		// Save changes
+		$description = $dom->saveXML($dom->documentElement);
 
 		// Text censoring
 		$description = censor_text($description);
 
 		// Remove BBCode
 		strip_bbcode($description);
-
-		// Remove links
-		$description = trim(preg_replace(
-			'#https?://(?:[-\w\.]+[-\w])+(?:\d+)?(?:/(?:[\w/_\.\#-]*(?:\?\S+)?[^\.\s])?)?#',
-			' ',
-			$description
-		));
 
 		// Remove whitespaces
 		$description = trim(preg_replace('#\s+#', ' ', $description));
@@ -242,26 +300,26 @@ class helper
 		{
 			switch ($strategy)
 			{
-			case 1: // Ellipsis
-				$ellipsis = '…'; // UTF-8 ellipsis
-				$desc_length = $max_length - strlen($ellipsis);
-				$description = vsprintf(
-					'%1$s%2$s',
-					[
-						trim(mb_substr($description, 0, $desc_length, $encoding)),
-						$ellipsis
-					]
-				);
+				case 1: // Ellipsis
+					$ellipsis = '…'; // UTF-8 ellipsis
+					$desc_length = $max_length - strlen($ellipsis);
+					$description = vsprintf(
+						'%1$s%2$s',
+						[
+							trim(mb_substr($description, 0, $desc_length, $encoding)),
+							$ellipsis
+						]
+					);
 				break;
 
-			case 2: // Break words
-				$last_space_pos = mb_strrpos(mb_substr($description, 0, $max_length), ' ');
-				$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
-				$description = trim(mb_substr($description, 0, $desc_length, $encoding));
+				case 2: // Break words
+					$last_space_pos = mb_strrpos(mb_substr($description, 0, $max_length), ' ');
+					$desc_length = ($last_space_pos !== false) ? $last_space_pos : $max_length;
+					$description = trim(mb_substr($description, 0, $desc_length, $encoding));
 				break;
 
-			default: // Cut
-				$description = trim(mb_substr($description, 0, $max_length, $encoding));
+				default: // Cut
+					$description = trim(mb_substr($description, 0, $max_length, $encoding));
 				break;
 			}
 		}
@@ -281,6 +339,8 @@ class helper
 	 */
 	public function clean_image($uri = '')
 	{
+		$uri = trim($uri);
+
 		if (empty($uri))
 		{
 			return '';
@@ -308,8 +368,10 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function clean_url($url)
+	public function clean_url($url = '')
 	{
+		$url = trim($url);
+
 		if (empty($url))
 		{
 			return '';
@@ -349,13 +411,17 @@ class helper
 		$sql = 'SELECT post_text
 			FROM ' . POSTS_TABLE . '
 			WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
-		$result = $this->db->sql_query($sql, (6 * 60 * 60)); // Cache query for 6 hour
+		$result = $this->db->sql_query($sql, (24 * 60 * 60)); // Cache query for 24 hours
 		$description = $this->db->sql_fetchfield('post_text');
 		$this->db->sql_freeresult($result);
 
+		if (empty($description))
+		{
+			$description = $this->config['site_desc'];
+		}
+
 		return $description;
 	}
-
 
 	/**
 	 * Generate image from post body.
@@ -368,7 +434,7 @@ class helper
 	 */
 	public function extract_image($description = '', $post_id = 0, $max_images = 3)
 	{
-		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
+		$description = trim($description);
 		$post_id = (int) $post_id;
 
 		if (empty($description) || empty($post_id))
@@ -376,11 +442,14 @@ class helper
 			return '';
 		}
 
+		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
+		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1);
 		$max_images = abs((int) $max_images);
-		$max_images = empty($max_images) ? 3 : $max_images;
+		$max_images = empty($max_images) ? 5 : $max_images;
 		$max_images = ($max_images > 5) ? 5 : $max_images;
 		$cache_name = sprintf('seo_metadata_image_post_%d', $post_id);
 		$cached_image = $this->cache->get($cache_name);
+		$server_name = $this->config['server_name'];
 		$images = [];
 
 		// Check cached image first
@@ -389,12 +458,17 @@ class helper
 			return $cached_image['url'];
 		}
 
+		// Get all images
+		$regexp = '#<IMG src="(https?://[\w-./]+(?:\.jpe?g|png))"#';
+
+		// Get only local images
+		if ($local_images)
+		{
+			$regexp = '#<IMG src="(https?://(?:\w+\.)?' . $server_name . '[\w-./]+(?:\.jpe?g|png))"#';
+		}
+
 		// Get images from description
-		preg_match_all(
-			'#<IMG src="(https?://(?:[\w-./]+)(?:\.jp(?:e?)g|png))"#',
-			$description,
-			$images
-		);
+		preg_match_all($regexp, $description, $images);
 
 		// Remove duplicated images
 		$images = array_unique($images[1]);
@@ -405,7 +479,7 @@ class helper
 			$images = array_slice($images, 0, $max_images);
 		}
 
-		// Get image dimensions
+		// Filter images
 		foreach ($images as $key => $value)
 		{
 			$size = $this->imagesize->getImageSize($value);
@@ -432,6 +506,9 @@ class helper
 			];
 		}
 
+		// Reindex array
+		$images = array_values($images);
+
 		// Sort images array
 		if (count($images) > 1)
 		{
@@ -455,16 +532,32 @@ class helper
 		// Fallback image
 		if (empty($images[0]))
 		{
-			return $this->clean_image(
-				$this->config['seo_metadata_default_image']
-			);
+			return $this->config['seo_metadata_default_image'];
 		}
 
 		// Add image to cache
-		$cached_image = $images[0];
-		$this->cache->put($cache_name, $cached_image);
+		$this->cache->put($cache_name, $images[0]);
 
-		return $cached_image['url'];
+		return $images[0]['url'];
 	}
 
+	private function is_valid_xml($xml = '')
+	{
+		$xml = trim($xml);
+
+		if (empty($xml))
+		{
+			return false;
+		}
+
+		libxml_use_internal_errors(true);
+
+		$dom = new \DOMDocument;
+		$dom->loadXML($xml);
+
+		$errors = libxml_get_errors();
+		libxml_clear_errors();
+
+		return empty($errors);
+	}
 }
