@@ -270,14 +270,20 @@ class helper
 			}
 		}
 
-		// Remove spoilers
-		foreach ($xpath->query('/*/SPOILER') as $node)
-		{
-			$node->parentNode->removeChild($node);
-		}
-
 		// Save changes
 		$description = $dom->saveXML($dom->documentElement);
+
+		/**
+		 * Manipulate description after it has been cleaned.
+		 *
+		 * @event alfredoramos_seometadata.clean_description_after
+		 *
+		 * @var string description The XML string of the post description.
+		 *
+		 * @since 1.0.0
+		 */
+		$vars = ['description'];
+		extract($this->dispatcher->trigger_event('alfredoramos_seometadata.clean_description_after', compact($vars)));
 
 		// Text censoring
 		$description = censor_text($description);
@@ -407,11 +413,6 @@ class helper
 		$result = $this->db->sql_query($sql, (24 * 60 * 60)); // Cache query for 24 hours
 		$description = $this->db->sql_fetchfield('post_text');
 		$this->db->sql_freeresult($result);
-
-		if (empty($description))
-		{
-			$description = $this->config['site_desc'];
-		}
 
 		return $description;
 	}
