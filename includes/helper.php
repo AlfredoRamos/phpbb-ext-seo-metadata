@@ -276,14 +276,14 @@ class helper
 		/**
 		 * Manipulate description after it has been cleaned.
 		 *
-		 * @event alfredoramos_seometadata.clean_description_after
+		 * @event alfredoramos.seometadata.clean_description_after
 		 *
 		 * @var string description The XML string of the post description.
 		 *
 		 * @since 1.0.0
 		 */
 		$vars = ['description'];
-		extract($this->dispatcher->trigger_event('alfredoramos_seometadata.clean_description_after', compact($vars)));
+		extract($this->dispatcher->trigger_event('alfredoramos.seometadata.clean_description_after', compact($vars)));
 
 		// Text censoring
 		$description = censor_text($description);
