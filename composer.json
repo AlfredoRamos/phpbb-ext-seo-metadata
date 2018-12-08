@@ -1,7 +1,7 @@
 {
 	"name": "alfredoramos/seometadata",
 	"type": "phpbb-extension",
-	"description": "SEO Metadata Extension for phpBB 3.2.x",
+	"description": "SEO Metadata extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-seo-metadata",
 	"version": "0.8.0-rc",
 	"time": "2018-11-09",

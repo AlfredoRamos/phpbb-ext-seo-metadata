@@ -21,9 +21,12 @@ matrix:
       env: DB=mariadb
     - php: 7.2
       env: DB=mariadb
+    - php: 7.3
+      env: DB=mariadb
     - php: nightly
       env: DB=mariadb
   allow_failures:
+    - php: 7.3
     - php: nightly
   fast_finish: true
 
