@@ -40,6 +40,9 @@ Twitter Cards:
 ```html
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="...">
+<meta name="twitter:title" content="...">
+<meta name="twitter:description" content="...">
+<meta name="twitter:image" content="..">
 ```
 
 JSON-LD:
