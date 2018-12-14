@@ -86,7 +86,14 @@ class helper
 		$this->metadata = [
 			'twitter_cards' => [
 				'twitter:card' => 'summary',
-				'twitter:site' => $this->config['seo_metadata_twitter_publisher']
+				'twitter:site' => $this->config['seo_metadata_twitter_publisher'],
+				'twitter:title' => '',
+				'twitter:description' => $this->clean_description(
+					$this->config['site_desc']
+				),
+				'twitter:image' => $this->clean_image(
+					$this->config['seo_metadata_default_image']
+				)
 			],
 			'open_graph' => [
 				'fb:app_id' => $this->config['seo_metadata_facebook_application'],
@@ -163,6 +170,17 @@ class helper
 	{
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
+
+		// Twitter cards can use Open Graph data
+		if ((int) $this->config['seo_metadata_open_graph'] === 1 &&
+			(int) $this->config['seo_metadata_twitter_cards'] === 1)
+		{
+			unset(
+				$data['twitter_cards']['twitter:title'],
+				$data['twitter_cards']['twitter:description'],
+				$data['twitter_cards']['twitter:image']
+			);
+		}
 
 		foreach ($data as $key => $value)
 		{

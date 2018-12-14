@@ -63,6 +63,9 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->set_metadata(
 			[
+				'twitter_cards' => [
+					'twitter:title' => $data['title']
+				],
 				'open_graph' => [
 					'og:title' => $data['title']
 				],
@@ -94,6 +97,9 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->set_metadata(
 			[
+				'twitter_cards' => [
+					'twitter:description' => $data['description']
+				],
 				'open_graph' => [
 					'og:description' => $data['description']
 				],
@@ -141,6 +147,11 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->set_metadata(
 			[
+				'twitter_cards' => [
+					'twitter:title' => $data['title'],
+					'twitter:description' => $data['description'],
+					'twitter:image' => $data['image']
+				],
 				'open_graph' => [
 					'og:type' => 'article',
 					'og:title' => $data['title'],
