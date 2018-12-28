@@ -14,6 +14,7 @@ use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\cache\driver\driver_interface as cache;
 use phpbb\user;
+use phpbb\controller\helper as controller_helper;
 use phpbb\event\dispatcher_interface as dispatcher;
 use FastImageSize\FastImageSize;
 
@@ -33,6 +34,9 @@ class helper
 
 	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
 
 	/** @var \phpbb\event\dispatcher_interface */
 	protected $dispatcher;
@@ -57,6 +61,7 @@ class helper
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\cache\driver\driver_interface	$cache
 	 * @param \phpbb\user							$user
+	 * @param \phpbb\controller\helper				$controller_helper;
 	 * @param \phpbb\event\dispatcher_interface		$dispatcher
 	 * @param \FastImageSize\FastImageSize			$imagesize
 	 * @param string								$root_path
@@ -64,23 +69,20 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, template $template, cache $cache, user $user, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
+	public function __construct(database $db, config $config, template $template, cache $cache, user $user, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
 	{
+		global $phpbb_container;
+
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->user = $user;
+		$this->controller_helper = $controller_helper;
 		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
-
-		// Current page
-		$current_page = $this->user->extract_current_page($this->root_path);
-
-		// Absolute URL of current page
-		$current_url = vsprintf('%1$s/%2$s', [generate_board_url(), $current_page['page']]);
 
 		// Set initial metadata
 		$this->metadata = [
@@ -99,7 +101,7 @@ class helper
 				'fb:app_id' => $this->config['seo_metadata_facebook_application'],
 				'og:locale' => $this->config['default_lang'],
 				'og:site_name' => $this->config['sitename'],
-				'og:url' => $this->clean_url($current_url),
+				'og:url' => $this->clean_url($this->controller_helper->get_current_url()),
 				'og:type' => 'website',
 				'og:title' => '',
 				'og:description' => $this->clean_description(
@@ -112,7 +114,7 @@ class helper
 			'json_ld' => [
 				'@context' => 'http://schema.org',
 				'@type' => 'DiscussionForumPosting',
-				'@id' => $this->clean_url($current_url),
+				'@id' => $this->clean_url($this->controller_helper->get_current_url()),
 				'headline' => '',
 				'description' => $this->clean_description(
 					$this->config['site_desc']

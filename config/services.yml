@@ -25,6 +25,7 @@ services:
             - '@template'
             - '@cache.driver'
             - '@user'
+            - '@controller.helper'
             - '@dispatcher'
             - '@upload_imagesize'
             - '%core.root_path%'
