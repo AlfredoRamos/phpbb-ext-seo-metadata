@@ -13,7 +13,6 @@ use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\cache\driver\driver_interface as cache;
-use phpbb\user;
 use phpbb\controller\helper as controller_helper;
 use phpbb\event\dispatcher_interface as dispatcher;
 use FastImageSize\FastImageSize;
@@ -32,9 +31,6 @@ class helper
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/** @var \phpbb\controller\helper */
 	protected $controller_helper;
 
@@ -43,9 +39,6 @@ class helper
 
 	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
-
-	/** @var string */
-	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -60,28 +53,22 @@ class helper
 	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\cache\driver\driver_interface	$cache
-	 * @param \phpbb\user							$user
 	 * @param \phpbb\controller\helper				$controller_helper;
 	 * @param \phpbb\event\dispatcher_interface		$dispatcher
 	 * @param \FastImageSize\FastImageSize			$imagesize
-	 * @param string								$root_path
 	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, template $template, cache $cache, user $user, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
+	public function __construct(database $db, config $config, template $template, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
 	{
-		global $phpbb_container;
-
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
 		$this->cache = $cache;
-		$this->user = $user;
 		$this->controller_helper = $controller_helper;
 		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
-		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 
 		// Set initial metadata
