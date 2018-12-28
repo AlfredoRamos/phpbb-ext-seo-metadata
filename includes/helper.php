@@ -185,7 +185,7 @@ class helper
 		foreach ($data as $key => $value)
 		{
 			// Ignore disabled options
-			if (!((int) $this->config[sprintf('seo_metadata_%s', $key)] === 1))
+			if ((int) $this->config[sprintf('seo_metadata_%s', $key)] !== 1)
 			{
 				continue;
 			}
@@ -454,21 +454,22 @@ class helper
 			return '';
 		}
 
-		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
-		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1);
-		$max_images = abs((int) $max_images);
-		$max_images = empty($max_images) ? 5 : $max_images;
-		$max_images = ($max_images > 5) ? 5 : $max_images;
 		$cache_name = sprintf('seo_metadata_image_post_%d', $post_id);
 		$cached_image = $this->cache->get($cache_name);
-		$server_name = $this->config['server_name'];
-		$images = [];
 
 		// Check cached image first
 		if (!empty($cached_image['url']))
 		{
 			return $cached_image['url'];
 		}
+
+		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
+		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1);
+		$max_images = abs((int) $max_images);
+		$max_images = empty($max_images) ? 5 : $max_images;
+		$max_images = ($max_images > 5) ? 5 : $max_images;
+		$server_name = $this->config['server_name'];
+		$images = [];
 
 		// Get all images
 		$regexp = '#<IMG src="(https?://[\w-./]+(?:\.jpe?g|png))"#';
