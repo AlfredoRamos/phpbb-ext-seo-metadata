@@ -109,8 +109,11 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['site_name']->attr('content')
 		);
 		$this->assertSame(
-			$this->expected_data['url'],
-			$elements['url']->attr('content')
+			1,
+			preg_match(
+				'#' . preg_quote($this->expected_data['url'], '#') . '[\w&]?#',
+				$elements['url']->attr('content')
+			)
 		);
 		$this->assertSame(
 			'article',
@@ -211,8 +214,11 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['@type']
 		);
 		$this->assertSame(
-			$this->expected_data['url'],
-			$elements['@id']
+			1,
+			preg_match(
+				'#' . preg_quote($this->expected_data['url'], '#') . '[\w&]?#',
+				$elements['@id']
+			)
 		);
 		$this->assertSame(
 			$this->expected_data['title'],
