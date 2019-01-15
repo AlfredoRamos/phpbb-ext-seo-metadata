@@ -1,7 +1,5 @@
-sudo: required
-dist: precise
-
 language: php
+sudo: required
 
 matrix:
   include:
