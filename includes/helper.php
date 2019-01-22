@@ -461,12 +461,12 @@ class helper
 		$images = [];
 
 		// Get all images
-		$regexp = '#<IMG src="(https?://[\w-./]+(?:\.jpe?g|png))"#';
+		$regexp = '#<IMG src="(https?://[\w./-]+(?:\.jpe?g|png))"#';
 
 		// Get only local images
 		if ($local_images)
 		{
-			$regexp = '#<IMG src="(https?://(?:\w+\.)?' . $server_name . '[\w-./]+(?:\.jpe?g|png))"#';
+			$regexp = '#<IMG src="(https?://(?:\w+\.)?' . $server_name . '[\w./-]+(?:\.jpe?g|png))"#';
 		}
 
 		// Get images from description

@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "SEO Metadata extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-seo-metadata",
-	"version": "1.0.0",
-	"time": "2019-01-02",
+	"version": "1.0.1-RC1",
+	"time": "2019-01-22",
 	"keywords": [
 		"phpbb",
 		"extension",
