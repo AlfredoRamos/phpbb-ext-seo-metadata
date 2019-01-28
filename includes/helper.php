@@ -256,12 +256,22 @@ class helper
 		// Remove images
 		foreach ($xpath->query('/*/IMG') as $node)
 		{
+			if (empty($node->nodeType) || empty($node->parentNode))
+			{
+				continue;
+			}
+
 			$node->parentNode->removeChild($node);
 		}
 
 		// Remove URLs
 		foreach ($xpath->query('/*/URL/text()') as $node)
 		{
+			if (empty($node->nodeType) || empty($node->parentNode))
+			{
+				continue;
+			}
+
 			// Replace URL with its text
 			// or remove it if it's the same as the URL
 			if ($node->parentNode->getAttribute('url') === $node->nodeValue)
