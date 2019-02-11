@@ -254,7 +254,7 @@ class helper
 		$xpath = new \DOMXPath($dom);
 
 		// Remove images
-		foreach ($xpath->query('/*/IMG') as $node)
+		foreach ($xpath->query('//IMG') as $node)
 		{
 			if (empty($node->nodeType) || empty($node->parentNode))
 			{
@@ -265,7 +265,7 @@ class helper
 		}
 
 		// Remove URLs
-		foreach ($xpath->query('/*/URL/text()') as $node)
+		foreach ($xpath->query('//URL/text()') as $node)
 		{
 			if (empty($node->nodeType) || empty($node->parentNode))
 			{
