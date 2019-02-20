@@ -30,13 +30,12 @@ matrix:
 
 env:
   global:
-    - EXTNAME="alfredoramos/seometadata"            # Extension name
-    - GITREPO="AlfredoRamos/phpbb-ext-seo-metadata" # GitHub repository
-    - SNIFF="1"         # Code sniffer switch
-    - IMAGE_ICC="1"     # ICC profile sniffer switch
-    - EPV="1"           # Extension pre-validator switch
-    - PHPBB_BRANCH="3.2.x"
-    - EXTDEPS="0"       # Extension dependencies switch
+    - EXTNAME="alfredoramos/seometadata"    # Extension name
+    - SNIFF="1"                             # Code sniffer switch
+    - IMAGE_ICC="1"                         # ICC profile sniffer switch
+    - EPV="1"                               # Extension pre-validator switch
+    - PHPBB_BRANCH="3.2.x"                  # phpBB branch
+    - EXTDEPS="0"                           # Extension dependencies switch
 
 branches:
   only:
@@ -51,9 +50,9 @@ install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../../phpBB3
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
-  - ../$GITREPO/travis/setup-extension-dependencies.sh $EXTNAME $EXTDEPS
+  - $TRAVIS_BUILD_DIR/travis/setup-extension-dependencies.sh $EXTNAME $EXTDEPS
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
-  - ../$GITREPO/travis/prepare-epv.sh $EPV $NOTESTS
+  - $TRAVIS_BUILD_DIR/travis/prepare-epv.sh $EPV $NOTESTS
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
