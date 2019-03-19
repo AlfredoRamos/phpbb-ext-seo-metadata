@@ -11,6 +11,7 @@ namespace alfredoramos\seometadata\includes;
 
 use phpbb\db\driver\factory as database;
 use phpbb\config\config;
+use phpbb\user;
 use phpbb\template\template;
 use phpbb\cache\driver\driver_interface as cache;
 use phpbb\controller\helper as controller_helper;
@@ -24,6 +25,9 @@ class helper
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\user */
+	protected $user;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -51,66 +55,28 @@ class helper
 	 *
 	 * @param \phpbb\db\driver\factory				$db
 	 * @param \phpbb\config\config					$config
+	 * @param \phpbb\user							$user
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\cache\driver\driver_interface	$cache
-	 * @param \phpbb\controller\helper				$controller_helper;
+	 * @param \phpbb\controller\helper				$controller_helper
 	 * @param \phpbb\event\dispatcher_interface		$dispatcher
 	 * @param \FastImageSize\FastImageSize			$imagesize
 	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, template $template, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
+	public function __construct(database $db, config $config, user $user, template $template, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
+		$this->user = $user;
 		$this->template = $template;
 		$this->cache = $cache;
 		$this->controller_helper = $controller_helper;
 		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
 		$this->php_ext = $php_ext;
-
-		// Set initial metadata
-		$this->metadata = [
-			'twitter_cards' => [
-				'twitter:card' => 'summary',
-				'twitter:site' => $this->config['seo_metadata_twitter_publisher'],
-				'twitter:title' => '',
-				'twitter:description' => $this->clean_description(
-					$this->config['site_desc']
-				),
-				'twitter:image' => $this->clean_image(
-					$this->config['seo_metadata_default_image']
-				)
-			],
-			'open_graph' => [
-				'fb:app_id' => $this->config['seo_metadata_facebook_application'],
-				'og:locale' => $this->config['default_lang'],
-				'og:site_name' => $this->config['sitename'],
-				'og:url' => $this->clean_url($this->controller_helper->get_current_url()),
-				'og:type' => 'website',
-				'og:title' => '',
-				'og:description' => $this->clean_description(
-					$this->config['site_desc']
-				),
-				'og:image' => $this->clean_image(
-					$this->config['seo_metadata_default_image']
-				)
-			],
-			'json_ld' => [
-				'@context' => 'http://schema.org',
-				'@type' => 'DiscussionForumPosting',
-				'@id' => $this->clean_url($this->controller_helper->get_current_url()),
-				'headline' => '',
-				'description' => $this->clean_description(
-					$this->config['site_desc']
-				),
-				'image' => $this->clean_image(
-					$this->config['seo_metadata_default_image']
-				)
-			]
-		];
+		$this->metadata = [];
 	}
 
 	/**
@@ -123,6 +89,50 @@ class helper
 	 */
 	public function set_metadata($data = [], $key = '')
 	{
+		// Set initial metadata
+		if (empty($this->metadata))
+		{
+			$this->metadata = array_replace_recursive($this->metadata, [
+				'twitter_cards' => [
+					'twitter:card' => 'summary',
+					'twitter:site' => $this->config['seo_metadata_twitter_publisher'],
+					'twitter:title' => '',
+					'twitter:description' => $this->clean_description(
+						$this->config['site_desc']
+					),
+					'twitter:image' => $this->clean_image(
+						$this->config['seo_metadata_default_image']
+					)
+				],
+				'open_graph' => [
+					'fb:app_id' => $this->config['seo_metadata_facebook_application'],
+					'og:locale' => $this->config['default_lang'],
+					'og:site_name' => $this->config['sitename'],
+					'og:url' => $this->clean_url($this->controller_helper->get_current_url()),
+					'og:type' => 'website',
+					'og:title' => '',
+					'og:description' => $this->clean_description(
+						$this->config['site_desc']
+					),
+					'og:image' => $this->clean_image(
+						$this->config['seo_metadata_default_image']
+					)
+				],
+				'json_ld' => [
+					'@context' => 'http://schema.org',
+					'@type' => 'DiscussionForumPosting',
+					'@id' => $this->clean_url($this->controller_helper->get_current_url()),
+					'headline' => '',
+					'description' => $this->clean_description(
+						$this->config['site_desc']
+					),
+					'image' => $this->clean_image(
+						$this->config['seo_metadata_default_image']
+					)
+				]
+			]);
+		}
+
 		if (!empty($key) && !empty($this->metadata[$key]))
 		{
 			$this->metadata = array_replace($this->metadata[$key], $data);
@@ -404,6 +414,11 @@ class helper
 
 		// Escape ampersand
 		$url = str_replace(['&amp;', '&'], ['&', '&amp;'], $url);
+
+		// Remove SID from URL
+		$url = str_replace($this->user->session_id, '', $url);
+		$url = preg_replace('#(?:&amp;)?sid=#', '', $url);
+		$url = str_replace('?&amp;', '?', $url);
 
 		return $url;
 	}
