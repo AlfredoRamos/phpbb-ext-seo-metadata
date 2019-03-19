@@ -403,9 +403,6 @@ class helper
 			return '';
 		}
 
-		// Remove index.php without parameters
-		$url = preg_replace('#index\.' . $this->php_ext . '$#', '', $url);
-
 		// Remove app.php/ from URL
 		if ((int) $this->config['enable_mod_rewrite'] === 1)
 		{
@@ -417,8 +414,11 @@ class helper
 
 		// Remove SID from URL
 		$url = str_replace($this->user->session_id, '', $url);
-		$url = preg_replace('#(?:&amp;)?sid=#', '', $url);
+		$url = preg_replace('#(?:&amp;|\?)?sid=#', '', $url);
 		$url = str_replace('?&amp;', '?', $url);
+
+		// Remove index.php without parameters
+		$url = preg_replace('#index\.' . $this->php_ext . '$#', '', $url);
 
 		return $url;
 	}
