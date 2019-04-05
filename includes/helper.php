@@ -485,20 +485,49 @@ class helper
 		$server_name = $this->config['server_name'];
 		$images = [];
 
-		// Get all images
-		$regexp = '#<IMG src="(https?://[\w./-]+(?:\.jpe?g|png))"#';
-
-		// Get only local images
-		if ($local_images)
+		// Ensure it's XML
+		if (!preg_match('#^<[rt][ >]#', $description))
 		{
-			$regexp = '#<IMG src="(https?://(?:\w+\.)?' . $server_name . '[\w./-]+(?:\.jpe?g|png))"#';
+			$description = sprintf('<t>%s</t>', $description);
 		}
 
-		// Get images from description
-		preg_match_all($regexp, $description, $images);
+		// Try to fix XML
+		if (!$this->is_valid_xml($description))
+		{
+			$uid = $bitfield = $flags = null;
+			generate_text_for_storage($description, $uid, $bitfield, $flags, true, true, true);
+			$description = generate_text_for_display($description, $uid, $bitfield, $flags);
+		}
+
+		// DOM manipulation
+		$dom = new \DOMDocument;
+		$dom->preserveWhiteSpace = false;
+		$dom->loadXML($description);
+		$xpath = new \DOMXPath($dom);
+
+		// Get post images
+		foreach ($xpath->query('//IMG') as $node)
+		{
+			// Get image URL
+			$url = trim($node->getAttribute('src'));
+
+			// Only JPEG, PNG and GIF images are supported
+			if (!preg_match('#\.(?:jpe?g|png|gif)$#', $url))
+			{
+				continue;
+			}
+
+			// Get only local images
+			if ($local_images && !preg_match('#^https?://(?:\w+\.)?' . preg_quote($server_name) . '#', $url))
+			{
+				continue;
+			}
+
+			$images[] = $url;
+		}
 
 		// Remove duplicated images
-		$images = array_unique($images[1]);
+		$images = array_unique($images);
 
 		// Limit array length
 		if (count($images) > $max_images)
