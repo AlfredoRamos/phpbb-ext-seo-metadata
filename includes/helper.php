@@ -274,6 +274,17 @@ class helper
 			$node->parentNode->removeChild($node);
 		}
 
+		// Remove attachments
+		foreach ($xpath->query('//ATTACHMENT') as $node)
+		{
+			if (empty($node->nodeType) || empty($node->parentNode))
+			{
+				continue;
+			}
+
+			$node->parentNode->removeChild($node);
+		}
+
 		// Remove URLs
 		foreach ($xpath->query('//URL/text()') as $node)
 		{
