@@ -453,7 +453,8 @@ class helper
 		$sql = 'SELECT post_text
 			FROM ' . POSTS_TABLE . '
 			WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
-		$result = $this->db->sql_query($sql, (24 * 60 * 60)); // Cache query for 24 hours
+		// Cache query for 24 hours
+		$result = $this->db->sql_query($sql, (24 * 60 * 60));
 		$description = $this->db->sql_fetchfield('post_text');
 		$this->db->sql_freeresult($result);
 
@@ -490,6 +491,8 @@ class helper
 
 		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
 		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1);
+		$use_attachments = ((int) $this->config['seo_metadata_attachments'] === 1);
+		$prefer_attachments = ((int) $this->config['seo_metadata_prefer_attachments'] === 1);
 		$max_images = abs((int) $max_images);
 		$max_images = empty($max_images) ? 5 : $max_images;
 		$max_images = ($max_images > 5) ? 5 : $max_images;
@@ -535,6 +538,39 @@ class helper
 			}
 
 			$images[] = $url;
+		}
+
+		// Get attachment images
+		if ($use_attachments)
+		{
+			$sql = 'SELECT attach_id FROM ' . ATTACHMENTS_TABLE . '
+				WHERE post_msg_id = ' . $post_id . '
+					AND ' . $this->db->sql_in_set('extension', ['jpg', 'jpeg', 'png', 'gif']) . '
+					AND is_orphan = 0
+				ORDER BY attach_id ASC';
+			// Cache query for 24 hours
+			$result = $this->db->sql_query_limit($sql, $max_images, 0, (24 * 60 * 60));
+			$attachment_ids = $this->db->sql_fetchrowset($result);
+			$this->db->sql_freeresult($result);
+			$attachments = [];
+
+			foreach ($attachment_ids as $attachment)
+			{
+				$attachments[] = $this->clean_url(vsprintf(
+					'%1$s/download/file.%2$s?id=%3$s&amp;mode=view',
+					[generate_board_url(), $this->php_ext, $attachment['attach_id']]
+				));
+			}
+
+			// Prepend or append attachments
+			if ($prefer_attachments)
+			{
+				$images = array_merge($attachments, $images);
+			}
+			else
+			{
+				$images = array_merge($images, $attachments);
+			}
 		}
 
 		// Remove duplicated images

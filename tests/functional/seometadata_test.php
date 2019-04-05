@@ -257,6 +257,12 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
 
+		$this->assertTrue($form->has('seo_metadata_attachments'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_attachments')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_prefer_attachments'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_prefer_attachments')->getValue());
+
 		$this->assertTrue($form->has('seo_metadata_open_graph'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_open_graph')->getValue());
 

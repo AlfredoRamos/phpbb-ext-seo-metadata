@@ -136,6 +136,22 @@ class acp
 				$local_images
 			);
 
+			// Include attachments
+			$use_attachments = $this->request->variable('seo_metadata_attachments', 0);
+			$use_attachments = (in_array($use_attachments, [0, 1])) ? $use_attachments : 0;
+			$this->config->set(
+				'seo_metadata_attachments',
+				$use_attachments
+			);
+
+			// Prefer attachments
+			$prefer_attachments = $this->request->variable('seo_metadata_prefer_attachments', 0);
+			$prefer_attachments = (in_array($prefer_attachments, [0, 1])) ? $prefer_attachments : 0;
+			$this->config->set(
+				'seo_metadata_prefer_attachments',
+				$prefer_attachments
+			);
+
 			// Open Graph
 			$open_graph = $this->request->variable('seo_metadata_open_graph', 1);
 			$open_graph = (in_array($open_graph, [0, 1], true)) ? $open_graph : 1;
@@ -208,6 +224,8 @@ class acp
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
+			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config['seo_metadata_attachments'] === 1),
+			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config['seo_metadata_prefer_attachments'] === 1),
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
 			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],

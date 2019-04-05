@@ -64,6 +64,26 @@
 				<label><input type="radio" name="seo_metadata_local_images" value="0"{% if not SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_attachments">{{ lang('ACP_SEO_METADATA_ATTACHMENTS') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_attachments" name="seo_metadata_attachments" value="1"{% if SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_attachments" value="0"{% if not SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_prefer_attachments">{{ lang('ACP_SEO_METADATA_PREFER_ATTACHMENTS') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_prefer_attachments" name="seo_metadata_prefer_attachments" value="1"{% if SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_prefer_attachments" value="0"{% if not SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
 	</fieldset>
 
 	<fieldset>

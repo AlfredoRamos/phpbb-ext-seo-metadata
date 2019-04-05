@@ -46,6 +46,12 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Local images',
 	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Only extract post images from your domain (<samp>%s</samp>).',
 
+	'ACP_SEO_METADATA_ATTACHMENTS' => 'Include attachments',
+	'ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN' => 'Also include images from attachments. They will be chosen in the same order they were uploaded.',
+
+	'ACP_SEO_METADATA_PREFER_ATTACHMENTS' => 'Prefer attachments',
+	'ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN' => 'Attachment images will have higher priority over the ones that were extracted from the post.',
+
 	'ACP_SEO_METADATA_SETTINGS_SAVED' => 'SEO Metadata settings have been succesfully saved.',
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata are dynamically generated from your board data.',
