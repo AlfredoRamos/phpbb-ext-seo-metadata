@@ -25,7 +25,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SEO_METADATA' => 'Metadatos SEO',
-	'ACP_SEO_METADATA_EXPLAIN' => 'Después de cambiar éstos valores, tal vez necesites limpiar la caché.',
+	'ACP_SEO_METADATA_EXPLAIN' => 'Los cambios en los siguientes valores sólo serán aplicados a los temas nuevos, si deseas que tambien sean aplicados a los temas antiguos, necesitarás limpiar la caché.',
 
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Longitud de la descripción',
 	'ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN' => 'Longitud máxima para la descripción que será utilizada en metaetiquetas como <samp>og:description</samp>. Tiene un límite máximo de <samp>255</samp> caracteres.',
