@@ -35,11 +35,19 @@ class m1_seometadata_data extends migration
 			],
 			[
 				'config.add',
+				['seo_metadata_default_image', '']
+			],
+			[
+				'config.add',
 				['seo_metadata_local_images', 1]
 			],
 			[
 				'config.add',
-				['seo_metadata_default_image', '']
+				['seo_metadata_attachments', 0]
+			],
+			[
+				'config.add',
+				['seo_metadata_prefer_attachments', 0]
 			],
 			[
 				'config.add',
