@@ -12,6 +12,16 @@
 		<legend>{{ lang('ACP_GLOBAL_SETTINGS') }}</legend>
 		<dl>
 			<dt>
+				<label for="seo_metadata_meta_description">{{ lang('ACP_SEO_METADATA_META_DESCRIPTION') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_meta_description" name="seo_metadata_meta_description" value="1"{% if SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_meta_description" value="0"{% if not SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
 				<label for="seo_metadata_desc_length">{{ lang('ACP_SEO_METADATA_DESC_LENGTH') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN') }}</span>
 			</dt>

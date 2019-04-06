@@ -27,6 +27,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA' => 'SEO Metadata',
 	'ACP_SEO_METADATA_EXPLAIN' => 'Changes to the following values will only be applied to new topics, if you want it to be applied to old topics too, you will need to purge the cache.',
 
+	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Enable description',
+	'ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN' => 'Description metatag.',
+
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Description length',
 	'ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN' => 'Maximum length for description that will be used in meta tags such as <samp>og:description</samp>. It has a hard limit of <samp>255</samp> characters.',
 	'ACP_SEO_METADATA_DESC_STRATEGY' => 'Description strategy',
