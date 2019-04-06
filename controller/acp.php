@@ -97,6 +97,14 @@ class acp
 				);
 			}
 
+			// Meta description
+			$meta_description = $this->request->variable('seo_metadata_meta_description', 1);
+			$meta_description = (in_array($meta_description, [0, 1], true)) ? $meta_description : 1;
+			$this->config->set(
+				'seo_metadata_meta_description',
+				$meta_description
+			);
+
 			// Description length
 			$desc_length = $this->request->variable('seo_metadata_desc_length', 160);
 			$desc_length = ($desc_length < 50) ? 50 : $desc_length;
@@ -138,7 +146,7 @@ class acp
 
 			// Include attachments
 			$use_attachments = $this->request->variable('seo_metadata_attachments', 0);
-			$use_attachments = (in_array($use_attachments, [0, 1])) ? $use_attachments : 0;
+			$use_attachments = (in_array($use_attachments, [0, 1], true)) ? $use_attachments : 0;
 			$this->config->set(
 				'seo_metadata_attachments',
 				$use_attachments
@@ -146,7 +154,7 @@ class acp
 
 			// Prefer attachments
 			$prefer_attachments = $this->request->variable('seo_metadata_prefer_attachments', 0);
-			$prefer_attachments = (in_array($prefer_attachments, [0, 1])) ? $prefer_attachments : 0;
+			$prefer_attachments = (in_array($prefer_attachments, [0, 1], true)) ? $prefer_attachments : 0;
 			$this->config->set(
 				'seo_metadata_prefer_attachments',
 				$prefer_attachments
@@ -221,6 +229,7 @@ class acp
 
 		// Assign template variables
 		$this->template->assign_vars([
+			'SEO_METADATA_META_DESCRIPTION' => ((int) $this->config['seo_metadata_meta_description'] === 1),
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
 			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
