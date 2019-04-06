@@ -2,7 +2,10 @@
 
 SEO Metadata extension for phpBB
 
-[![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata) [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases) [![Code Quality](https://img.shields.io/codacy/grade/fb43678c76ca48acad229d1631169aa7.svg?style=flat-square)](https://app.codacy.com/app/AlfredoRamos/phpbb-ext-seo-metadata) [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
+[![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata)
+[![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases)
+[![Code Quality](https://img.shields.io/codacy/grade/fb43678c76ca48acad229d1631169aa7.svg?style=flat-square)](https://app.codacy.com/app/AlfredoRamos/phpbb-ext-seo-metadata)
+[![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
 
 ### Dependencies
 
@@ -21,7 +24,7 @@ SEO Metadata extension for phpBB
 
 If available, it will dynamically generate and include the following data inside the `<head>` tag:
 
-Open Grah:
+Open Graph:
 ```html
 <meta property="fb:app_id" content="...">
 <meta property="og:locale" content="...">
