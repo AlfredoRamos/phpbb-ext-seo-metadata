@@ -97,6 +97,9 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->set_metadata(
 			[
+				'meta_description' => [
+					'description' => $data['description']
+				],
 				'twitter_cards' => [
 					'twitter:description' => $data['description']
 				],
@@ -147,6 +150,9 @@ class listener implements EventSubscriberInterface
 
 		$this->helper->set_metadata(
 			[
+				'meta_description' => [
+					'description' => $data['description']
+				],
 				'twitter_cards' => [
 					'twitter:title' => $data['title'],
 					'twitter:description' => $data['description'],
