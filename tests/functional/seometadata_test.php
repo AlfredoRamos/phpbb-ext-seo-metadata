@@ -64,6 +64,22 @@ class seometadata_test extends phpbb_functional_test_case
 		unset($db);
 	}
 
+	public function test_meta_description()
+	{
+		$crawler = self::request('GET', sprintf(
+			'viewtopic.php?t=1&sid=%s',
+			$this->sid
+		));
+
+		$element = $crawler->filter('meta[name="description"]');
+
+		$this->assertSame(1, $element->count());
+		$this->assertSame(
+			$this->expected_data['description'],
+			$element->attr('content')
+		);
+	}
+
 	public function test_open_graph()
 	{
 		$crawler = self::request('GET', sprintf(
@@ -241,6 +257,9 @@ class seometadata_test extends phpbb_functional_test_case
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
 		$this->assertSame(1, $crawler->filter('#seo_metadata_settings')->count());
+
+		$this->assertTrue($form->has('seo_metadata_meta_description'));
+		$this->assertSame(1, (int) $form->get('seo_metadata_meta_description')->getValue());
 
 		$this->assertTrue($form->has('seo_metadata_desc_length'));
 		$this->assertSame(160, (int) $form->get('seo_metadata_desc_length')->getValue());
