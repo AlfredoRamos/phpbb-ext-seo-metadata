@@ -1,3 +1,3 @@
 {%- macro metatag(property, content) -%}
-<meta {% if property starts with 'twitter:' -%}name{%- else -%}property{%- endif -%}="{{ property }}" content="{{ content }}">
+<meta {% if property matches '/^(?:og|article):/' %}property{% else %}name{% endif %}="{{ property }}" content="{{ content }}">
 {% endmacro %}
