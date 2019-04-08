@@ -11,7 +11,7 @@ namespace alfredoramos\seometadata\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
-class m2_seometadata_modules extends migration
+class m01_modules extends migration
 {
 	/**
 	 * Add SEO Metadata ACP settings.

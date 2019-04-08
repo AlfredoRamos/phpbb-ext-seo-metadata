@@ -11,7 +11,7 @@ namespace alfredoramos\seometadata\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
-class m1_seometadata_data extends migration
+class m00_configuration extends migration
 {
 	/**
 	 * Add configuration.
