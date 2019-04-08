@@ -13,7 +13,6 @@ use phpbb\extension\base;
 
 class ext extends base
 {
-
 	/**
 	 * Check whether or not the extension can be enabled.
 	 *
@@ -23,5 +22,4 @@ class ext extends base
 	{
 		return phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>=');
 	}
-
 }
