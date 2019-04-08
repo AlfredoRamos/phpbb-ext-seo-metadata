@@ -128,6 +128,12 @@ class seometadata_test extends phpbb_functional_test_case
 			$this->expected_data['url'],
 			$elements['url']->attr('content')
 		);
+		$this->assertTrue(
+			empty(preg_match(
+				'#(?:\?|&amp;)sid=' . preg_quote($this->sid) . '#',
+				$elements['url']->attr('content')
+			))
+		);
 		$this->assertSame(
 			'article',
 			$elements['type']->attr('content')
@@ -229,6 +235,12 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(
 			$this->expected_data['url'],
 			$elements['@id']
+		);
+		$this->assertTrue(
+			empty(preg_match(
+				'#(?:\?|&amp;)sid=' . preg_quote($this->sid) . '#',
+				$elements['@id']
+			))
 		);
 		$this->assertSame(
 			$this->expected_data['title'],
