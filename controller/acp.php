@@ -222,7 +222,7 @@ class acp
 
 			// Confirm dialog
 			trigger_error(
-				$this->language->lang('ACP_SEO_METADATA_SETTINGS_SAVED') .
+				$this->language->lang('CONFIG_UPDATED') .
 				adm_back_link($u_action)
 			);
 		}

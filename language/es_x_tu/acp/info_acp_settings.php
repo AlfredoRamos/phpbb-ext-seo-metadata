@@ -55,8 +55,6 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Imágenes locales',
 	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Extrae imágenes del cuerpo del mensaje únicamente de tu dominio (<samp>%s</samp>).',
 
-	'ACP_SEO_METADATA_SETTINGS_SAVED' => 'Los ajustes de Metadatos SEO Metadata han sido guardados satisfactoriamente.',
-
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de tu foro.',
 
 	'ACP_GLOBAL_SETTINGS' => 'Ajustes globales',
