@@ -24,7 +24,14 @@ SEO Metadata extension for phpBB
 
 If available, it will dynamically generate and include the following data inside the `<head>` tag:
 
+Meta description:
+
+```html
+<meta name="description" content="...">
+```
+
 Open Graph:
+
 ```html
 <meta property="fb:app_id" content="...">
 <meta property="og:locale" content="...">
@@ -40,6 +47,7 @@ Open Graph:
 ```
 
 Twitter Cards:
+
 ```html
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="...">
@@ -49,6 +57,7 @@ Twitter Cards:
 ```
 
 JSON-LD:
+
 ```html
 <script type="application/ld+json">
 {
