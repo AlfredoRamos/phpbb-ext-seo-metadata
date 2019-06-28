@@ -47,14 +47,6 @@ class m00_configuration extends migration
 			],
 			[
 				'config.add',
-				['seo_metadata_attachments', 0]
-			],
-			[
-				'config.add',
-				['seo_metadata_prefer_attachments', 0]
-			],
-			[
-				'config.add',
 				['seo_metadata_open_graph', 1]
 			],
 			[
