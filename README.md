@@ -41,6 +41,9 @@ Open Graph:
 <meta property="og:title" content="...">
 <meta property="og:description" content="...">
 <meta property="og:image" content="...">
+<meta property="og:image:type" content="...">
+<meta property="og:image:width" content="...">
+<meta property="og:image:height" content="...">
 <meta property="article:published_time" content="...">
 <meta property="article:section" content="...">
 <meta property="article:publisher" content="...">
