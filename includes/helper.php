@@ -13,6 +13,7 @@ use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\user;
 use phpbb\template\template;
+use phpbb\language\language;
 use phpbb\cache\driver\driver_interface as cache;
 use phpbb\controller\helper as controller_helper;
 use phpbb\event\dispatcher_interface as dispatcher;
@@ -31,6 +32,9 @@ class helper
 
 	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\language\language */
+	protected $language;
 
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
@@ -57,6 +61,7 @@ class helper
 	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\user							$user
 	 * @param \phpbb\template\template				$template
+	 * @param \phpbb\language\language				$language
 	 * @param \phpbb\cache\driver\driver_interface	$cache
 	 * @param \phpbb\controller\helper				$controller_helper
 	 * @param \phpbb\event\dispatcher_interface		$dispatcher
@@ -65,12 +70,13 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, template $template, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
+	public function __construct(database $db, config $config, user $user, template $template, language $language, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->user = $user;
 		$this->template = $template;
+		$this->language = $language;
 		$this->cache = $cache;
 		$this->controller_helper = $controller_helper;
 		$this->dispatcher = $dispatcher;
@@ -110,7 +116,7 @@ class helper
 				],
 				'open_graph' => [
 					'fb:app_id' => $this->config['seo_metadata_facebook_application'],
-					'og:locale' => $this->config['default_lang'],
+					'og:locale' => $this->fix_locale($this->language->lang('USER_LANG')),
 					'og:site_name' => $this->config['sitename'],
 					'og:url' => $default['url'],
 					'og:type' => 'website',
@@ -646,6 +652,38 @@ class helper
 		$this->cache->put($cache_name, $images[0]);
 
 		return $images[0];
+	}
+
+	/**
+	 * Generates correct localization name for Open Graph.
+	 *
+	 * @param string $locale The localization in the format en-gb
+	 *
+	 * @return string The localization in the format en_GB
+	 */
+	public function fix_locale($locale = '')
+	{
+		if (empty($locale))
+		{
+			return '';
+		}
+
+		// Split the language and country code
+		$locale = explode('-', $locale);
+
+		// It does not have country code
+		if (empty($locale[1]))
+		{
+			return $locale;
+		}
+
+		// Uppercase country code
+		$locale[1] = strtoupper($locale[1]);
+
+		// Construct the string
+		$locale = implode('_', $locale);
+
+		return $locale;
 	}
 
 	/**
