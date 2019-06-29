@@ -674,7 +674,7 @@ class helper
 		// It does not have country code
 		if (empty($locale[1]))
 		{
-			return $locale;
+			return $locale[0];
 		}
 
 		// Uppercase country code
