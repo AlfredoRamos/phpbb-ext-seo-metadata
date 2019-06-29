@@ -116,7 +116,10 @@ class helper
 					'og:type' => 'website',
 					'og:title' => '',
 					'og:description' => $default['description'],
-					'og:image' => $default['image']
+					'og:image' => $default['image'],
+					'og:image:type' => '',
+					'og:image:width' => 0,
+					'og:image:height' => 0
 				],
 				'json_ld' => [
 					'@context' => 'http://schema.org',
@@ -464,7 +467,7 @@ class helper
 	 * @param integer	$post_id
 	 * @param integer	$max_images
 	 *
-	 * @return array
+	 * @return array	url, width, height and type
 	 */
 	public function extract_image($description = '', $post_id = 0, $max_images = 3)
 	{
@@ -482,7 +485,7 @@ class helper
 		// Check cached image first
 		if (!empty($cached_image['url']))
 		{
-			return $cached_image['url'];
+			return $cached_image;
 		}
 
 		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
@@ -581,17 +584,17 @@ class helper
 		// Filter images
 		foreach ($images as $key => $value)
 		{
-			$size = $this->imagesize->getImageSize($value);
+			$info = $this->imagesize->getImageSize($value);
 
 			// Can't get image dimensions
-			if (empty($size))
+			if (empty($info))
 			{
 				unset($images[$key]);
 				continue;
 			}
 
 			// Images should be at least 200x200 px
-			if (($size['width'] < 200) || ($size['height'] < 200))
+			if (($info['width'] < 200) || ($info['height'] < 200))
 			{
 				unset($images[$key]);
 				continue;
@@ -599,9 +602,9 @@ class helper
 
 			$images[$key] = [
 				'url' => $value,
-				'width' => $size['width'],
-				'height' => $size['height'],
-				'type' => image_type_to_mime_type($size['type'])
+				'width' => $info['width'],
+				'height' => $info['height'],
+				'type' => image_type_to_mime_type($info['type'])
 			];
 		}
 
@@ -631,13 +634,18 @@ class helper
 		// Fallback image
 		if (empty($images[0]))
 		{
-			return $this->config['seo_metadata_default_image'];
+			return [
+				'url' => trim($this->config['seo_metadata_default_image']),
+				'width' => (int) $this->config['seo_metadata_default_image_width'],
+				'height' => (int) $this->config['seo_metadata_default_image_height'],
+				'type' => trim($this->config['seo_metadata_default_image_type'])
+			];
 		}
 
 		// Add image to cache
 		$this->cache->put($cache_name, $images[0]);
 
-		return $images[0]['url'];
+		return $images[0];
 	}
 
 	/**

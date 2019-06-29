@@ -143,7 +143,7 @@ class listener implements EventSubscriberInterface
 		// Helpers
 		$data['title'] = $event['topic_data']['topic_title'];
 		$data['description'] = $this->helper->clean_description($data['description']);
-		$data['image'] = $this->helper->clean_image($data['image']);
+		$data['image']['url'] = $this->helper->clean_image($data['image']['url']);
 		$data['datetime'] = date('c', $event['topic_data']['topic_time']);
 		$data['section'] = $event['topic_data']['forum_name'];
 		$data['publisher'] = $this->config['seo_metadata_facebook_publisher'];
@@ -156,13 +156,16 @@ class listener implements EventSubscriberInterface
 				'twitter_cards' => [
 					'twitter:title' => $data['title'],
 					'twitter:description' => $data['description'],
-					'twitter:image' => $data['image']
+					'twitter:image' => $data['image']['url']
 				],
 				'open_graph' => [
 					'og:type' => 'article',
 					'og:title' => $data['title'],
 					'og:description' => $data['description'],
-					'og:image' => $data['image'],
+					'og:image' => $data['image']['url'],
+					'og:image:type' => $data['image']['type'],
+					'og:image:width' => $data['image']['width'],
+					'og:image:height' => $data['image']['height'],
 					'article:published_time' => $data['datetime'],
 					'article:section' => $data['section'],
 					'article:publisher' => $data['publisher'],
@@ -170,7 +173,7 @@ class listener implements EventSubscriberInterface
 				'json_ld' => [
 					'headline' => $data['title'],
 					'description' => $data['description'],
-					'image'	=> $data['image']
+					'image'	=> $data['image']['url']
 				]
 			]
 		);

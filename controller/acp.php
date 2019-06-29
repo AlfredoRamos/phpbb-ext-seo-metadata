@@ -15,6 +15,8 @@ use phpbb\request\request;
 use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
+use FastImageSize\FastImageSize;
+use alfredoramos\seometadata\includes\helper;
 
 class acp
 {
@@ -36,19 +38,27 @@ class acp
 	/** @var \phpbb\log\log */
 	protected $log;
 
+	/** @var \FastImageSize\FastImageSize */
+	protected $imagesize;
+
+	/** @var \alfredoramos\seometadata\includes\helper */
+	protected $helper;
+
 	/**
 	 * Controller constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\request\request	$request
-	 * @param \phpbb\language\language	$language
-	 * @param \phpbb\user				$user
-	 * @param \phpbb\log\log			$log
+	 * @param \phpbb\config\config						$config
+	 * @param \phpbb\template\template					$template
+	 * @param \phpbb\request\request					$request
+	 * @param \phpbb\language\language					$language
+	 * @param \phpbb\user								$user
+	 * @param \phpbb\log\log							$log
+	 * @param \FastImageSize\FastImageSize				$imagesize
+	 * @param \alfredoramos\seometadata\includes\helper	$helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log)
+	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, FastImageSize $imagesize, helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
@@ -56,6 +66,8 @@ class acp
 		$this->language = $language;
 		$this->user = $user;
 		$this->log = $log;
+		$this->imagesize = $imagesize;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -131,10 +143,53 @@ class acp
 			);
 
 			// Default image
+			$default_image = $this->request->variable('seo_metadata_default_image', '');
 			$this->config->set(
 				'seo_metadata_default_image',
-				$this->request->variable('seo_metadata_default_image', '')
+				$default_image
 			);
+
+			// Default image information
+			$default_image_info = [
+				'width' => $this->request->variable('seo_metadata_default_image_width', 0),
+				'height' => $this->request->variable('seo_metadata_default_image_height', 0),
+				'type' => $this->request->variable('seo_metadata_default_image_type', '')
+			];
+
+			// Try to get image width, height and type
+			if (empty($default_image_info['width']) || empty($default_image_info['height']) || empty($default_image_info['type']))
+			{
+				$default_image_info = $this->imagesize->getImageSize($this->helper->clean_image($default_image));
+
+				// Get MIME type as string
+				if (!empty($default_image_info['type']))
+				{
+					$default_image_info['type'] = image_type_to_mime_type($default_image_info['type']);
+				}
+			}
+
+			// Validate default image information
+			$valid_image_info = !empty($default_image_info) &&
+				$default_image_info['width'] >= 200 &&
+				$default_image_info['height'] >= 200 &&
+				!empty($default_image_info['type']);
+
+			// Default image information
+			if ($valid_image_info)
+			{
+				foreach ($default_image_info as $key => $value)
+				{
+					if (!in_array($key, ['width', 'height', 'type'], true))
+					{
+						continue;
+					}
+
+					$this->config->set(
+						sprintf('seo_metadata_default_image_%s', $key),
+						$value
+					);
+				}
+			}
 
 			// Local images
 			$local_images = $this->request->variable('seo_metadata_local_images', 1);
@@ -232,6 +287,9 @@ class acp
 			'SEO_METADATA_META_DESCRIPTION' => ((int) $this->config['seo_metadata_meta_description'] === 1),
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
+			'SEO_METADATA_DEFAULT_IMAGE_WIDTH' => (int) $this->config['seo_metadata_default_image_width'],
+			'SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => (int) $this->config['seo_metadata_default_image_height'],
+			'SEO_METADATA_DEFAULT_IMAGE_TYPE' => trim($this->config['seo_metadata_default_image_type']),
 			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
 			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config['seo_metadata_attachments'] === 1),
 			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config['seo_metadata_prefer_attachments'] === 1),
