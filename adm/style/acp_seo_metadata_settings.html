@@ -66,6 +66,27 @@
 		</dl>
 		<dl>
 			<dt>
+				<label for="seo_metadata_default_image_width">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="number" id="seo_metadata_default_image_width" name="seo_metadata_default_image_width" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}" />
+				x
+				<input type="number" id="seo_metadata_default_image_height" name="seo_metadata_default_image_height" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}" />
+				{{ lang('PIXEL') }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_default_image_type">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" id="seo_metadata_default_image_type" name="seo_metadata_default_image_type"{% if SEO_METADATA_DEFAULT_IMAGE_TYPE %} value="{{ SEO_METADATA_DEFAULT_IMAGE_TYPE }}"{% endif %} class="narrow" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>
 				<label for="seo_metadata_local_images">{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN', SERVER_NAME) }}</span>
 			</dt>

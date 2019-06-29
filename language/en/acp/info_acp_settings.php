@@ -46,6 +46,12 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be relative to <samp>%s</samp>',
 
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Default image dimensions',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Width x height of default image. Set both to <samp>0</samp> to try to guess the image dimensions.',
+
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE' => 'Default image type',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'The MIME type of default image. Leave it blank to try to guess the type, if you do not know this information or are unsure.',
+
 	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Local images',
 	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Only extract post images from your domain (<samp>%s</samp>).',
 
