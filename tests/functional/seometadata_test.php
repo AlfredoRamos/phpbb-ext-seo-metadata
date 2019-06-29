@@ -117,7 +117,7 @@ class seometadata_test extends phpbb_functional_test_case
 		}
 
 		$this->assertSame(
-			'en',
+			'en_GB',
 			$elements['locale']->attr('content')
 		);
 		$this->assertSame(

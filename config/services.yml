@@ -26,6 +26,7 @@ services:
             - '@config'
             - '@user'
             - '@template'
+            - '@language'
             - '@cache.driver'
             - '@controller.helper'
             - '@dispatcher'
