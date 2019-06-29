@@ -46,6 +46,12 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La ruta debe ser relativa a <samp>%s</samp>',
 
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloque <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
+
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE' => 'Tipo de la imagen por defecto',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'El tipo de MIME de la imagen por defecto. Déjelo en blanco para intentar estimar el tipo, si no conoce esta información o no esta seguro.',
+
 	'ACP_SEO_METADATA_ATTACHMENTS' => 'Incluir adjuntos',
 	'ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN' => 'También se incluirán imágenes adjuntas. Serán elegidas en el mismo orden en el que fueron subidas.',
 
