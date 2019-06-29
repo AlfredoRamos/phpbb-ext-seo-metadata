@@ -159,10 +159,13 @@ class acp
 			// Try to get image width, height and type
 			if (empty($default_image_info['width']) || empty($default_image_info['height']) || empty($default_image_info['type']))
 			{
-				$default_image_info = $this->imagesize->getImageSize($this->helper->clean_image($default_image));
+				if (!empty($default_image))
+				{
+					$default_image_info = $this->imagesize->getImageSize($this->helper->clean_image($default_image));
+				}
 
 				// Get MIME type as string
-				if (!empty($default_image_info['type']))
+				if (!empty($default_image_info['type']) && is_int($default_image_info['type']))
 				{
 					$default_image_info['type'] = image_type_to_mime_type($default_image_info['type']);
 				}
