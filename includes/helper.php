@@ -100,7 +100,12 @@ class helper
 		{
 			$default = [
 				'description' => $this->clean_description($this->config['site_desc']),
-				'image' => $this->clean_image($this->config['seo_metadata_default_image']),
+				'image' => [
+					'url' => $this->clean_image($this->config['seo_metadata_default_image']),
+					'width' => (int) $this->config['seo_metadata_default_image_width'],
+					'height' => (int) $this->config['seo_metadata_default_image_height'],
+					'type' => trim($this->config['seo_metadata_default_image_type'])
+				],
 				'url' => $this->clean_url($this->controller_helper->get_current_url())
 			];
 			$this->metadata = array_replace_recursive($this->metadata, [
@@ -112,20 +117,20 @@ class helper
 					'twitter:site' => $this->config['seo_metadata_twitter_publisher'],
 					'twitter:title' => '',
 					'twitter:description' => $default['description'],
-					'twitter:image' => $default['image']
+					'twitter:image' => $default['image']['url']
 				],
 				'open_graph' => [
 					'fb:app_id' => $this->config['seo_metadata_facebook_application'],
-					'og:locale' => $this->fix_locale($this->language->lang('USER_LANG')),
+					'og:locale' => $this->extract_locale($this->language->lang('USER_LANG')),
 					'og:site_name' => $this->config['sitename'],
 					'og:url' => $default['url'],
 					'og:type' => 'website',
 					'og:title' => '',
 					'og:description' => $default['description'],
-					'og:image' => $default['image'],
-					'og:image:type' => '',
-					'og:image:width' => 0,
-					'og:image:height' => 0
+					'og:image' => $default['image']['url'],
+					'og:image:type' => $default['image']['type'],
+					'og:image:width' => $default['image']['width'],
+					'og:image:height' => $default['image']['type']
 				],
 				'json_ld' => [
 					'@context' => 'http://schema.org',
@@ -133,7 +138,7 @@ class helper
 					'@id' => $default['url'],
 					'headline' => '',
 					'description' => $default['description'],
-					'image' => $default['image']
+					'image' => $default['image']['url']
 				]
 			]);
 		}
@@ -440,6 +445,47 @@ class helper
 	}
 
 	/**
+	 * Generates correct localization name for Open Graph.
+	 *
+	 * @param string $locale The localization in the format en-gb (ISO 639-1 + - + ISO 3166-2)
+	 *
+	 * @return string The localization in the format en_GB
+	 */
+	public function extract_locale($locale = '')
+	{
+		if (empty($locale))
+		{
+			return '';
+		}
+
+		// Split the language and country code
+		$locale = explode('-', $locale);
+
+		// It does not have country code
+		if (empty($locale[1]))
+		{
+			// Set the country code to be the same as the language code
+			// Examples: es_ES, de_DE, pl_PL, etc.
+			$locale[1] = $locale[0];
+		}
+
+		// Uppercase country code
+		$locale[1] = strtoupper($locale[1]);
+
+		// Construct the string
+		$locale = implode('_', $locale);
+
+		// Validate the locale
+		if (!in_array($locale, $this->supported_locales(), true))
+		{
+			// The locale is invalid, ignore it
+			return '';
+		}
+
+		return $locale;
+	}
+
+	/**
 	 * Generate description from post body.
 	 *
 	 * @param integer $post_id
@@ -655,35 +701,16 @@ class helper
 	}
 
 	/**
-	 * Generates correct localization name for Open Graph.
+	 * Supported Open Graph locales.
 	 *
-	 * @param string $locale The localization in the format en-gb
+	 * https://developers.facebook.com/docs/internationalization
+	 * https://developers.facebook.com/docs/messenger-platform/messenger-profile/supported-locales/
 	 *
-	 * @return string The localization in the format en_GB
+	 * @return array
 	 */
-	public function fix_locale($locale = '')
+	private function supported_locales()
 	{
-		if (empty($locale))
-		{
-			return '';
-		}
-
-		// Split the language and country code
-		$locale = explode('-', $locale);
-
-		// It does not have country code
-		if (empty($locale[1]))
-		{
-			return $locale[0];
-		}
-
-		// Uppercase country code
-		$locale[1] = strtoupper($locale[1]);
-
-		// Construct the string
-		$locale = implode('_', $locale);
-
-		return $locale;
+		return ['en_US', 'ca_ES', 'cs_CZ', 'cx_PH', 'cy_GB', 'da_DK', 'de_DE', 'eu_ES', 'en_UD', 'es_LA', 'es_ES', 'gn_PY', 'fi_FI', 'fr_FR', 'gl_ES', 'hu_HU', 'it_IT', 'ja_JP', 'ko_KR', 'nb_NO', 'nn_NO', 'nl_NL', 'fy_NL', 'pl_PL', 'pt_BR', 'pt_PT', 'ro_RO', 'ru_RU', 'sk_SK', 'sl_SI', 'sv_SE', 'th_TH', 'tr_TR', 'ku_TR', 'zh_CN', 'zh_HK', 'zh_TW', 'af_ZA', 'sq_AL', 'hy_AM', 'az_AZ', 'be_BY', 'bn_IN', 'bs_BA', 'bg_BG', 'hr_HR', 'nl_BE', 'en_GB', 'et_EE', 'fo_FO', 'fr_CA', 'ka_GE', 'el_GR', 'gu_IN', 'hi_IN', 'is_IS', 'id_ID', 'ga_IE', 'jv_ID', 'kn_IN', 'kk_KZ', 'lv_LV', 'lt_LT', 'mk_MK', 'mg_MG', 'ms_MY', 'mt_MT', 'mr_IN', 'mn_MN', 'ne_NP', 'pa_IN', 'sr_RS', 'so_SO', 'sw_KE', 'tl_PH', 'ta_IN', 'te_IN', 'ml_IN', 'uk_UA', 'uz_UZ', 'vi_VN', 'km_KH', 'tg_TJ', 'ar_AR', 'he_IL', 'ur_PK', 'fa_IR', 'ps_AF', 'my_MM', 'qz_MM', 'or_IN', 'si_LK', 'rw_RW', 'cb_IQ', 'ha_NG', 'ja_KS', 'br_FR', 'tz_MA', 'co_FR', 'as_IN', 'ff_NG', 'sc_IT', 'sz_PL'];
 	}
 
 	/**
