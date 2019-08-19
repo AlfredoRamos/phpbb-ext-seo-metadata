@@ -53,7 +53,7 @@ install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../../phpBB3
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
-  - $TRAVIS_BUILD_DIR/travis/setup-extension-dependencies.sh $EXTNAME $EXTDEPS
+  - $TRAVIS_BUILD_DIR/travis/setup-extension-dependencies.sh $EXTNAME $EXTDEPS $NOTESTS
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
   - $TRAVIS_BUILD_DIR/travis/prepare-epv.sh $EPV $NOTESTS
 
