@@ -14,6 +14,7 @@ use phpbb\config\config;
 use phpbb\user;
 use phpbb\template\template;
 use phpbb\language\language;
+use phpbb\filesystem\filesystem;
 use phpbb\cache\driver\driver_interface as cache;
 use phpbb\controller\helper as controller_helper;
 use phpbb\event\dispatcher_interface as dispatcher;
@@ -36,6 +37,9 @@ class helper
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\filesystem\filesystem */
+	protected $filesystem;
+
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
@@ -47,6 +51,9 @@ class helper
 
 	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
+
+	/** @var string */
+	protected $root_path;
 
 	/** @var string */
 	protected $php_ext;
@@ -62,25 +69,29 @@ class helper
 	 * @param \phpbb\user							$user
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\language\language				$language
+	 * @param \phpbb\filesystem\filesystem			$filesystem
 	 * @param \phpbb\cache\driver\driver_interface	$cache
 	 * @param \phpbb\controller\helper				$controller_helper
 	 * @param \phpbb\event\dispatcher_interface		$dispatcher
 	 * @param \FastImageSize\FastImageSize			$imagesize
+	 * @param string								$root_path
 	 * @param string								$php_ext
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, template $template, language $language, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $php_ext)
+	public function __construct(database $db, config $config, user $user, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->user = $user;
 		$this->template = $template;
 		$this->language = $language;
+		$this->filesystem = $filesystem;
 		$this->cache = $cache;
 		$this->controller_helper = $controller_helper;
 		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->metadata = [];
 	}
@@ -393,16 +404,21 @@ class helper
 			return '';
 		}
 
-		// Clean URI
-		$uri = preg_replace('#^\./#', '', $uri);
+		// Image must exist inside the phpBB's images path
+		$base_path = $this->filesystem->realpath($this->root_path . '/images/');
+		$image_path = $this->filesystem->realpath($base_path . '/'. $uri);
+
+		// Avoid path traversal attack
+		if (empty($image_path) || strpos($image_path, $base_path) !== 0)
+		{
+			return '';
+		}
 
 		// Absolute URL
-		$url = preg_match('#^https?#', $uri) ? $uri : vsprintf(
-			'%1$s/images/%2$s',
-			[
-				generate_board_url(),
-				$uri
-			]
+		$url = sprintf(
+			'%s%s',
+			generate_board_url(),
+			str_replace($this->filesystem->realpath($this->root_path), '', $image_path)
 		);
 
 		return $url;

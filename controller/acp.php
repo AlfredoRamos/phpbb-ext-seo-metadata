@@ -156,12 +156,16 @@ class acp
 				'type' => $this->request->variable('seo_metadata_default_image_type', '')
 			];
 
+			// Default image URL
+			// Also acts as validator
+			$default_image_url = !empty($default_image) ? $this->helper->clean_image($default_image) : '';
+
 			// Try to get image width, height and type
 			if (empty($default_image_info['width']) || empty($default_image_info['height']) || empty($default_image_info['type']))
 			{
-				if (!empty($default_image))
+				if (!empty($default_image) && !empty($default_image_url))
 				{
-					$default_image_info = $this->imagesize->getImageSize($this->helper->clean_image($default_image));
+					$default_image_info = $this->imagesize->getImageSize($default_image_url);
 				}
 
 				// Get MIME type as string
@@ -172,7 +176,8 @@ class acp
 			}
 
 			// Validate default image information
-			$valid_image_info = !empty($default_image_info) &&
+			$valid_image_info = !empty($default_image_url) &&
+				!empty($default_image_info) &&
 				$default_image_info['width'] >= 200 &&
 				$default_image_info['height'] >= 200 &&
 				!empty($default_image_info['type']);

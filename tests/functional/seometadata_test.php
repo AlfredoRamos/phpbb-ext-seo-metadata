@@ -30,14 +30,14 @@ class seometadata_test extends phpbb_functional_test_case
 		// Set default image
 		$this->update_config_value(
 			'seo_metadata_default_image',
-			'seo/default_image.png'
+			'default_image.jpg'
 		);
 
 		$this->expected_data = [
 			'title' => 'Welcome to phpBB3',
 			'description' => 'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			'url' => 'http://localhost/viewtopic.php?t=1',
-			'image' => 'http://localhost/images/seo/default_image.png'
+			'image' => 'http://localhost/images/default_image.jpg'
 		];
 	}
 
@@ -283,7 +283,7 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(0, (int) $form->get('seo_metadata_image_strategy')->getValue());
 
 		$this->assertTrue($form->has('seo_metadata_default_image'));
-		$this->assertSame('seo/default_image.png', $form->get('seo_metadata_default_image')->getValue());
+		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
@@ -326,7 +326,6 @@ class seometadata_test extends phpbb_functional_test_case
 			]
 		));
 
-		$image = 'http://localhost/images/seo/default_image.png';
 		$elements = [];
 
 		// Open Graph image
@@ -338,13 +337,13 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['opengraph']->attr('content')));
 		$this->assertSame(
-			$image,
+			$this->expected_data['image'],
 			$elements['opengraph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['jsonld']['image']));
 		$this->assertSame(
-			$image,
+			$this->expected_data['image'],
 			$elements['jsonld']['image']
 		);
 	}
@@ -374,7 +373,6 @@ class seometadata_test extends phpbb_functional_test_case
 			]
 		));
 
-		$image = 'http://localhost/images/seo/default_image.png';
 		$elements = [];
 
 		// Open Graph image
@@ -386,13 +384,13 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['opengraph']->attr('content')));
 		$this->assertSame(
-			$image,
+			$this->expected_data['image'],
 			$elements['opengraph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['jsonld']['image']));
 		$this->assertSame(
-			$image,
+			$this->expected_data['image'],
 			$elements['jsonld']['image']
 		);
 	}

@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Dimensiones de imagen',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La ruta debe ser relativa a <samp>%s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>200</samp>x<samp>200</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloque <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
