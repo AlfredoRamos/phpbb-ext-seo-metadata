@@ -33,13 +33,13 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Description length',
 	'ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN' => 'Maximum length for description that will be used in meta tags such as <samp>og:description</samp>. It has a hard limit of <samp>255</samp> characters.',
 	'ACP_SEO_METADATA_DESC_STRATEGY' => 'Description strategy',
-	'ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN' => '<samp>Cut</samp> truncates description at exact position if it exceeds maximum length.<br /><samp>Ellipsis</samp> adds an elipsis (<code>…</code>) to the end of description if it exceeds maximum length.<br /><samp>Break words</samp> fits as many words as possible without exceeding the maximum length.',
+	'ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN' => '<samp>Cut</samp> truncates description at exact position if it exceeds maximum length.<br><samp>Ellipsis</samp> adds an elipsis (<code>…</code>) to the end of description if it exceeds maximum length.<br><samp>Break words</samp> fits as many words as possible without exceeding the maximum length.',
 	'ACP_SEO_METADATA_DESC_CUT' => 'Cut',
 	'ACP_SEO_METADATA_DESC_ELLIPSIS' => 'Ellipsis',
 	'ACP_SEO_METADATA_DESC_BREAK_WORDS' => 'Break words',
 
 	'ACP_SEO_METADATA_IMAGE_STRATEGY' => 'Image strategy',
-	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>First found</samp> selects the first image found that could be used within the post body.<br /><samp>Image dimensions</samp> selects the image with greater dimensions (width, height) within the post body.',
+	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>First found</samp> selects the first image found that could be used within the post body.<br><samp>Image dimensions</samp> selects the image with greater dimensions (width, height) within the post body.',
 	'ACP_SEO_METADATA_IMAGE_FIRST' => 'First found',
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Image dimensions',
 
@@ -81,5 +81,5 @@ $lang = array_merge($lang, [
 	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_JSON_LD' => 'Enable JSON-LD',
 
-	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br />» %s'
+	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
 ]);

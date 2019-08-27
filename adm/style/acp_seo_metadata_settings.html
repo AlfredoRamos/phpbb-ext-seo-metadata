@@ -13,26 +13,26 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_meta_description">{{ lang('ACP_SEO_METADATA_META_DESCRIPTION') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_meta_description" name="seo_metadata_meta_description" value="1"{% if SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_meta_description" value="0"{% if not SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_meta_description" name="seo_metadata_meta_description" value="1"{% if SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_meta_description" value="0"{% if not SEO_METADATA_META_DESCRIPTION %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_desc_length">{{ lang('ACP_SEO_METADATA_DESC_LENGTH') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="number" id="seo_metadata_desc_length" name="seo_metadata_desc_length" min="50" max="255" value="{% if not SEO_METADATA_DESC_LENGTH %}160{% else %}{{ SEO_METADATA_DESC_LENGTH }}{% endif %}" />
+				<input type="number" id="seo_metadata_desc_length" name="seo_metadata_desc_length" min="50" max="255" value="{% if not SEO_METADATA_DESC_LENGTH %}160{% else %}{{ SEO_METADATA_DESC_LENGTH }}{% endif %}">
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_desc_strategy">{{ lang('ACP_SEO_METADATA_DESC_STRATEGY') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<select id="seo_metadata_desc_strategy" name="seo_metadata_desc_strategy">
@@ -45,7 +45,7 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_image_strategy">{{ lang('ACP_SEO_METADATA_IMAGE_STRATEGY') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<select id="seo_metadata_image_strategy" name="seo_metadata_image_strategy">
@@ -58,61 +58,61 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_default_image">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_IMAGES_URL) }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_IMAGES_URL) }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full" />
+				<input type="text" id="seo_metadata_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full">
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_default_image_width">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="number" id="seo_metadata_default_image_width" name="seo_metadata_default_image_width" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}" />
+				<input type="number" id="seo_metadata_default_image_width" name="seo_metadata_default_image_width" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}">
 				x
-				<input type="number" id="seo_metadata_default_image_height" name="seo_metadata_default_image_height" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}" />
+				<input type="number" id="seo_metadata_default_image_height" name="seo_metadata_default_image_height" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}">
 				{{ lang('PIXEL') }}
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_default_image_type">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_default_image_type" name="seo_metadata_default_image_type"{% if SEO_METADATA_DEFAULT_IMAGE_TYPE %} value="{{ SEO_METADATA_DEFAULT_IMAGE_TYPE }}"{% endif %} class="narrow" />
+				<input type="text" id="seo_metadata_default_image_type" name="seo_metadata_default_image_type"{% if SEO_METADATA_DEFAULT_IMAGE_TYPE %} value="{{ SEO_METADATA_DEFAULT_IMAGE_TYPE }}"{% endif %} class="narrow">
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_local_images">{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN', SERVER_NAME) }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN', SERVER_NAME) }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_local_images" name="seo_metadata_local_images" value="1"{% if SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_local_images" value="0"{% if not SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_local_images" name="seo_metadata_local_images" value="1"{% if SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_local_images" value="0"{% if not SEO_METADATA_LOCAL_IMAGES %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_attachments">{{ lang('ACP_SEO_METADATA_ATTACHMENTS') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_attachments" name="seo_metadata_attachments" value="1"{% if SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_attachments" value="0"{% if not SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_attachments" name="seo_metadata_attachments" value="1"{% if SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_attachments" value="0"{% if not SEO_METADATA_ATTACHMENTS %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_prefer_attachments">{{ lang('ACP_SEO_METADATA_PREFER_ATTACHMENTS') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_prefer_attachments" name="seo_metadata_prefer_attachments" value="1"{% if SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_prefer_attachments" value="0"{% if not SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_prefer_attachments" name="seo_metadata_prefer_attachments" value="1"{% if SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_prefer_attachments" value="0"{% if not SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 	</fieldset>
@@ -122,29 +122,29 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_open_graph">{{ lang('ACP_OPEN_GRAPH') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_open_graph" name="seo_metadata_open_graph" value="1"{% if SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_open_graph" value="0"{% if not SEO_METADATA_OPEN_GRAPH %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_facebook_application">{{ lang('ACP_FACEBOOK_APPLICATION') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_FACEBOOK_APPLICATION_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_FACEBOOK_APPLICATION_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_facebook_application" name="seo_metadata_facebook_application"{% if SEO_METADATA_FACEBOOK_APPLICATION %} value="{{ SEO_METADATA_FACEBOOK_APPLICATION }}"{% endif %} class="full" />
+				<input type="text" id="seo_metadata_facebook_application" name="seo_metadata_facebook_application"{% if SEO_METADATA_FACEBOOK_APPLICATION %} value="{{ SEO_METADATA_FACEBOOK_APPLICATION }}"{% endif %} class="full">
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_facebook_publisher">{{ lang('ACP_FACEBOOK_PUBLISHER') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_FACEBOOK_PUBLISHER_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_FACEBOOK_PUBLISHER_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_facebook_publisher" name="seo_metadata_facebook_publisher"{% if SEO_METADATA_FACEBOOK_PUBLISHER %} value="{{ SEO_METADATA_FACEBOOK_PUBLISHER }}"{% endif %} class="full" />
+				<input type="text" id="seo_metadata_facebook_publisher" name="seo_metadata_facebook_publisher"{% if SEO_METADATA_FACEBOOK_PUBLISHER %} value="{{ SEO_METADATA_FACEBOOK_PUBLISHER }}"{% endif %} class="full">
 			</dd>
 		</dl>
 	</fieldset>
@@ -154,20 +154,20 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_twitter_cards">{{ lang('ACP_TWITTER_CARDS') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_twitter_cards" name="seo_metadata_twitter_cards" value="1"{% if SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_twitter_cards" value="0"{% if not SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_twitter_cards" name="seo_metadata_twitter_cards" value="1"{% if SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_twitter_cards" value="0"{% if not SEO_METADATA_TWITTER_CARDS %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 		<dl>
 			<dt>
 				<label for="seo_metadata_twitter_publisher">{{ lang('ACP_TWITTER_PUBLISHER') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_TWITTER_PUBLISHER_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_TWITTER_PUBLISHER_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_twitter_publisher" name="seo_metadata_twitter_publisher"{% if SEO_METADATA_TWITTER_PUBLISHER %} value="{{ SEO_METADATA_TWITTER_PUBLISHER }}"{% endif %} class="full" />
+				<input type="text" id="seo_metadata_twitter_publisher" name="seo_metadata_twitter_publisher"{% if SEO_METADATA_TWITTER_PUBLISHER %} value="{{ SEO_METADATA_TWITTER_PUBLISHER }}"{% endif %} class="full">
 			</dd>
 		</dl>
 	</fieldset>
@@ -177,11 +177,11 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_json_ld">{{ lang('ACP_JSON_LD') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DATA_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<label><input type="radio" id="seo_metadata_json_ld" name="seo_metadata_json_ld" value="1"{% if SEO_METADATA_JSON_LD %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
-				<label><input type="radio" name="seo_metadata_json_ld" value="0"{% if not SEO_METADATA_JSON_LD %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				<label><input type="radio" id="seo_metadata_json_ld" name="seo_metadata_json_ld" value="1"{% if SEO_METADATA_JSON_LD %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_json_ld" value="0"{% if not SEO_METADATA_JSON_LD %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
 	</fieldset>
@@ -189,8 +189,8 @@
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
-			<input type="reset" class="button2" value="{{ lang('RESET') }}" />
-			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
+			<input type="reset" class="button2" value="{{ lang('RESET') }}">
+			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}">
 		</p>
 	</fieldset>
 

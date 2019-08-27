@@ -33,13 +33,13 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DESC_LENGTH' => 'Longitud de la descripción',
 	'ACP_SEO_METADATA_DESC_LENGTH_EXPLAIN' => 'Longitud máxima para la descripción que será utilizada en metaetiquetas como <samp>og:description</samp>. Tiene un límite máximo de <samp>255</samp> caracteres.',
 	'ACP_SEO_METADATA_DESC_STRATEGY' => 'Estrategia para la descripción',
-	'ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN' => '<samp>Cortar</samp> trunca la descripción en la posición exacta si ésta excede la longitud máxima.<br /><samp>Puntos suspensivos</samp> añade puntos suspensivos (<code>…</code>) al final de la descripción si ésta excede la longitud máxima.<br /><samp>Dividir palabras</samp> añade tantas palabras como sea posible sin exceder la longitud máxima.',
+	'ACP_SEO_METADATA_DESC_STRATEGY_EXPLAIN' => '<samp>Cortar</samp> trunca la descripción en la posición exacta si ésta excede la longitud máxima.<br><samp>Puntos suspensivos</samp> añade puntos suspensivos (<code>…</code>) al final de la descripción si ésta excede la longitud máxima.<br><samp>Dividir palabras</samp> añade tantas palabras como sea posible sin exceder la longitud máxima.',
 	'ACP_SEO_METADATA_DESC_CUT' => 'Cortar',
 	'ACP_SEO_METADATA_DESC_ELLIPSIS' => 'Puntos suspensivos',
 	'ACP_SEO_METADATA_DESC_BREAK_WORDS' => 'Dividir palabras',
 
 	'ACP_SEO_METADATA_IMAGE_STRATEGY' => 'Estrategia para la imagen',
-	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>Primera encontrada</samp> selecciona la primer imagen encontrada que pueda ser usada dentro del cuerpo del mensaje.<br /><samp>Dimensiones de imagen</samp> selecciona la imagen con mayor dimensiones (ancho, alto) dentro del cuerpo del mensaje.',
+	'ACP_SEO_METADATA_IMAGE_STRATEGY_EXPLAIN' => '<samp>Primera encontrada</samp> selecciona la primer imagen encontrada que pueda ser usada dentro del cuerpo del mensaje.<br><samp>Dimensiones de imagen</samp> selecciona la imagen con mayor dimensiones (ancho, alto) dentro del cuerpo del mensaje.',
 	'ACP_SEO_METADATA_IMAGE_FIRST' => 'Primera encontrada',
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Dimensiones de imagen',
 
@@ -81,5 +81,5 @@ $lang = array_merge($lang, [
 	'ACP_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
 	'ACP_JSON_LD' => 'Habilitar JSON-LD',
 
-	'LOG_SEO_METADATA_DATA' => '<strong>Datos de Metadatos SEO modificados</strong><br />» %s'
+	'LOG_SEO_METADATA_DATA' => '<strong>Datos de Metadatos SEO modificados</strong><br>» %s'
 ]);
