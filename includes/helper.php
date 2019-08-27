@@ -563,7 +563,7 @@ class helper
 		$max_images = abs((int) $max_images);
 		$max_images = empty($max_images) ? 5 : $max_images;
 		$max_images = ($max_images > 5) ? 5 : $max_images;
-		$server_name = $this->config['server_name'];
+		$server_name = trim($this->config['server_name']);
 		$images = [];
 
 		// Ensure it's XML
@@ -599,7 +599,9 @@ class helper
 			}
 
 			// Get only local images
-			if ($local_images && !preg_match('#^https?://(?:\w+\.)?' . preg_quote($server_name) . '#', $url))
+			if ($local_images &&
+				!empty($server_name) &&
+				!preg_match('#^https?://(?:\w+\.)?' . preg_quote($server_name) . '#', $url))
 			{
 				continue;
 			}
