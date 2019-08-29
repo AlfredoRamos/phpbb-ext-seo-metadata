@@ -97,6 +97,86 @@ class acp
 			'dimensions'
 		];
 
+		// Validation errors
+		$errors = [];
+
+		// Field filters
+		$filters = [
+			// Global
+			'seo_metadata_meta_description' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+			'seo_metadata_desc_length' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'min_range' => 50,
+				'max_range' => 255
+			],
+			'seo_metadata_desc_strategy' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'min_range' => 0,
+				'max_range' => 2
+			],
+			'seo_metadata_image_strategy' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'min_range' => 0,
+				'max_range' => 1
+			],
+			'seo_metadata_default_image' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'regexp' => '#^[\w\.\-\/]+\.(?:jpe?g|png|gif)$#'
+			],
+			'seo_metadata_default_image_width' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'min_range' => 200,
+				'max_range' => 1000
+			],
+			'seo_metadata_default_image_height' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'min_range' => 200,
+				'max_range' => 1000
+			],
+			'seo_metadata_default_image_type' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'regexp' => '#^image\/(?:jpe?g|png|gif)$#'
+			],
+			'seo_metadata_local_images' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+			'seo_metadata_attachments' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+			'seo_metadata_prefer_attachments' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+
+			// Open Graph
+			'seo_metadata_open_graph' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+			'seo_metadata_facebook_application' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'regexp' => '#^\d{10,25}$#'
+			],
+			'seo_metadata_facebook_publisher' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'regexp' => '#^https?://(?:www\.)?facebook\.com\/(?:pages\/)?[\w\.\-]+$#'
+			],
+
+			// Twitter Cards
+			'seo_metadata_twitter_cards' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			],
+			'seo_metadata_twitter_publisher' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'regexp' => '#^\@[\w\.\-]+$#'
+			],
+
+			// JSON-LD
+			'seo_metadata_json_ld' => [
+				'filter' => FILTER_VALIDATE_BOOLEAN
+			]
+		];
+
 		// Request form data
 		if ($this->request->is_set_post('submit'))
 		{
@@ -109,185 +189,130 @@ class acp
 				);
 			}
 
-			// Meta description
-			$meta_description = $this->request->variable('seo_metadata_meta_description', 1);
-			$meta_description = (in_array($meta_description, [0, 1], true)) ? $meta_description : 1;
-			$this->config->set(
-				'seo_metadata_meta_description',
-				$meta_description
-			);
+			// Form data
+			$fields = [
+				// Global
+				'seo_metadata_meta_description' => $this->request->variable(
+					'seo_metadata_meta_description',
+					1
+				),
+				'seo_metadata_desc_length' => $this->request->variable(
+					'seo_metadata_desc_length',
+					160
+				),
+				'seo_metadata_desc_strategy' => $this->request->variable(
+					'seo_metadata_desc_strategy',
+					0
+				),
+				'seo_metadata_image_strategy' => $this->request->variable(
+					'seo_metadata_image_strategy',
+					0
+				),
+				'seo_metadata_default_image' => $this->request->variable(
+					'seo_metadata_default_image',
+					''
+				),
+				'seo_metadata_default_image_width' => $this->request->variable(
+					'seo_metadata_default_image_width',
+					0
+				),
+				'seo_metadata_default_image_height' => $this->request->variable(
+					'seo_metadata_default_image_height',
+					0
+				),
+				'seo_metadata_default_image_type' => $this->request->variable(
+					'seo_metadata_default_image_type',
+					''
+				),
+				'seo_metadata_local_images' => $this->request->variable(
+					'seo_metadata_local_images',
+					1
+				),
+				'seo_metadata_attachments' => $this->request->variable(
+					'seo_metadata_attachments',
+					0
+				),
+				'seo_metadata_prefer_attachments' => $this->request->variable(
+					'seo_metadata_prefer_attachments',
+					0
+				),
 
-			// Description length
-			$desc_length = $this->request->variable('seo_metadata_desc_length', 160);
-			$desc_length = ($desc_length < 50) ? 50 : $desc_length;
-			$desc_length = ($desc_length > 255) ? 255 : $desc_length;
-			$this->config->set(
-				'seo_metadata_desc_length',
-				$desc_length
-			);
+				// Open Graph
+				'seo_metadata_open_graph' => $this->request->variable(
+					'seo_metadata_open_graph',
+					1
+				),
+				'seo_metadata_facebook_application' => $this->request->variable(
+					'seo_metadata_facebook_application',
+					''
+				),
+				'seo_metadata_facebook_publisher' => $this->request->variable(
+					'seo_metadata_facebook_publisher',
+					''
+				),
 
-			// Description strategy
-			$desc_strategy = $this->request->variable('seo_metadata_desc_strategy', 0);
-			$desc_strategy = (in_array($desc_strategy, array_keys($desc_strategies), true)) ? $desc_strategy : 0;
-			$this->config->set(
-				'seo_metadata_desc_strategy',
-				$desc_strategy
-			);
+				// Twitter Cards
+				'seo_metadata_twitter_cards' => $this->request->variable(
+					'seo_metadata_twitter_cards',
+					1
+				),
+				'seo_metadata_twitter_publisher' => $this->request->variable(
+					'seo_metadata_twitter_publisher',
+					''
+				),
 
-			// Image strategy
-			$image_strategy = $this->request->variable('seo_metadata_image_strategy', 0);
-			$image_strategy = (in_array($image_strategy, array_keys($image_strategies), true)) ? $image_strategy : 0;
-			$this->config->set(
-				'seo_metadata_image_strategy',
-				$image_strategy
-			);
-
-			// Default image
-			$default_image = $this->request->variable('seo_metadata_default_image', '');
-			$this->config->set(
-				'seo_metadata_default_image',
-				$default_image
-			);
-
-			// Default image information
-			$default_image_info = [
-				'width' => $this->request->variable('seo_metadata_default_image_width', 0),
-				'height' => $this->request->variable('seo_metadata_default_image_height', 0),
-				'type' => $this->request->variable('seo_metadata_default_image_type', '')
+				// JSON-LD
+				'seo_metadata_json_ld' => $this->request->variable(
+					'seo_metadata_json_ld',
+					1
+				)
 			];
 
-			// Default image URL
-			// Also acts as validator
-			$default_image_url = !empty($default_image) ? $this->helper->clean_image($default_image) : '';
-
-			// Try to get image width, height and type
-			if (empty($default_image_info['width']) || empty($default_image_info['height']) || empty($default_image_info['type']))
+			// Convert default image filename to URL
+			if (!empty($fields['seo_metadata_default_image']))
 			{
-				if (!empty($default_image) && !empty($default_image_url))
-				{
-					$default_image_info = $this->imagesize->getImageSize($default_image_url);
-				}
-
-				// Get MIME type as string
-				if (!empty($default_image_info['type']) && is_int($default_image_info['type']))
-				{
-					$default_image_info['type'] = image_type_to_mime_type($default_image_info['type']);
-				}
+				$fields['seo_metadata_default_image'] = $this->helper->clean_image(
+					$fields['seo_metadata_default_image']
+				);
 			}
 
-			// Validate default image information
-			$valid_image_info = !empty($default_image_url) &&
-				!empty($default_image_info) &&
-				$default_image_info['width'] >= 200 &&
-				$default_image_info['height'] >= 200 &&
-				!empty($default_image_info['type']);
-
-			// Default image information
-			if ($valid_image_info)
+			// Add "@" before the Twitter username
+			if (!empty($fields['seo_metadata_twitter_publisher']))
 			{
-				foreach ($default_image_info as $key => $value)
+				if (strpos($fields['seo_metadata_twitter_publisher']) === false)
 				{
-					if (!in_array($key, ['width', 'height', 'type'], true))
-					{
-						continue;
-					}
-
-					$this->config->set(
-						sprintf('seo_metadata_default_image_%s', $key),
-						$value
+					$fields['seo_metadata_twitter_publisher'] = sprintf(
+						'@%s',
+						$fields['seo_metadata_twitter_publisher']
 					);
 				}
 			}
 
-			// Local images
-			$local_images = $this->request->variable('seo_metadata_local_images', 1);
-			$local_images = (in_array($local_images, [0, 1], true)) ? $local_images : 1;
-			$this->config->set(
-				'seo_metadata_local_images',
-				$local_images
-			);
-
-			// Include attachments
-			$use_attachments = $this->request->variable('seo_metadata_attachments', 0);
-			$use_attachments = (in_array($use_attachments, [0, 1], true)) ? $use_attachments : 0;
-			$this->config->set(
-				'seo_metadata_attachments',
-				$use_attachments
-			);
-
-			// Prefer attachments
-			$prefer_attachments = $this->request->variable('seo_metadata_prefer_attachments', 0);
-			$prefer_attachments = (in_array($prefer_attachments, [0, 1], true)) ? $prefer_attachments : 0;
-			$this->config->set(
-				'seo_metadata_prefer_attachments',
-				$prefer_attachments
-			);
-
-			// Open Graph
-			$open_graph = $this->request->variable('seo_metadata_open_graph', 1);
-			$open_graph = (in_array($open_graph, [0, 1], true)) ? $open_graph : 1;
-			$this->config->set(
-				'seo_metadata_open_graph',
-				$open_graph
-			);
-
-			// Facebook application ID
-			$this->config->set(
-				'seo_metadata_facebook_application',
-				$this->request->variable('seo_metadata_facebook_application', 0)
-			);
-
-			// Facebook publisher
-			$this->config->set(
-				'seo_metadata_facebook_publisher',
-				$this->request->variable('seo_metadata_facebook_publisher', '')
-			);
-
-			// Twitter Cards
-			$twitter_cards = $this->request->variable('seo_metadata_twitter_cards', 1);
-			$twitter_cards = (in_array($twitter_cards, [0, 1], true)) ? $twitter_cards : 1;
-			$this->config->set(
-				'seo_metadata_twitter_cards',
-				$twitter_cards
-			);
-
-			// Twitter publisher
-			$twitter_publisher = $this->request->variable('seo_metadata_twitter_publisher', '');
-
-			// Add "@" before the Twitter username
-			if (!empty($twitter_publisher) && strpos($twitter_publisher, '@') === false)
+			// Validation check
+			if ($this->helper->validate($fields, $filters, $errors))
 			{
-				$twitter_publisher = sprintf('@%s', $twitter_publisher);
+				// Save configuration
+				foreach ($fields as $key => $value)
+				{
+					$this->config->set($key, $value);
+				}
+
+				// Admin log
+				$this->log->add(
+					'admin',
+					$this->user->data['user_id'],
+					$this->user->ip,
+					'LOG_SEO_METADATA_DATA',
+					false,
+					[$this->language->lang('SETTINGS')]
+				);
+
+				// Confirm dialog
+				trigger_error(
+					$this->language->lang('CONFIG_UPDATED') .
+					adm_back_link($u_action)
+				);
 			}
-
-			$this->config->set(
-				'seo_metadata_twitter_publisher',
-				$twitter_publisher
-			);
-
-			// JSON-LD
-			$json_ld = $this->request->variable('seo_metadata_json_ld', 1);
-			$json_ld = (in_array($json_ld, [0, 1], true)) ? $json_ld : 1;
-			$this->config->set(
-				'seo_metadata_json_ld',
-				$json_ld
-			);
-
-			// Admin log
-			$this->log->add(
-				'admin',
-				$this->user->data['user_id'],
-				$this->user->ip,
-				'LOG_SEO_METADATA_DATA',
-				false,
-				[$this->language->lang('SETTINGS')]
-			);
-
-			// Confirm dialog
-			trigger_error(
-				$this->language->lang('CONFIG_UPDATED') .
-				adm_back_link($u_action)
-			);
 		}
 
 		// Assign template variables
@@ -328,6 +353,14 @@ class acp
 				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_IMAGE_%s', strtoupper($value))),
 				'VALUE' => $key,
 				'SELECTED' => ($key === (int) $this->config['seo_metadata_image_strategy'])
+			]);
+		}
+
+		// Validation errors
+		foreach ($errors as $key => $value)
+		{
+			$this->template->assign_block_vars('VALIDATION_ERRORS', [
+				'MESSAGE' => $value['message']
 			]);
 		}
 	}

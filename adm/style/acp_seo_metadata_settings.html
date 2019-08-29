@@ -6,6 +6,14 @@
 	<p>{{ lang('ACP_SEO_METADATA_EXPLAIN') }}</p>
 </div>
 
+{% if VALIDATION_ERRORS %}
+<div class="errorbox">
+	{% for ERROR in VALIDATION_ERRORS %}
+	<p>{{ ERROR.MESSAGE }}</p>
+	{% endfor %}
+</div>
+{% endif %}
+
 <form id="seo_metadata_settings" method="POST" action="{{ U_ACTION }}">
 
 	<fieldset>
@@ -144,7 +152,7 @@
 				<br><span>{{ lang('ACP_FACEBOOK_PUBLISHER_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_facebook_publisher" name="seo_metadata_facebook_publisher"{% if SEO_METADATA_FACEBOOK_PUBLISHER %} value="{{ SEO_METADATA_FACEBOOK_PUBLISHER }}"{% endif %} class="full">
+				<input type="url" id="seo_metadata_facebook_publisher" name="seo_metadata_facebook_publisher"{% if SEO_METADATA_FACEBOOK_PUBLISHER %} value="{{ SEO_METADATA_FACEBOOK_PUBLISHER }}"{% endif %} class="full">
 			</dd>
 		</dl>
 	</fieldset>

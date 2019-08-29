@@ -81,5 +81,7 @@ $lang = array_merge($lang, [
 	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_JSON_LD' => 'Enable JSON-LD',
 
+	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
+
 	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
 ]);
