@@ -108,36 +108,50 @@ class acp
 			],
 			'seo_metadata_desc_length' => [
 				'filter' => FILTER_VALIDATE_INT,
-				'min_range' => 50,
-				'max_range' => 255
+				'options' => [
+					'min_range' => 50,
+					'max_range' => 255
+				]
 			],
 			'seo_metadata_desc_strategy' => [
 				'filter' => FILTER_VALIDATE_INT,
-				'min_range' => 0,
-				'max_range' => 2
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 2
+				]
 			],
 			'seo_metadata_image_strategy' => [
 				'filter' => FILTER_VALIDATE_INT,
-				'min_range' => 0,
-				'max_range' => 1
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_default_image' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
-				'regexp' => '#^[\w\.\-\/]+\.(?:jpe?g|png|gif)$#'
+				'options' => [
+					'regexp' => '#^[\w\.\-\/]+\.(?:jpe?g|png|gif)$#'
+				]
 			],
 			'seo_metadata_default_image_width' => [
 				'filter' => FILTER_VALIDATE_INT,
-				'min_range' => 200,
-				'max_range' => 1000
+				'options' => [
+					'min_range' => 200,
+					'max_range' => 1000
+				]
 			],
 			'seo_metadata_default_image_height' => [
 				'filter' => FILTER_VALIDATE_INT,
-				'min_range' => 200,
-				'max_range' => 1000
+				'options' => [
+					'min_range' => 200,
+					'max_range' => 1000
+				]
 			],
 			'seo_metadata_default_image_type' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
-				'regexp' => '#^image\/(?:jpe?g|png|gif)$#'
+				'options' => [
+					'regexp' => '#^image\/(?:jpe?g|png|gif)$#'
+				]
 			],
 			'seo_metadata_local_images' => [
 				'filter' => FILTER_VALIDATE_BOOLEAN
@@ -155,11 +169,12 @@ class acp
 			],
 			'seo_metadata_facebook_application' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
-				'regexp' => '#^\d{10,25}$#'
+				'options' => [
+					'regexp' => '#^\d{10,25}$#'
+				]
 			],
 			'seo_metadata_facebook_publisher' => [
-				'filter' => FILTER_VALIDATE_REGEXP,
-				'regexp' => '#^https?://(?:www\.)?facebook\.com\/(?:pages\/)?[\w\.\-]+$#'
+				'filter' => FILTER_VALIDATE_URL
 			],
 
 			// Twitter Cards
@@ -168,7 +183,9 @@ class acp
 			],
 			'seo_metadata_twitter_publisher' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
-				'regexp' => '#^\@[\w\.\-]+$#'
+				'options' => [
+					'regexp' => '#^\@[\w\.\-]+$#'
+				]
 			],
 
 			// JSON-LD
