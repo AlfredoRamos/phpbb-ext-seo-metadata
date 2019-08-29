@@ -63,23 +63,23 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata are dynamically generated from your board data.',
 
-	'ACP_GLOBAL_SETTINGS' => 'Global settings',
+	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Global settings',
 
-	'ACP_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
-	'ACP_OPEN_GRAPH' => 'Enable Open Graph',
+	'ACP_SEO_METADATA_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
+	'ACP_SEO_METADATA_OPEN_GRAPH' => 'Enable Open Graph',
 
-	'ACP_FACEBOOK_APPLICATION' => 'Facebook application ID',
-	'ACP_FACEBOOK_APPLICATION_EXPLAIN' => 'Identifier of your Facebook application.',
-	'ACP_FACEBOOK_PUBLISHER' => 'Facebook publisher',
-	'ACP_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'Facebook application ID',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identifier of your Facebook application.',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER' => 'Facebook publisher',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
 
-	'ACP_TWITTER_CARD_SETTINGS' => 'Twitter Cards settings',
-	'ACP_TWITTER_CARDS' => 'Enable Twitter Cards',
-	'ACP_TWITTER_PUBLISHER' => 'Twitter publisher',
-	'ACP_TWITTER_PUBLISHER_EXPLAIN' => 'The username of your website Twitter account.',
+	'ACP_SEO_METADATA_TWITTER_CARD_SETTINGS' => 'Twitter Cards settings',
+	'ACP_SEO_METADATA_TWITTER_CARDS' => 'Enable Twitter Cards',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER' => 'Twitter publisher',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN' => 'The username of your website Twitter account.',
 
-	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
-	'ACP_JSON_LD' => 'Enable JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'JSON-LD settings',
+	'ACP_SEO_METADATA_JSON_LD' => 'Enable JSON-LD',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
 
