@@ -104,7 +104,11 @@ class acp
 		$filters = [
 			// Global
 			'seo_metadata_meta_description' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_desc_length' => [
 				'filter' => FILTER_VALIDATE_INT,
@@ -130,56 +134,78 @@ class acp
 			'seo_metadata_default_image' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^[\w\.\-\/]+\.(?:jpe?g|png|gif)$#'
+					'regexp' => '#^(?:[\w\.\-\/]+\.(?:jpe?g|png|gif))?$#'
 				]
 			],
 			'seo_metadata_default_image_width' => [
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
-					'min_range' => 200,
+					'min_range' => 0,
 					'max_range' => 1000
 				]
 			],
 			'seo_metadata_default_image_height' => [
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
-					'min_range' => 200,
+					'min_range' => 0,
 					'max_range' => 1000
 				]
 			],
 			'seo_metadata_default_image_type' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^image\/(?:jpe?g|png|gif)$#'
+					'regexp' => '#^(?:image\/(?:jpe?g|png|gif))?$#'
 				]
 			],
 			'seo_metadata_local_images' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_attachments' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_prefer_attachments' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 
 			// Open Graph
 			'seo_metadata_open_graph' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_facebook_application' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^\d{10,25}$#'
+					'regexp' => '#^(?:\d{10,25})?$#'
 				]
 			],
 			'seo_metadata_facebook_publisher' => [
-				'filter' => FILTER_VALIDATE_URL
+				'filter' => FILTER_VALIDATE_URL,
+				'flags' => FILTER_FLAG_PATH_REQUIRED,
+				'default' => ''
 			],
 
 			// Twitter Cards
 			'seo_metadata_twitter_cards' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			],
 			'seo_metadata_twitter_publisher' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
@@ -190,7 +216,11 @@ class acp
 
 			// JSON-LD
 			'seo_metadata_json_ld' => [
-				'filter' => FILTER_VALIDATE_BOOLEAN
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
 			]
 		];
 
@@ -285,18 +315,69 @@ class acp
 				)
 			];
 
-			// Convert default image filename to URL
+			// Default image validation
 			if (!empty($fields['seo_metadata_default_image']))
 			{
-				$fields['seo_metadata_default_image'] = $this->helper->clean_image(
-					$fields['seo_metadata_default_image']
-				);
+				// Convert default image filename to URL and validate
+				$image_url = $this->helper->clean_image($fields['seo_metadata_default_image']);
+
+				if (empty($image_url))
+				{
+					$errors[]['message'] = $this->language->lang(
+						'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID',
+						$fields['seo_metadata_default_image']
+					);
+				}
+
+				// Try to get image width, height and type
+				if ((empty($fields['seo_metadata_default_image_width']) ||
+					empty($fields['seo_metadata_default_image_height']) ||
+					empty($fields['seo_metadata_default_image_type'])) &&
+					!empty($image_url))
+				{
+					$image_info = $this->imagesize->getImageSize($image_url);
+
+					// Update information
+					foreach (['width', 'height', 'type'] as $key)
+					{
+						$k = sprintf('seo_metadata_default_image_%s', $key);
+
+						switch ($key)
+						{
+							case 'width':
+							case 'height':
+								$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] > 200) ? $image_info[$key] : 0;
+							break;
+
+							case 'type':
+								$fields[$k] = (!empty($image_info[$key])) ? $image_info[$key] : '';
+								$fields[$k] = (is_int($fields[$k])) ? image_type_to_mime_type($fields[$k]) : $fields[$k];
+							break;
+						}
+					}
+				}
 			}
 
-			// Add "@" before the Twitter username
-			if (!empty($fields['seo_metadata_twitter_publisher']))
+			// Optional Facebook values
+			foreach (['facebook_application', 'facebook_publisher'] as $key)
 			{
-				if (strpos($fields['seo_metadata_twitter_publisher']) === false)
+				$key = sprintf('seo_metadata_%s', $key);
+
+				if (empty($fields[$key]))
+				{
+					unset($filters[$key]);
+				}
+			}
+
+			// Optional Twitter Cards value
+			// Add "@" before the Twitter username
+			if (empty($fields['seo_metadata_twitter_publisher']))
+			{
+				unset($filters['seo_metadata_twitter_publisher']);
+			}
+			else
+			{
+				if (strpos($fields['seo_metadata_twitter_publisher'], '@') === false)
 				{
 					$fields['seo_metadata_twitter_publisher'] = sprintf(
 						'@%s',
