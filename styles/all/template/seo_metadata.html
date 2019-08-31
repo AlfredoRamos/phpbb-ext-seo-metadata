@@ -1,7 +1,7 @@
 {%- import '@alfredoramos_seometadata/metatag.html' as seo_metadata -%}
-{%- for CATEGORIES in SEO_METADATA -%}
-	{%- if CATEGORIES.NAME is same as('JSON_LD') -%}
-{%- if S_TOPIC_ID > 0 -%}
+{% for CATEGORIES in SEO_METADATA %}
+{% if CATEGORIES.NAME is same as('JSON_LD') %}
+{% if S_TOPIC_ID > 0 %}
 <script type="application/ld+json">
 {
 	{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
@@ -9,10 +9,10 @@
 	{%- endfor -%}
 }
 </script>
-{%- endif -%}
-	{%- else -%}
-		{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
-			{{- seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}
-		{%- endfor -%}
-	{%- endif -%}
-{%- endfor -%}
+{% endif %}
+{% else %}
+{% for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) %}
+{{ seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}
+{% endfor %}
+{% endif %}
+{% endfor %}

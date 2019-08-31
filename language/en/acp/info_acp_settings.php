@@ -45,9 +45,12 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be larger than <samp>200</samp>x<samp>200</samp>px and relative to <samp>%s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID' => 'The value specified as default image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Default image dimensions',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Width x height of default image. Set both to <samp>0</samp> to try to guess the image dimensions.',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_WIDTH' => 'Default image width',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => 'Default image height',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE' => 'Default image type',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'The MIME type of default image. Leave it blank to try to guess the type, if you do not know this information or are unsure.',
@@ -63,23 +66,25 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata are dynamically generated from your board data.',
 
-	'ACP_GLOBAL_SETTINGS' => 'Global settings',
+	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Global settings',
 
-	'ACP_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
-	'ACP_OPEN_GRAPH' => 'Enable Open Graph',
+	'ACP_SEO_METADATA_OPEN_GRAPH_SETTINGS' => 'Open Graph settings',
+	'ACP_SEO_METADATA_OPEN_GRAPH' => 'Enable Open Graph',
 
-	'ACP_FACEBOOK_APPLICATION' => 'Facebook application ID',
-	'ACP_FACEBOOK_APPLICATION_EXPLAIN' => 'Identifier of your Facebook application.',
-	'ACP_FACEBOOK_PUBLISHER' => 'Facebook publisher',
-	'ACP_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'Facebook application ID',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identifier of your Facebook application.',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER' => 'Facebook publisher',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'The URL of your Facebook page.',
 
-	'ACP_TWITTER_CARD_SETTINGS' => 'Twitter Cards settings',
-	'ACP_TWITTER_CARDS' => 'Enable Twitter Cards',
-	'ACP_TWITTER_PUBLISHER' => 'Twitter publisher',
-	'ACP_TWITTER_PUBLISHER_EXPLAIN' => 'The username of your website Twitter account.',
+	'ACP_SEO_METADATA_TWITTER_CARD_SETTINGS' => 'Twitter Cards settings',
+	'ACP_SEO_METADATA_TWITTER_CARDS' => 'Enable Twitter Cards',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER' => 'Twitter publisher',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN' => 'The username of your website Twitter account.',
 
-	'ACP_JSON_LD_SETTINGS' => 'JSON-LD settings',
-	'ACP_JSON_LD' => 'Enable JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'JSON-LD settings',
+	'ACP_SEO_METADATA_JSON_LD' => 'Enable JSON-LD',
+
+	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
 
 	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
 ]);
