@@ -389,6 +389,14 @@ class acp
 			// Validation check
 			if ($this->helper->validate($fields, $filters, $errors))
 			{
+				// Default image cleanup
+				if (empty($fields['seo_metadata_default_image']))
+				{
+					$fields['seo_metadata_default_image_type'] = '';
+					$fields['seo_metadata_default_image_width'] = 0;
+					$fields['seo_metadata_default_image_height'] = 0;
+				}
+
 				// Save configuration
 				foreach ($fields as $key => $value)
 				{
@@ -430,7 +438,7 @@ class acp
 			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config['seo_metadata_twitter_cards'] === 1),
 			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
-			'SERVER_NAME' => $this->config['server_name'],
+			'SERVER_NAME' => trim($this->config['server_name']),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);
 
