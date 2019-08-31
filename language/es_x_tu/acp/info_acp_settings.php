@@ -45,9 +45,12 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>200</samp>x<samp>200</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID' => 'El valor especificado como imagen por defecto <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imágen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloca <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_WIDTH' => 'Ancho de imagen por defecto',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => 'Alto de imagen por defecto',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE' => 'Tipo de la imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'El tipo de MIME de la imagen por defecto. Déjalo en blanco para intentar estimar el tipo, si no conoces esta información o no estas seguro.',
@@ -59,27 +62,29 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN' => 'Las imágenes adjuntas tendrán mayor prioridad sobre las que han sido extraídas del mensaje.',
 
 	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Imágenes locales',
-	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Extrae imágenes del cuerpo del mensaje únicamente de tu dominio (<samp>%s</samp>).',
+	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Extrae imágenes del cuerpo del mensaje únicamente de su dominio (<samp>%s</samp>).',
 
-	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de tu foro.',
+	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de su foro.',
 
-	'ACP_GLOBAL_SETTINGS' => 'Ajustes globales',
+	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Ajustes globales',
 
-	'ACP_OPEN_GRAPH_SETTINGS' => 'Ajustes de Open Graph',
-	'ACP_OPEN_GRAPH' => 'Habilitar Open Graph',
+	'ACP_SEO_METADATA_OPEN_GRAPH_SETTINGS' => 'Ajustes de Open Graph',
+	'ACP_SEO_METADATA_OPEN_GRAPH' => 'Habilitar Open Graph',
 
-	'ACP_FACEBOOK_APPLICATION' => 'ID de la applicación de Facebook',
-	'ACP_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de tu applicación de Facebook.',
-	'ACP_FACEBOOK_PUBLISHER' => 'Editor de Facebook',
-	'ACP_FACEBOOK_PUBLISHER_EXPLAIN' => 'La URL de tu página de Facebook.',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'ID de la applicación de Facebook',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de tu applicación de Facebook.',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER' => 'Editor de Facebook',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'La URL de tu página de Facebook.',
 
-	'ACP_TWITTER_CARD_SETTINGS' => 'Ajustes de Twitter Cards',
-	'ACP_TWITTER_CARDS' => 'Habilitar Twitter Cards',
-	'ACP_TWITTER_PUBLISHER' => 'Editor de Twitter',
-	'ACP_TWITTER_PUBLISHER_EXPLAIN' => 'El nombre de usuario de la cuenta de Twitter de tu sitio web.',
+	'ACP_SEO_METADATA_TWITTER_CARD_SETTINGS' => 'Ajustes de Twitter Cards',
+	'ACP_SEO_METADATA_TWITTER_CARDS' => 'Habilitar Twitter Cards',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER' => 'Editor de Twitter',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN' => 'El nombre de usuario de la cuenta de Twitter de tu sitio web.',
 
-	'ACP_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
-	'ACP_JSON_LD' => 'Habilitar JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD' => 'Habilitar JSON-LD',
+
+	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 
 	'LOG_SEO_METADATA_DATA' => '<strong>Datos de Metadatos SEO modificados</strong><br>» %s'
 ]);
