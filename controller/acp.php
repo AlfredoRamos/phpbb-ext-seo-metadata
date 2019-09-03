@@ -315,12 +315,12 @@ class acp
 				)
 			];
 
+			// Convert default image filename to URL and validate
+			$image_url = $this->helper->clean_image($fields['seo_metadata_default_image']);
+
 			// Default image validation
 			if (!empty($fields['seo_metadata_default_image']))
 			{
-				// Convert default image filename to URL and validate
-				$image_url = $this->helper->clean_image($fields['seo_metadata_default_image']);
-
 				if (empty($image_url))
 				{
 					$errors[]['message'] = $this->language->lang(
@@ -390,8 +390,9 @@ class acp
 			if ($this->helper->validate($fields, $filters, $errors))
 			{
 				// Default image cleanup
-				if (empty($fields['seo_metadata_default_image']))
+				if (empty($fields['seo_metadata_default_image']) || empty($image_url))
 				{
+					$fields['seo_metadata_default_image'] = '';
 					$fields['seo_metadata_default_image_type'] = '';
 					$fields['seo_metadata_default_image_width'] = 0;
 					$fields['seo_metadata_default_image_height'] = 0;

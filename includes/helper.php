@@ -191,6 +191,16 @@ class helper
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
 
+		// Open Graph extra check for default image
+		if (empty($data['open_graph']['og:image']))
+		{
+			unset(
+				$data['open_graph']['og:image:type'],
+				$data['open_graph']['og:image:width'],
+				$data['open_graph']['og:image:height']
+			);
+		}
+
 		// Twitter cards can use Open Graph data
 		if ((int) $this->config['seo_metadata_open_graph'] === 1 &&
 			(int) $this->config['seo_metadata_twitter_cards'] === 1)
@@ -405,20 +415,35 @@ class helper
 		}
 
 		// Image must exist inside the phpBB's images path
-		$base_path = $this->filesystem->realpath($this->root_path . '/images/');
-		$image_path = $this->filesystem->realpath($base_path . '/'. $uri);
+		$base_path = $this->filesystem->realpath($this->root_path . 'images/');
+
+		// \phpbb\filesystem\filesystem::realpath() throws warnings when open_basedir is set
+		// as it is calling is_link(), is_dir() and is_file() from \phpbb\filesystem\filesystem::resolve_path()
+		// on the server root, which is usually excluded from the open_basedir directive
+		//
+		//$image_path = $this->filesystem->realpath($base_path . '/' . $uri);
+		$image_path = $this->get_absolute_path($base_path . '/' . $uri);
 
 		// Avoid path traversal attack
-		if (empty($image_path) || strpos($image_path, $base_path) !== 0)
+		// Image must exist and be readable
+		if (empty($image_path) || strpos($image_path, $base_path) !== 0 || !$this->filesystem->is_readable($image_path))
 		{
 			return '';
 		}
 
+		// Relative path
+		$image_path = str_replace($this->filesystem->realpath($this->root_path), '', $image_path);
+
+		if (substr($image_path, 0, 1) === DIRECTORY_SEPARATOR)
+		{
+			$image_path = substr($image_path, 1);
+		}
+
 		// Absolute URL
 		$url = sprintf(
-			'%s%s',
+			'%s/%s',
 			generate_board_url(),
-			str_replace($this->filesystem->realpath($this->root_path), '', $image_path)
+			$image_path
 		);
 
 		return $url;
@@ -765,6 +790,54 @@ class helper
 
 		// Validation check
 		return empty($errors);
+	}
+
+	/**
+	 * Convert given path to absolute.
+	 *
+	 * Based on Sven Arduwie's work
+	 * https://www.php.net/manual/en/function.realpath.php#84012
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function get_absolute_path($path = '')
+	{
+		if (empty($path))
+		{
+			return '';
+		}
+
+		$parts = array_filter(explode('/', $path), 'strlen');
+		$resolved = [];
+
+		foreach ($parts as $part)
+		{
+			if ($part === '.')
+			{
+				continue;
+			}
+			else if ($part === '..')
+			{
+				array_pop($resolved);
+			}
+			else
+			{
+				$resolved[] = $part;
+			}
+		}
+
+		// Generate absolute path
+		$absolute_path = implode('/', $resolved);
+
+		// Add leading slash
+		if (substr($absolute_path, 0, 1) !== '/')
+		{
+			$absolute_path = trim('/' . $absolute_path);
+		}
+
+		return $absolute_path;
 	}
 
 	/**
