@@ -21,8 +21,6 @@ class seometadata_test extends phpbb_functional_test_case
 		return ['alfredoramos/seometadata'];
 	}
 
-	protected $expected_data;
-
 	public function setUp()
 	{
 		parent::setUp();
@@ -32,25 +30,21 @@ class seometadata_test extends phpbb_functional_test_case
 			'seo_metadata_default_image',
 			'default_image.jpg'
 		);
-
-		$this->expected_data = [
-			'title' => 'Welcome to phpBB3',
-			'description' => 'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
-			'url' => 'http://localhost/viewtopic.php?t=1',
-			'image' => 'http://localhost/images/default_image.jpg'
-		];
 	}
 
-	protected function update_config_value($name = '', $value = '')
+	private function update_config_value($name = '', $value = '')
 	{
-		if (empty($name) || empty($value))
+		$name = trim($name);
+		$value = trim($value);
+
+		if (empty($name))
 		{
 			return;
 		}
 
 		$db = $this->get_db();
 		$sql = 'UPDATE ' . CONFIG_TABLE . '
-			SET  ' . $db->sql_build_array('UPDATE',
+			SET ' . $db->sql_build_array('UPDATE',
 				[
 					'config_value' => $value,
 					'is_dynamic' => 1 // Fix cache
@@ -60,8 +54,6 @@ class seometadata_test extends phpbb_functional_test_case
 				['config_name' => $name]
 			);
 		$db->sql_query($sql);
-		$db->sql_close();
-		unset($db);
 	}
 
 	public function test_meta_description()
@@ -75,7 +67,7 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertSame(1, $element->count());
 		$this->assertSame(
-			$this->expected_data['description'],
+			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$element->attr('content')
 		);
 	}
@@ -125,7 +117,7 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['site_name']->attr('content')
 		);
 		$this->assertSame(
-			$this->expected_data['url'],
+			'http://localhost/viewtopic.php?t=1',
 			$elements['url']->attr('content')
 		);
 		$this->assertTrue(
@@ -139,15 +131,15 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['type']->attr('content')
 		);
 		$this->assertSame(
-			$this->expected_data['title'],
+			'Welcome to phpBB3',
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			$this->expected_data['description'],
+			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['image']->attr('content')
 		);
 		$this->assertSame(
@@ -233,7 +225,7 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['@type']
 		);
 		$this->assertSame(
-			$this->expected_data['url'],
+			'http://localhost/viewtopic.php?t=1',
 			$elements['@id']
 		);
 		$this->assertTrue(
@@ -243,15 +235,15 @@ class seometadata_test extends phpbb_functional_test_case
 			))
 		);
 		$this->assertSame(
-			$this->expected_data['title'],
+			'Welcome to phpBB3',
 			$elements['headline']
 		);
 		$this->assertSame(
-			$this->expected_data['description'],
+			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['description']
 		);
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['image']
 		);
 	}
@@ -337,13 +329,13 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['opengraph']->attr('content')));
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['opengraph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['jsonld']['image']));
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['jsonld']['image']
 		);
 	}
@@ -384,14 +376,70 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['opengraph']->attr('content')));
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['opengraph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['jsonld']['image']));
 		$this->assertSame(
-			$this->expected_data['image'],
+			'http://localhost/images/default_image.jpg',
 			$elements['jsonld']['image']
+		);
+	}
+
+	public function test_extracted_image_remote()
+	{
+		$this->login();
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'0'
+		);
+
+		$data = [
+			'title' => 'SEO Metadata Functional Test 3',
+			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$elements = [];
+
+		// Open Graph image
+		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+
+		// JSON-LD image
+		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+
+		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['opengraph']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['jsonld']['image']
+		);
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'1'
 		);
 	}
 }
