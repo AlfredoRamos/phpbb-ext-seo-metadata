@@ -414,6 +414,12 @@ class helper
 			return '';
 		}
 
+		// It's already an URL
+		if (preg_match('#^https?://#', $uri))
+		{
+			return $this->clean_url($uri);
+		}
+
 		// Image must exist inside the phpBB's images path
 		$base_path = $this->filesystem->realpath($this->root_path . 'images/');
 
@@ -581,14 +587,14 @@ class helper
 			return $cached_image;
 		}
 
+		$server_name = trim($this->config['server_name']);
 		$image_strategy = abs((int) $this->config['seo_metadata_image_strategy']);
-		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1);
+		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1) && !empty($server_name);
 		$use_attachments = ((int) $this->config['seo_metadata_attachments'] === 1);
 		$prefer_attachments = ((int) $this->config['seo_metadata_prefer_attachments'] === 1);
 		$max_images = abs((int) $max_images);
 		$max_images = empty($max_images) ? 5 : $max_images;
 		$max_images = ($max_images > 5) ? 5 : $max_images;
-		$server_name = trim($this->config['server_name']);
 		$images = [];
 
 		// Ensure it's XML
@@ -625,7 +631,6 @@ class helper
 
 			// Get only local images
 			if ($local_images &&
-				!empty($server_name) &&
 				!preg_match('#^https?://(?:\w+\.)?' . preg_quote($server_name) . '#', $url))
 			{
 				continue;
