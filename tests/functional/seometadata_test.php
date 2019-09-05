@@ -314,6 +314,39 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(1, (int) $form->get('seo_metadata_json_ld')->getValue());
 	}
 
+	public function test_update_acp_form_settings()
+	{
+		$this->login();
+		$this->admin_login();
+
+		$crawler = self::request('GET', sprintf(
+			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
+			$this->sid
+		));
+
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
+			'seo_metadata_default_image' => 'default_image.jpg',
+			'seo_metadata_default_image_width' => '0',
+			'seo_metadata_default_image_height' => '0',
+			'seo_metadata_default_image_type' => ''
+		]);
+
+		self::submit($form);
+
+		// Check the new values
+		$crawler = self::request('GET', sprintf(
+			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
+			$this->sid
+		));
+
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+
+		// Try to guess default image width, height and MIME type
+		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_width')->getValue());
+		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_height')->getValue());
+		$this->assertSame('image/jpeg', $form->get('seo_metadata_default_image_type')->getValue());
+	}
+
 	public function test_extracted_image_first_found_local()
 	{
 		$this->login();
