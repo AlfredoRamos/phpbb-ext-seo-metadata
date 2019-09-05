@@ -141,7 +141,7 @@ class helper
 					'og:image' => $default['image']['url'],
 					'og:image:type' => $default['image']['type'],
 					'og:image:width' => $default['image']['width'],
-					'og:image:height' => $default['image']['type']
+					'og:image:height' => $default['image']['height']
 				],
 				'json_ld' => [
 					'@context' => 'http://schema.org',
