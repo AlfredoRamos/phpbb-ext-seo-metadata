@@ -333,7 +333,7 @@ class seometadata_test extends phpbb_functional_test_case
 
 		self::submit($form);
 
-		// Check the new values
+		// Check the new values in the ACP form
 		$crawler = self::request('GET', sprintf(
 			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
 			$this->sid
@@ -345,6 +345,84 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_width')->getValue());
 		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_height')->getValue());
 		$this->assertSame('image/jpeg', $form->get('seo_metadata_default_image_type')->getValue());
+
+		// Check the new values in topics (fallback image)
+		$crawler = self::request('GET', sprintf(
+			'viewtopic.php?t=1&sid=%s',
+			$this->sid
+		));
+
+		$elements = [
+			'image' => $crawler->filter('meta[property="og:image"]'),
+			'width' => $crawler->filter('meta[property="og:image:width"]'),
+			'height' => $crawler->filter('meta[property="og:image:height"]'),
+			'type' => $crawler->filter('meta[property="og:image:type"]')
+		];
+
+		$this->assertSame(1, $elements['image']->count());
+		$this->assertSame('http://localhost/images/default_image.jpg', $elements['image']->attr('content'));
+
+		$this->assertSame(1, $elements['width']->count());
+		$this->assertSame(250, (int) $elements['width']->attr('content'));
+
+		$this->assertSame(1, $elements['height']->count());
+		$this->assertSame(250, (int) $elements['height']->attr('content'));
+
+		$this->assertSame(1, $elements['type']->count());
+		$this->assertSame('image/jpeg', $elements['type']->attr('content'));
+
+		// Check the new values in topics (remote image)
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'0'
+		);
+
+		$data = [
+			'title' => 'SEO Metadata Functional Test 3',
+			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$elements = [
+			'image' => $crawler->filter('meta[property="og:image"]'),
+			'width' => $crawler->filter('meta[property="og:image:width"]'),
+			'height' => $crawler->filter('meta[property="og:image:height"]'),
+			'type' => $crawler->filter('meta[property="og:image:type"]')
+		];
+
+		$this->assertSame(1, $elements['image']->count());
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['image']->attr('content')
+		);
+
+		$this->assertSame(1, $elements['width']->count());
+		$this->assertSame(250, (int) $elements['width']->attr('content'));
+
+		$this->assertSame(1, $elements['height']->count());
+		$this->assertSame(200, (int) $elements['height']->attr('content'));
+
+		$this->assertSame(1, $elements['type']->count());
+		$this->assertSame('image/png', $elements['type']->attr('content'));
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'1'
+		);
 	}
 
 	public function test_extracted_image_first_found_local()
