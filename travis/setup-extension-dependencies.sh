@@ -10,7 +10,7 @@ NOTESTS="${3}"
 # Add required files for tests
 if [[ "${NOTESTS}" != 1 ]]; then
 	if [[ ! -f phpBB/images/default_image.jpg ]]; then
-		cp "${TRAVIS_BUILD_DIR}"/travis/images/default_image.jpg phpBB/images/
+		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/default_image.jpg phpBB/images/
 	fi
 fi
 
