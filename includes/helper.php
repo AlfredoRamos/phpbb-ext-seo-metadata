@@ -423,9 +423,14 @@ class helper
 		// Image must exist inside the phpBB's images path
 		$base_path = $this->filesystem->realpath($this->root_path . 'images/');
 
-		// \phpbb\filesystem\filesystem::realpath() throws warnings when open_basedir is set
-		// as it is calling is_link(), is_dir() and is_file() from \phpbb\filesystem\filesystem::resolve_path()
-		// on the server root, which is usually excluded from the open_basedir directive
+		// \phpbb\filesystem\filesystem::resolve_path() throws warnings when called from
+		// \phpbb\filesystem\filesystem::realpath() and open_basedir is set.
+		//
+		// It passes directories not allowed (like the web server root directory) as parameter
+		// to is_link(), is_dir() and is_file()
+		//
+		// https://tracker.phpbb.com/browse/PHPBB3-15643
+		// https://github.com/phpbb/phpbb/pull/5673
 		//
 		//$image_path = $this->filesystem->realpath($base_path . '/' . $uri);
 		$image_path = $this->get_absolute_path($base_path . '/' . $uri);
