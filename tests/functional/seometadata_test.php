@@ -277,6 +277,15 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_default_image'));
 		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
+		$this->assertTrue($form->has('seo_metadata_default_image_width'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_default_image_width')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_default_image_height'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_default_image_height')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_default_image_type'));
+		$this->assertSame('', $form->get('seo_metadata_default_image_type')->getValue());
+
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
 
@@ -288,6 +297,18 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertTrue($form->has('seo_metadata_open_graph'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_open_graph')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_facebook_application'));
+		$this->assertSame('', $form->get('seo_metadata_facebook_application')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_facebook_publisher'));
+		$this->assertSame('', $form->get('seo_metadata_facebook_publisher')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_twitter_cards'));
+		$this->assertSame(1, (int) $form->get('seo_metadata_twitter_cards')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_twitter_publisher'));
+		$this->assertSame('', $form->get('seo_metadata_twitter_publisher')->getValue());
 
 		$this->assertTrue($form->has('seo_metadata_json_ld'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_json_ld')->getValue());
