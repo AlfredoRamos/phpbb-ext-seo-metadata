@@ -376,7 +376,7 @@ class helper
 						[
 							trim(mb_substr($description, 0, $desc_length, $encoding)),
 							$ellipsis
-							]
+						]
 					);
 				break;
 
