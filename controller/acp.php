@@ -141,14 +141,14 @@ class acp
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
 					'min_range' => 0,
-					'max_range' => 1000
+					'max_range' => 1200
 				]
 			],
 			'seo_metadata_default_image_height' => [
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
 					'min_range' => 0,
-					'max_range' => 1000
+					'max_range' => 1200
 				]
 			],
 			'seo_metadata_default_image_type' => [
