@@ -42,7 +42,7 @@
 		},
 		"version-check": {
 			"host": "alfredoramos.github.io",
-			"directory": "/phpbb-extensions",
+			"directory": "/phpbb-extensions/versions",
 			"filename": "seo-metadata.json",
 			"ssl": true
 		}
