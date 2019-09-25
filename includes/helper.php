@@ -156,7 +156,12 @@ class helper
 						'@type' => 'Person',
 						'name' => ''
 					],
-					'datePublished' => ''
+					'datePublished' => '',
+					'publisher' => [
+						'@type' => 'Organization',
+						'name' => trim($this->config['sitename']),
+						'url' => generate_board_url()
+					]
 				]
 			];
 		}
