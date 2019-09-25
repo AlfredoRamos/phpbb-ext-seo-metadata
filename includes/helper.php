@@ -151,7 +151,11 @@ class helper
 					'@id' => $default['url'],
 					'headline' => '',
 					'description' => $default['description'],
-					'image' => $default['image']['url']
+					'image' => $default['image']['url'],
+					'author' => [
+						'@type' => 'Person',
+						'name' => ''
+					]
 				]
 			];
 		}
@@ -194,6 +198,10 @@ class helper
 
 				case 'section':
 					$this->metadata['open_graph']['article:section'] = $value;
+				break;
+
+				case 'author':
+					$this->metadata['json_ld']['author']['name'] = $value;
 				break;
 			}
 		}
@@ -260,6 +268,12 @@ class helper
 				$data['open_graph']['og:section'],
 				$data['open_graph']['og:publisher']
 			);
+		}
+
+		// JSON-LD author
+		if (empty($data['json_ld']['author']['name']))
+		{
+			unset($data['json_ld']['author']);
 		}
 
 		// Remove empty data
