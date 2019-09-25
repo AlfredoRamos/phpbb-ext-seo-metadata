@@ -30,6 +30,12 @@ class seometadata_test extends phpbb_functional_test_case
 			'seo_metadata_default_image',
 			'default_image.jpg'
 		);
+
+		// Set JSON-LD logo
+		$this->update_config_value(
+			'seo_metadata_json_ld_logo',
+			'default_logo.jpg'
+		);
 	}
 
 	private function update_config_value($name = '', $value = '')
@@ -203,7 +209,10 @@ class seometadata_test extends phpbb_functional_test_case
 			'@id',
 			'headline',
 			'description',
-			'image'
+			'image',
+			'author',
+			'datePublished',
+			'publisher'
 		];
 		$array_data = json_decode($elements['script']->text(), true);
 
@@ -245,6 +254,37 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
 			$elements['image']
+		);
+		$this->assertSame(
+			'Person',
+			$elements['author']['@type']
+		);
+		$this->assertSame(
+			'admin',
+			$elements['author']['name']
+		);
+		$this->assertSame(
+			1,
+			preg_match(
+				'#^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$#',
+				$elements['datePublished']
+			)
+		);
+		$this->assertSame(
+			'Organization',
+			$elements['publisher']['@type']
+		);
+		$this->assertSame(
+			'yourdomain.com',
+			$elements['publisher']['name']
+		);
+		$this->assertSame(
+			'http://localhost',
+			$elements['publisher']['url']
+		);
+		$this->assertSame(
+			'http://localhost/images/default_logo.jpg',
+			$elements['publisher']['logo']
 		);
 	}
 
@@ -312,6 +352,9 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertTrue($form->has('seo_metadata_json_ld'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_json_ld')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_json_ld_logo'));
+		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
 	}
 
 	public function test_update_acp_form_settings()
