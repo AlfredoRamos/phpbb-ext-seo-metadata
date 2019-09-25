@@ -155,7 +155,8 @@ class helper
 					'author' => [
 						'@type' => 'Person',
 						'name' => ''
-					]
+					],
+					'datePublished' => ''
 				]
 			];
 		}
@@ -194,6 +195,7 @@ class helper
 					$value = date('c', (int) $value);
 					$this->metadata['open_graph']['og:type'] = 'article';
 					$this->metadata['open_graph']['article:published_time'] = $value;
+					$this->metadata['json_ld']['datePublished'] = $value;
 				break;
 
 				case 'section':
