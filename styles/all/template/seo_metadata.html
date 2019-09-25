@@ -1,18 +1,14 @@
 {%- import '@alfredoramos_seometadata/metatag.html' as seo_metadata -%}
 {% for CATEGORIES in SEO_METADATA %}
+{% for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) %}
 {% if CATEGORIES.NAME is same as('JSON_LD') %}
 {% if S_TOPIC_ID > 0 %}
 <script type="application/ld+json">
-{
-	{%- for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) -%}
-		"{{ ITEM.PROPERTY }}":"{{ ITEM.CONTENT }}"{% if not loop.last %},{% endif %}
-	{%- endfor -%}
-}
+{{ ITEM.CONTENT }}
 </script>
 {% endif %}
 {% else %}
-{% for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) %}
 {{ seo_metadata.metatag(ITEM.PROPERTY, ITEM.CONTENT) -}}
-{% endfor %}
 {% endif %}
+{% endfor %}
 {% endfor %}
