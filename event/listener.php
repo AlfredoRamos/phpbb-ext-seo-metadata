@@ -58,23 +58,9 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header($event)
 	{
-		// Helper
-		$data['title'] = $event['page_title'];
-
-		$this->helper->set_metadata(
-			[
-				'twitter_cards' => [
-					'twitter:title' => $data['title']
-				],
-				'open_graph' => [
-					'og:title' => $data['title']
-				],
-				'json_ld' => [
-					'headline' => $data['title']
-				]
-			]
-		);
-
+		$this->helper->set_metadata([
+			'title' => $event['page_title']
+		]);
 		$this->helper->metadata_template_vars();
 	}
 
@@ -92,27 +78,9 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		// Helper
-		$data['description'] = $this->helper->clean_description($event['forum_data']['forum_desc']);
-
-		$this->helper->set_metadata(
-			[
-				'meta_description' => [
-					'description' => $data['description']
-				],
-				'twitter_cards' => [
-					'twitter:description' => $data['description']
-				],
-				'open_graph' => [
-					'og:description' => $data['description']
-				],
-				'json_ld' => [
-					'description' => $data['description']
-				]
-			]
-		);
-
-		$this->helper->metadata_template_vars();
+		$this->helper->set_metadata([
+			'description' => $this->helper->clean_description($event['forum_data']['forum_desc'])
+		]);
 	}
 
 	/**
@@ -144,40 +112,9 @@ class listener implements EventSubscriberInterface
 		$data['title'] = $event['topic_data']['topic_title'];
 		$data['description'] = $this->helper->clean_description($data['description']);
 		$data['image']['url'] = $this->helper->clean_image($data['image']['url']);
-		$data['datetime'] = date('c', $event['topic_data']['topic_time']);
+		$data['published_time'] = $event['topic_data']['topic_time'];
 		$data['section'] = $event['topic_data']['forum_name'];
-		$data['publisher'] = $this->config['seo_metadata_facebook_publisher'];
 
-		$this->helper->set_metadata(
-			[
-				'meta_description' => [
-					'description' => $data['description']
-				],
-				'twitter_cards' => [
-					'twitter:title' => $data['title'],
-					'twitter:description' => $data['description'],
-					'twitter:image' => $data['image']['url']
-				],
-				'open_graph' => [
-					'og:type' => 'article',
-					'og:title' => $data['title'],
-					'og:description' => $data['description'],
-					'og:image' => $data['image']['url'],
-					'og:image:type' => $data['image']['type'],
-					'og:image:width' => $data['image']['width'],
-					'og:image:height' => $data['image']['height'],
-					'article:published_time' => $data['datetime'],
-					'article:section' => $data['section'],
-					'article:publisher' => $data['publisher'],
-				],
-				'json_ld' => [
-					'headline' => $data['title'],
-					'description' => $data['description'],
-					'image'	=> $data['image']['url']
-				]
-			]
-		);
-
-		$this->helper->metadata_template_vars();
+		$this->helper->set_metadata($data);
 	}
 }

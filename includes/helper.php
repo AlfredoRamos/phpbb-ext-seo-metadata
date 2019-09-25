@@ -99,12 +99,11 @@ class helper
 	/**
 	 * Add or replace metadata.
 	 *
-	 * @param array		$data
-	 * @param string	$key	(Optional)
+	 * @param array $data
 	 *
 	 * @return void
 	 */
-	public function set_metadata($data = [], $key = '')
+	public function set_metadata($data = [])
 	{
 		// Set initial metadata
 		if (empty($this->metadata))
@@ -119,21 +118,21 @@ class helper
 				],
 				'url' => $this->clean_url($this->controller_helper->get_current_url())
 			];
-			$this->metadata = array_replace_recursive($this->metadata, [
+			$this->metadata = [
 				'meta_description' => [
 					'description' => $default['description']
 				],
 				'twitter_cards' => [
 					'twitter:card' => 'summary',
-					'twitter:site' => $this->config['seo_metadata_twitter_publisher'],
+					'twitter:site' => trim($this->config['seo_metadata_twitter_publisher']),
 					'twitter:title' => '',
 					'twitter:description' => $default['description'],
 					'twitter:image' => $default['image']['url']
 				],
 				'open_graph' => [
-					'fb:app_id' => $this->config['seo_metadata_facebook_application'],
+					'fb:app_id' => trim($this->config['seo_metadata_facebook_application']),
 					'og:locale' => $this->extract_locale($this->language->lang('USER_LANG')),
-					'og:site_name' => $this->config['sitename'],
+					'og:site_name' => trim($this->config['sitename']),
 					'og:url' => $default['url'],
 					'og:type' => 'website',
 					'og:title' => '',
@@ -141,7 +140,10 @@ class helper
 					'og:image' => $default['image']['url'],
 					'og:image:type' => $default['image']['type'],
 					'og:image:width' => $default['image']['width'],
-					'og:image:height' => $default['image']['height']
+					'og:image:height' => $default['image']['height'],
+					'article:published_time' => '',
+					'article:section' => '',
+					'article:publisher' => trim($this->config['seo_metadata_facebook_publisher'])
 				],
 				'json_ld' => [
 					'@context' => 'http://schema.org',
@@ -151,16 +153,49 @@ class helper
 					'description' => $default['description'],
 					'image' => $default['image']['url']
 				]
-			]);
+			];
 		}
 
-		if (!empty($key) && !empty($this->metadata[$key]))
+		// Map values to correct properties
+		foreach ($data as $key => $value)
 		{
-			$this->metadata = array_replace($this->metadata[$key], $data);
-		}
-		else
-		{
-			$this->metadata = array_replace_recursive($this->metadata, $data);
+			$value = is_string($value) ? trim($value) : $value;
+			$value = is_array($value) ? array_map('trim', $value) : $value;
+
+			switch ($key)
+			{
+				case 'title':
+					$this->metadata['twitter_cards']['twitter:title'] = $value;
+					$this->metadata['open_graph']['og:title'] = $value;
+					$this->metadata['json_ld']['headline'] = $value;
+				break;
+
+				case 'description':
+					$this->metadata['meta_description']['description'] = $value;
+					$this->metadata['twitter_cards']['twitter:description'] = $value;
+					$this->metadata['open_graph']['og:description'] = $value;
+					$this->metadata['json_ld']['description'] = $value;
+				break;
+
+				case 'image':
+					$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
+					$this->metadata['open_graph']['og:image'] = $value['url'];
+					$this->metadata['open_graph']['og:image:type'] = $value['type'];
+					$this->metadata['open_graph']['og:image:width'] = (int) $value['width'];
+					$this->metadata['open_graph']['og:image:height'] = (int) $value['height'];
+					$this->metadata['json_ld']['image'] = $value['url'];
+				break;
+
+				case 'published_time':
+					$value = date('c', (int) $value);
+					$this->metadata['open_graph']['og:type'] = 'article';
+					$this->metadata['open_graph']['article:published_time'] = $value;
+				break;
+
+				case 'section':
+					$this->metadata['open_graph']['article:section'] = $value;
+				break;
+			}
 		}
 	}
 
@@ -173,8 +208,13 @@ class helper
 	 */
 	public function get_metadata($key = '')
 	{
-		if (!empty($key) && !empty($this->metadata[$key]))
+		if (!empty($key))
 		{
+			if (empty($this->metadata[$key]))
+			{
+				return [];
+			}
+
 			return $this->metadata[$key];
 		}
 
@@ -191,16 +231,6 @@ class helper
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
 
-		// Open Graph extra check for default image
-		if (empty($data['open_graph']['og:image']))
-		{
-			unset(
-				$data['open_graph']['og:image:type'],
-				$data['open_graph']['og:image:width'],
-				$data['open_graph']['og:image:height']
-			);
-		}
-
 		// Twitter cards can use Open Graph data
 		if ((int) $this->config['seo_metadata_open_graph'] === 1 &&
 			(int) $this->config['seo_metadata_twitter_cards'] === 1)
@@ -212,20 +242,60 @@ class helper
 			);
 		}
 
+		// Open Graph extra check for default image
+		if (empty($data['open_graph']['og:image']))
+		{
+			unset(
+				$data['open_graph']['og:image:type'],
+				$data['open_graph']['og:image:width'],
+				$data['open_graph']['og:image:height']
+			);
+		}
+
+		// Open Graph article metadata
+		if ($data['open_graph']['og:type'] !== 'article')
+		{
+			unset(
+				$data['open_graph']['og:published_time'],
+				$data['open_graph']['og:section'],
+				$data['open_graph']['og:publisher']
+			);
+		}
+
+		// Remove empty data
 		foreach ($data as $key => $value)
 		{
-			// Ignore disabled options
-			if ((int) $this->config[sprintf('seo_metadata_%s', $key)] !== 1)
+			// Ignore disabled or empty options
+			if ((int) $this->config[sprintf('seo_metadata_%s', $key)] !== 1 ||
+				empty($value))
 			{
+				unset($data[$key]);
 				continue;
 			}
 
-			// Ignore empty options
-			if (empty($value))
+			foreach ($value as $k => $v)
 			{
-				continue;
-			}
+				if (empty($k) || empty($v))
+				{
+					unset($data[$key][$k]);
+				}
 
+				if (is_array($v))
+				{
+					foreach ($v as $x => $y)
+					{
+						if (empty($x) || empty($y))
+						{
+							unset($data[$key][$k][$x]);
+						}
+					}
+				}
+			}
+		}
+
+		// Assign data to template
+		foreach ($data as $key => $value)
+		{
 			$this->template->assign_block_vars(
 				'SEO_METADATA',
 				[
@@ -233,21 +303,28 @@ class helper
 				]
 			);
 
-			foreach ($value as $k => $v)
+			if ($key === 'json_ld')
 			{
-				// Ignore empty options
-				if (empty($k) || empty($v))
-				{
-					continue;
-				}
-
 				$this->template->assign_block_vars(
 					sprintf('SEO_METADATA.%s', strtoupper($key)),
 					[
-						'PROPERTY' => $k,
-						'CONTENT' => $v
+						'CONTENT' => json_encode($data[$key], JSON_UNESCAPED_SLASHES)
 					]
 				);
+				continue;
+			}
+			else
+			{
+				foreach ($value as $k => $v)
+				{
+					$this->template->assign_block_vars(
+						sprintf('SEO_METADATA.%s', strtoupper($key)),
+						[
+							'PROPERTY' => $k,
+							'CONTENT' => $v
+						]
+					);
+				}
 			}
 		}
 	}
