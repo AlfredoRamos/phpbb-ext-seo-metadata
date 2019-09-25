@@ -160,7 +160,8 @@ class helper
 					'publisher' => [
 						'@type' => 'Organization',
 						'name' => trim($this->config['sitename']),
-						'url' => generate_board_url()
+						'url' => generate_board_url(),
+						'logo' => trim($this->config['seo_metadata_json_ld_logo'])
 					]
 				]
 			];

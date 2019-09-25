@@ -221,6 +221,12 @@ class acp
 					'min_range' => 0,
 					'max_range' => 1
 				]
+			],
+			'seo_metadata_json_ld_logo' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^(?:[\w\.\-\/]+\.(?:jpe?g|png|gif))?$#'
+				]
 			]
 		];
 
@@ -312,11 +318,16 @@ class acp
 				'seo_metadata_json_ld' => $this->request->variable(
 					'seo_metadata_json_ld',
 					1
+				),
+				'seo_metadata_json_ld_logo' => $this->request->variable(
+					'seo_metadata_json_ld_logo',
+					''
 				)
 			];
 
 			// Convert default image filename to URL and validate
 			$image_url = $this->helper->clean_image($fields['seo_metadata_default_image']);
+			$json_ld_logo = $this->helper->clean_image($fields['seo_metadata_json_ld_logo']);
 
 			// Default image validation
 			if (!empty($fields['seo_metadata_default_image']))
@@ -324,7 +335,7 @@ class acp
 				if (empty($image_url))
 				{
 					$errors[]['message'] = $this->language->lang(
-						'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID',
+						'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE',
 						$fields['seo_metadata_default_image']
 					);
 				}
@@ -336,6 +347,16 @@ class acp
 					!empty($image_url))
 				{
 					$image_info = $this->imagesize->getImageSize($image_url);
+
+					if ((!empty($image_info['width']) && $image_info['width'] < 200) ||
+						!empty($image_info['height']) && $image_info['height'] < 200)
+					{
+						$errors[]['message'] = $this->language->lang(
+							'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE',
+							$fields['seo_metadata_default_image'],
+							200, 200
+						);
+					}
 
 					// Update information
 					foreach (['width', 'height', 'type'] as $key)
@@ -383,6 +404,32 @@ class acp
 						'@%s',
 						$fields['seo_metadata_twitter_publisher']
 					);
+				}
+			}
+
+			// Optional JSON-LD value
+			if (!empty($fields['seo_metadata_json_ld_logo']))
+			{
+				if (empty($json_ld_logo))
+				{
+					$errors[]['message'] = $this->language->lang(
+						'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE',
+						$fields['seo_metadata_json_ld_logo']
+					);
+				}
+				else
+				{
+					$image_info = $this->imagesize->getImageSize($json_ld_logo);
+
+					if ((!empty($image_info['width']) && $image_info['width'] < 112) ||
+						!empty($image_info['height']) && $image_info['height'] < 112)
+					{
+						$errors[]['message'] = $this->language->lang(
+							'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE',
+							$fields['seo_metadata_json_ld_logo'],
+							112, 112
+						);
+					}
 				}
 			}
 
@@ -439,6 +486,7 @@ class acp
 			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config['seo_metadata_twitter_cards'] === 1),
 			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
+			'SEO_METADATA_JSON_LD_LOGO' => trim($this->config['seo_metadata_json_ld_logo']),
 			'SERVER_NAME' => trim($this->config['server_name']),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);

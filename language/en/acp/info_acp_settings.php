@@ -45,7 +45,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be larger than <samp>200</samp>x<samp>200</samp>px and relative to <samp>%s</samp>',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID' => 'The value specified as default image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Default image dimensions',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Width x height of default image. Set both to <samp>0</samp> to try to guess the image dimensions.',
@@ -83,8 +82,12 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_SEO_METADATA_JSON_LD' => 'Enable JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Publisher logo',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'A custom logo used by Google in the search results. It must be larger than <samp>112</samp>x<samp>112</samp>px and relative to <samp>%s</samp>',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
+	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'The value specified for image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp>x<samp>%3$s</samp>px',
 
 	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
 ]);
