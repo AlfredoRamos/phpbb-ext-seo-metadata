@@ -151,7 +151,18 @@ class helper
 					'@id' => $default['url'],
 					'headline' => '',
 					'description' => $default['description'],
-					'image' => $default['image']['url']
+					'image' => $default['image']['url'],
+					'author' => [
+						'@type' => 'Person',
+						'name' => ''
+					],
+					'datePublished' => '',
+					'publisher' => [
+						'@type' => 'Organization',
+						'name' => trim($this->config['sitename']),
+						'url' => generate_board_url(),
+						'logo' => $this->clean_image($this->config['seo_metadata_json_ld_logo'])
+					]
 				]
 			];
 		}
@@ -190,10 +201,15 @@ class helper
 					$value = date('c', (int) $value);
 					$this->metadata['open_graph']['og:type'] = 'article';
 					$this->metadata['open_graph']['article:published_time'] = $value;
+					$this->metadata['json_ld']['datePublished'] = $value;
 				break;
 
 				case 'section':
 					$this->metadata['open_graph']['article:section'] = $value;
+				break;
+
+				case 'author':
+					$this->metadata['json_ld']['author']['name'] = $value;
 				break;
 			}
 		}
@@ -260,6 +276,12 @@ class helper
 				$data['open_graph']['og:section'],
 				$data['open_graph']['og:publisher']
 			);
+		}
+
+		// JSON-LD author
+		if (empty($data['json_ld']['author']['name']))
+		{
+			unset($data['json_ld']['author']);
 		}
 
 		// Remove empty data

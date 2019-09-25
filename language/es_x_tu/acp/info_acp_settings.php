@@ -45,7 +45,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>200</samp>x<samp>200</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_INVALID' => 'El valor especificado como imagen por defecto <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imágen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloca <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
@@ -83,8 +82,12 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD' => 'Habilitar JSON-LD',
+	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Logotipo del editor',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Un logotipo personalizado usado por Google en los resultados de búsqueda. Debe ser mayor a <samp>112</samp>x<samp>112</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
+	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'El valor especificado como imagen <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imagen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px',
 
 	'LOG_SEO_METADATA_DATA' => '<strong>Datos de Metadatos SEO modificados</strong><br>» %s'
 ]);

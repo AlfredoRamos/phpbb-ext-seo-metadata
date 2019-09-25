@@ -69,7 +69,18 @@ JSON-LD:
 	"@id": "...",
 	"headline": "...",
 	"description": "...",
-	"image": "..."
+	"image": "...",
+	"author": {
+		"@type": "Person",
+		"name": "..."
+	},
+	"datePublished": "..."
+	"publisher": {
+		"@type": "Organization",
+		"name": "...",
+		"url": "...",
+		"logo": "..."
+	}
 }
 </script>
 ```

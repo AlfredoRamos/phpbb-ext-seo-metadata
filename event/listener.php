@@ -109,10 +109,11 @@ class listener implements EventSubscriberInterface
 		);
 
 		// Helpers
+		$data['author'] = $event['topic_data']['topic_first_poster_name'];
 		$data['title'] = $event['topic_data']['topic_title'];
 		$data['description'] = $this->helper->clean_description($data['description']);
 		$data['image']['url'] = $this->helper->clean_image($data['image']['url']);
-		$data['published_time'] = $event['topic_data']['topic_time'];
+		$data['published_time'] = (int) $event['topic_data']['topic_time'];
 		$data['section'] = $event['topic_data']['forum_name'];
 
 		$this->helper->set_metadata($data);

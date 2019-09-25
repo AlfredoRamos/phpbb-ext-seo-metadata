@@ -12,6 +12,10 @@ if [[ "${NOTESTS}" != 1 ]]; then
 	if [[ ! -f phpBB/images/default_image.jpg ]]; then
 		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/default_image.jpg phpBB/images/
 	fi
+
+	if [[ ! -f phpBB/images/default_logo.jpg ]]; then
+		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/default_logo.jpg phpBB/images/
+	fi
 fi
 
 # Check if package have dependencies in the
