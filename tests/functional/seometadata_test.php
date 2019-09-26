@@ -283,8 +283,12 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['publisher']['url']
 		);
 		$this->assertSame(
+			'ImageObject',
+			$elements['publisher']['logo']['@type']
+		);
+		$this->assertSame(
 			'http://localhost/images/default_logo.jpg',
-			$elements['publisher']['logo']
+			$elements['publisher']['logo']['url']
 		);
 	}
 

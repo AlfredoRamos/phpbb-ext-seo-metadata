@@ -84,6 +84,8 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD' => 'Enable JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Publisher logo',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'A custom logo used by Google in the search results. It must be larger than <samp>112</samp>x<samp>112</samp>px and relative to <samp>%s</samp>',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Publisher logo dimensions',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Width x height of publisher logo. Set both to <samp>0</samp> to try to guess the image dimensions.',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'The value specified for image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',

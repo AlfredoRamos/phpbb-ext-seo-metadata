@@ -34,6 +34,14 @@ class m00_configuration extends migration
 			[
 				'config.add',
 				['seo_metadata_json_ld_logo', '']
+			],
+			[
+				'config.add',
+				['seo_metadata_json_ld_logo_width', 0]
+			],
+			[
+				'config.add',
+				['seo_metadata_json_ld_logo_height', 0]
 			]
 		];
 	}
