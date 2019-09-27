@@ -295,36 +295,19 @@ class helper
 			unset($data['json_ld']['publisher']['logo']);
 		}
 
-		// Remove empty data
+		// Ignore disabled options
 		foreach ($data as $key => $value)
 		{
-			// Ignore disabled or empty options
 			if ((int) $this->config[sprintf('seo_metadata_%s', $key)] !== 1 ||
 				empty($value))
 			{
 				unset($data[$key]);
 				continue;
 			}
-
-			foreach ($value as $k => $v)
-			{
-				if (empty($k) || empty($v))
-				{
-					unset($data[$key][$k]);
-				}
-
-				if (is_array($v))
-				{
-					foreach ($v as $x => $y)
-					{
-						if (empty($x) || empty($y))
-						{
-							unset($data[$key][$k][$x]);
-						}
-					}
-				}
-			}
 		}
+
+		// Remove empty values
+		$data = $this->filter_empty_items($data);
 
 		// Assign data to template
 		foreach ($data as $key => $value)
@@ -964,5 +947,47 @@ class helper
 		libxml_clear_errors();
 
 		return empty($errors);
+	}
+
+	/**
+	 * Remove empty items from an array, recursively.
+	 *
+	 * @param array		$data
+	 * @param integer	$depth
+	 *
+	 * @return array
+	 */
+	private function filter_empty_items($data = [], $depth = 0)
+	{
+		if (empty($data))
+		{
+			return [];
+		}
+
+		$max_depth = 5;
+		$depth = abs($depth) + 1;
+
+		// Do not go deeper, return data as is
+		if ($depth > $max_depth)
+		{
+			return $data;
+		}
+
+		// Remove empty elements
+		foreach ($data as $key => $value)
+		{
+			if (empty($value))
+			{
+				unset($data[$key]);
+			}
+
+			if (is_array($value) && !empty($value))
+			{
+				$data[$key] = $this->filter_empty_items($data[$key], $depth);
+			}
+		}
+
+		// Return a copy
+		return $data;
 	}
 }
