@@ -200,30 +200,11 @@ class seometadata_test extends phpbb_functional_test_case
 			$this->sid
 		));
 
-		$elements = [
-			'script' => $crawler->filter('script[type="application/ld+json"]')
-		];
-		$json_ld = [
-			'@context',
-			'@type',
-			'@id',
-			'headline',
-			'description',
-			'image',
-			'author',
-			'datePublished',
-			'publisher'
-		];
-		$array_data = json_decode($elements['script']->text(), true);
+		$script = $crawler->filter('script[type="application/ld+json"]');
+		$elements = json_decode($script->text(), true);
 
-		$this->assertSame(1, $elements['script']->count());
-		$this->assertFalse(empty($array_data));
-
-		foreach ($json_ld as $property)
-		{
-			$elements[$property] = $array_data[$property];
-			$this->assertFalse(empty($elements[$property]));
-		}
+		$this->assertSame(1, $script->count());
+		$this->assertFalse(empty($elements));
 
 		$this->assertSame(
 			'http://schema.org',
@@ -283,8 +264,12 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['publisher']['url']
 		);
 		$this->assertSame(
+			'ImageObject',
+			$elements['publisher']['logo']['@type']
+		);
+		$this->assertSame(
 			'http://localhost/images/default_logo.jpg',
-			$elements['publisher']['logo']
+			$elements['publisher']['logo']['url']
 		);
 	}
 
@@ -355,6 +340,12 @@ class seometadata_test extends phpbb_functional_test_case
 
 		$this->assertTrue($form->has('seo_metadata_json_ld_logo'));
 		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_json_ld_logo_width'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_json_ld_logo_width')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_json_ld_logo_height'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_json_ld_logo_height')->getValue());
 	}
 
 	public function test_update_acp_form_settings()
@@ -371,7 +362,10 @@ class seometadata_test extends phpbb_functional_test_case
 			'seo_metadata_default_image' => 'default_image.jpg',
 			'seo_metadata_default_image_width' => '0',
 			'seo_metadata_default_image_height' => '0',
-			'seo_metadata_default_image_type' => ''
+			'seo_metadata_default_image_type' => '',
+			'seo_metadata_json_ld_logo' => 'default_logo.jpg',
+			'seo_metadata_json_ld_logo_width' => '0',
+			'seo_metadata_json_ld_logo_height' => '0',
 		]);
 
 		self::submit($form);
@@ -388,6 +382,8 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_width')->getValue());
 		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_height')->getValue());
 		$this->assertSame('image/jpeg', $form->get('seo_metadata_default_image_type')->getValue());
+		$this->assertSame(150, (int) $form->get('seo_metadata_json_ld_logo_width')->getValue());
+		$this->assertSame(150, (int) $form->get('seo_metadata_json_ld_logo_height')->getValue());
 
 		// Check the new values in topics (fallback image)
 		$crawler = self::request('GET', sprintf(
@@ -396,23 +392,36 @@ class seometadata_test extends phpbb_functional_test_case
 		));
 
 		$elements = [
-			'image' => $crawler->filter('meta[property="og:image"]'),
-			'width' => $crawler->filter('meta[property="og:image:width"]'),
-			'height' => $crawler->filter('meta[property="og:image:height"]'),
-			'type' => $crawler->filter('meta[property="og:image:type"]')
+			'open_graph' => [
+				'image' => $crawler->filter('meta[property="og:image"]'),
+				'width' => $crawler->filter('meta[property="og:image:width"]'),
+				'height' => $crawler->filter('meta[property="og:image:height"]'),
+				'type' => $crawler->filter('meta[property="og:image:type"]')
+			],
+			'json_ld' => json_decode($crawler->filter('script[type="application/ld+json"]')->text(), true)
 		];
 
-		$this->assertSame(1, $elements['image']->count());
-		$this->assertSame('http://localhost/images/default_image.jpg', $elements['image']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['image']->count());
+		$this->assertSame(
+			'http://localhost/images/default_image.jpg',
+			$elements['open_graph']['image']->attr('content')
+		);
 
-		$this->assertSame(1, $elements['width']->count());
-		$this->assertSame(250, (int) $elements['width']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['width']->count());
+		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
 
-		$this->assertSame(1, $elements['height']->count());
-		$this->assertSame(250, (int) $elements['height']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['height']->count());
+		$this->assertSame(250, (int) $elements['open_graph']['height']->attr('content'));
 
-		$this->assertSame(1, $elements['type']->count());
-		$this->assertSame('image/jpeg', $elements['type']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['type']->count());
+		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
+
+		$this->assertSame(
+			'http://localhost/images/default_logo.jpg',
+			$elements['json_ld']['publisher']['logo']['url']
+		);
+		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['width']);
+		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
 		// Check the new values in topics (remote image)
 		$this->update_config_value(
@@ -441,26 +450,36 @@ class seometadata_test extends phpbb_functional_test_case
 		));
 
 		$elements = [
-			'image' => $crawler->filter('meta[property="og:image"]'),
-			'width' => $crawler->filter('meta[property="og:image:width"]'),
-			'height' => $crawler->filter('meta[property="og:image:height"]'),
-			'type' => $crawler->filter('meta[property="og:image:type"]')
+			'open_graph' => [
+				'image' => $crawler->filter('meta[property="og:image"]'),
+				'width' => $crawler->filter('meta[property="og:image:width"]'),
+				'height' => $crawler->filter('meta[property="og:image:height"]'),
+				'type' => $crawler->filter('meta[property="og:image:type"]')
+			],
+			'json_ld' => json_decode($crawler->filter('script[type="application/ld+json"]')->text(), true)
 		];
 
-		$this->assertSame(1, $elements['image']->count());
+		$this->assertSame(1, $elements['open_graph']['image']->count());
 		$this->assertSame(
 			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
-			$elements['image']->attr('content')
+			$elements['open_graph']['image']->attr('content')
 		);
 
-		$this->assertSame(1, $elements['width']->count());
-		$this->assertSame(250, (int) $elements['width']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['width']->count());
+		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
 
-		$this->assertSame(1, $elements['height']->count());
-		$this->assertSame(200, (int) $elements['height']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['height']->count());
+		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
 
-		$this->assertSame(1, $elements['type']->count());
-		$this->assertSame('image/png', $elements['type']->attr('content'));
+		$this->assertSame(1, $elements['open_graph']['type']->count());
+		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
+
+		$this->assertSame(
+			'http://localhost/images/default_logo.jpg',
+			$elements['json_ld']['publisher']['logo']['url']
+		);
+		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['width']);
+		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
 		$this->update_config_value(
 			'seo_metadata_local_images',

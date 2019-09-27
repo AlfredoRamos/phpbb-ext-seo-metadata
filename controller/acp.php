@@ -227,6 +227,20 @@ class acp
 				'options' => [
 					'regexp' => '#^(?:[\w\.\-\/]+\.(?:jpe?g|png|gif))?$#'
 				]
+			],
+			'seo_metadata_json_ld_logo_width' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1200
+				]
+			],
+			'seo_metadata_json_ld_logo_height' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1200
+				]
 			]
 		];
 
@@ -322,6 +336,14 @@ class acp
 				'seo_metadata_json_ld_logo' => $this->request->variable(
 					'seo_metadata_json_ld_logo',
 					''
+				),
+				'seo_metadata_json_ld_logo_width' => $this->request->variable(
+					'seo_metadata_json_ld_logo_width',
+					0
+				),
+				'seo_metadata_json_ld_logo_height' => $this->request->variable(
+					'seo_metadata_json_ld_logo_height',
+					0
 				)
 			];
 
@@ -367,7 +389,7 @@ class acp
 						{
 							case 'width':
 							case 'height':
-								$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] > 200) ? $image_info[$key] : 0;
+								$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] >= 200) ? $image_info[$key] : 0;
 							break;
 
 							case 'type':
@@ -407,7 +429,7 @@ class acp
 				}
 			}
 
-			// Optional JSON-LD value
+			// JSON-LD logo validation
 			if (!empty($fields['seo_metadata_json_ld_logo']))
 			{
 				if (empty($json_ld_logo))
@@ -417,7 +439,11 @@ class acp
 						$fields['seo_metadata_json_ld_logo']
 					);
 				}
-				else
+
+				// Try to get image width and height
+				if ((empty($fields['seo_metadata_json_ld_logo_width']) ||
+					empty($fields['seo_metadata_json_ld_logo_height'])) &&
+					!empty($json_ld_logo))
 				{
 					$image_info = $this->imagesize->getImageSize($json_ld_logo);
 
@@ -429,6 +455,13 @@ class acp
 							$fields['seo_metadata_json_ld_logo'],
 							112, 112
 						);
+					}
+
+					// Update information
+					foreach (['width', 'height'] as $key)
+					{
+						$k = sprintf('seo_metadata_json_ld_logo_%s', $key);
+						$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] >= 112) ? $image_info[$key] : 0;
 					}
 				}
 			}
@@ -487,6 +520,8 @@ class acp
 			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
 			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
 			'SEO_METADATA_JSON_LD_LOGO' => trim($this->config['seo_metadata_json_ld_logo']),
+			'SEO_METADATA_JSON_LD_LOGO_WIDTH' => (int) $this->config['seo_metadata_json_ld_logo_width'],
+			'SEO_METADATA_JSON_LD_LOGO_HEIGHT' => (int) $this->config['seo_metadata_json_ld_logo_height'],
 			'SERVER_NAME' => trim($this->config['server_name']),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);

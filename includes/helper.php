@@ -161,7 +161,12 @@ class helper
 						'@type' => 'Organization',
 						'name' => trim($this->config['sitename']),
 						'url' => generate_board_url(),
-						'logo' => $this->clean_image($this->config['seo_metadata_json_ld_logo'])
+						'logo' => [
+							'@type' => 'ImageObject',
+							'url' => $this->clean_image($this->config['seo_metadata_json_ld_logo']),
+							'width' => (int) $this->config['seo_metadata_json_ld_logo_width'],
+							'height' => (int) $this->config['seo_metadata_json_ld_logo_height']
+						]
 					]
 				]
 			];
@@ -176,24 +181,24 @@ class helper
 			switch ($key)
 			{
 				case 'title':
-					$this->metadata['twitter_cards']['twitter:title'] = $value;
 					$this->metadata['open_graph']['og:title'] = $value;
+					$this->metadata['twitter_cards']['twitter:title'] = $value;
 					$this->metadata['json_ld']['headline'] = $value;
 				break;
 
 				case 'description':
 					$this->metadata['meta_description']['description'] = $value;
-					$this->metadata['twitter_cards']['twitter:description'] = $value;
 					$this->metadata['open_graph']['og:description'] = $value;
+					$this->metadata['twitter_cards']['twitter:description'] = $value;
 					$this->metadata['json_ld']['description'] = $value;
 				break;
 
 				case 'image':
-					$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
 					$this->metadata['open_graph']['og:image'] = $value['url'];
 					$this->metadata['open_graph']['og:image:type'] = $value['type'];
 					$this->metadata['open_graph']['og:image:width'] = (int) $value['width'];
 					$this->metadata['open_graph']['og:image:height'] = (int) $value['height'];
+					$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
 					$this->metadata['json_ld']['image'] = $value['url'];
 				break;
 
@@ -272,9 +277,9 @@ class helper
 		if ($data['open_graph']['og:type'] !== 'article')
 		{
 			unset(
-				$data['open_graph']['og:published_time'],
-				$data['open_graph']['og:section'],
-				$data['open_graph']['og:publisher']
+				$data['open_graph']['article:published_time'],
+				$data['open_graph']['article:section'],
+				$data['open_graph']['article:publisher']
 			);
 		}
 
@@ -282,6 +287,12 @@ class helper
 		if (empty($data['json_ld']['author']['name']))
 		{
 			unset($data['json_ld']['author']);
+		}
+
+		// JSON-LD logo
+		if (empty($data['json_ld']['publisher']['logo']['url']))
+		{
+			unset($data['json_ld']['publisher']['logo']);
 		}
 
 		// Remove empty data

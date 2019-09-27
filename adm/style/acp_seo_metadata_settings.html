@@ -78,9 +78,9 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="number" id="seo_metadata_default_image_width" name="seo_metadata_default_image_width" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}">
+				<input type="number" id="seo_metadata_default_image_width" name="seo_metadata_default_image_width" min="0" max="1200" value="{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}">
 				x
-				<input type="number" id="seo_metadata_default_image_height" name="seo_metadata_default_image_height" min="0" max="1000" value="{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}">
+				<input type="number" id="seo_metadata_default_image_height" name="seo_metadata_default_image_height" min="0" max="1200" value="{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}">
 				{{ lang('PIXEL') }}
 			</dd>
 		</dl>
@@ -195,10 +195,22 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_json_ld_logo">{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO') }}{{ lang('COLON') }}</label>
-				<br><span>{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN', BOARD_IMAGES_URL) }}</span>
 			</dt>
 			<dd>
 				<input type="text" id="seo_metadata_json_ld_logo" name="seo_metadata_json_ld_logo"{% if SEO_METADATA_JSON_LD_LOGO %} value="{{ SEO_METADATA_JSON_LD_LOGO }}"{% endif %} class="full">
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_json_ld_logo_width">{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="number" id="seo_metadata_json_ld_logo_width" name="seo_metadata_json_ld_logo_width" min="0" max="1200" value="{% if SEO_METADATA_JSON_LD_LOGO_WIDTH %}{{ SEO_METADATA_JSON_LD_LOGO_WIDTH }}{% else %}0{% endif %}">
+				x
+				<input type="number" id="seo_metadata_json_ld_logo_height" name="seo_metadata_json_ld_logo_height" min="0" max="1200" value="{% if SEO_METADATA_JSON_LD_LOGO_HEIGHT %}{{ SEO_METADATA_JSON_LD_LOGO_HEIGHT }}{% else %}0{% endif %}">
+				{{ lang('PIXEL') }}
 			</dd>
 		</dl>
 	</fieldset>

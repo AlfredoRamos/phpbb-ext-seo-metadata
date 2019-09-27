@@ -84,6 +84,8 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD' => 'Habilitar JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Logotipo del editor',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Un logotipo personalizado usado por Google en los resultados de búsqueda. Debe ser mayor a <samp>112</samp>x<samp>112</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Dimensiones del logotipo del editor',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Ancho x alto del logotipo del editor. Coloque <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'El valor especificado como imagen <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imagen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',

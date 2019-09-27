@@ -79,7 +79,12 @@ JSON-LD:
 		"@type": "Organization",
 		"name": "...",
 		"url": "...",
-		"logo": "..."
+		"logo": {
+			"@type": "ImageObject",
+			"url": "...",
+			"width": "...",
+			"height": "..."
+		}
 	}
 }
 </script>
