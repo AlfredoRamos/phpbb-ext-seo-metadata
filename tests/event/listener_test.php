@@ -50,7 +50,7 @@ class listener_test extends phpbb_test_case
 		$this->assertSame(
 			[
 				'core.page_header_after',
-				'core.viewforum_generate_page_after',
+				'core.viewforum_modify_page_title',
 				'core.viewtopic_modify_post_data'
 			],
 			array_keys(listener::getSubscribedEvents())

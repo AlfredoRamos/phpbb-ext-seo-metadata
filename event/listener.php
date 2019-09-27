@@ -44,7 +44,7 @@ class listener implements EventSubscriberInterface
 	{
 		return [
 			'core.page_header_after' => 'page_header',
-			'core.viewforum_generate_page_after' => 'viewforum',
+			'core.viewforum_modify_page_title' => 'viewforum',
 			'core.viewtopic_modify_post_data' => 'viewtopic'
 		];
 	}
