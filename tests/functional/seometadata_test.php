@@ -636,4 +636,22 @@ class seometadata_test extends phpbb_functional_test_case
 			'1'
 		);
 	}
+
+	public function test_forum_description()
+	{
+		$crawler = self::request('GET', sprintf(
+			'viewforum.php?f=2&sid=%s',
+			$this->sid
+		));
+
+		$elements = [
+			'meta_description' => $crawler->filter('meta[name="description"]'),
+			'open_graph' => $crawler->filter('meta[property="og:description"]')
+		];
+
+		$description = 'Description of your first forum.';
+
+		$this->assertSame($description, $elements['meta_description']->attr('content'));
+		$this->assertSame($description, $elements['open_graph']->attr('content'));
+	}
 }
