@@ -53,6 +53,10 @@ class main_module
 	 */
 	public function main($id, $mode)
 	{
+		// Load translations
+		$this->language->add_lang('acp/settings', 'alfredoramos/seometadata');
+
+		// Set form token
 		add_form_key('alfredoramos_seometadata');
 
 		switch ($mode)

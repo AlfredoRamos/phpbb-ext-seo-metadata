@@ -24,7 +24,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA' => 'SEO Metadata',
 	'ACP_SEO_METADATA_EXPLAIN' => 'Changes to the following values will only be applied to new topics, if you want it to be applied to old topics too, you will need to purge the cache.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Enable description',
@@ -89,7 +88,5 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'The value specified for image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp>x<samp>%3$s</samp>px',
-
-	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp>x<samp>%3$s</samp>px'
 ]);

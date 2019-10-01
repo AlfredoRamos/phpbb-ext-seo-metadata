@@ -24,8 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA' => 'Metadatos SEO',
-	'ACP_SEO_METADATA_EXPLAIN' => 'Los cambios en los siguientes valores sólo serán aplicados a los temas nuevos, si desea que tambien sean aplicados a los temas antiguos, necesitará limpiar la caché.',
+	'ACP_SEO_METADATA_EXPLAIN' => 'Los cambios en los siguientes valores sólo serán aplicados a los temas nuevos, si deseas que tambien sean aplicados a los temas antiguos, necesitarás limpiar la caché.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Habilitar descripción',
 	'ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN' => 'Metatag de descripción.',
@@ -47,12 +46,12 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>200</samp>x<samp>200</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloque <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto. Coloca <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_WIDTH' => 'Ancho de imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => 'Alto de imagen por defecto',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE' => 'Tipo de la imagen por defecto',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'El tipo de MIME de la imagen por defecto. Déjelo en blanco para intentar estimar el tipo, si no conoce esta información o no esta seguro.',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN' => 'El tipo de MIME de la imagen por defecto. Déjalo en blanco para intentar estimar el tipo, si no conoces esta información o no estas seguro.',
 
 	'ACP_SEO_METADATA_ATTACHMENTS' => 'Incluir adjuntos',
 	'ACP_SEO_METADATA_ATTACHMENTS_EXPLAIN' => 'También se incluirán imágenes adjuntas. Serán elegidas en el mismo orden en el que fueron subidas.',
@@ -71,25 +70,23 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_OPEN_GRAPH' => 'Habilitar Open Graph',
 
 	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'ID de la applicación de Facebook',
-	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de su applicación de Facebook.',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de tu applicación de Facebook.',
 	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER' => 'Editor de Facebook',
-	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'La URL de su página de Facebook.',
+	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'La URL de tu página de Facebook.',
 
 	'ACP_SEO_METADATA_TWITTER_CARD_SETTINGS' => 'Ajustes de Twitter Cards',
 	'ACP_SEO_METADATA_TWITTER_CARDS' => 'Habilitar Twitter Cards',
 	'ACP_SEO_METADATA_TWITTER_PUBLISHER' => 'Editor de Twitter',
-	'ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN' => 'El nombre de usuario de la cuenta de Twitter de su sitio web.',
+	'ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN' => 'El nombre de usuario de la cuenta de Twitter de tu sitio web.',
 
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD' => 'Habilitar JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Logotipo del editor',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Un logotipo personalizado usado por Google en los resultados de búsqueda. Debe ser mayor a <samp>112</samp>x<samp>112</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Dimensiones del logotipo del editor',
-	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Ancho x alto del logotipo del editor. Coloque <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Ancho x alto del logotipo del editor. Coloca <samp>0</samp> en ambos para intentar estimar sus dimensiones.',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'El valor especificado como imagen <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imagen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px',
-
-	'LOG_SEO_METADATA_DATA' => '<strong>Datos de Metadatos SEO modificados</strong><br>» %s'
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px'
 ]);
