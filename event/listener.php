@@ -58,6 +58,11 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header($event)
 	{
+		if (empty($event['page_title']))
+		{
+			return;
+		}
+
 		$this->helper->set_metadata([
 			'title' => $event['page_title']
 		]);
