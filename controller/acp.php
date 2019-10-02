@@ -15,7 +15,6 @@ use phpbb\request\request;
 use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
-use FastImageSize\FastImageSize;
 use alfredoramos\seometadata\includes\helper;
 
 class acp
@@ -38,9 +37,6 @@ class acp
 	/** @var \phpbb\log\log */
 	protected $log;
 
-	/** @var \FastImageSize\FastImageSize */
-	protected $imagesize;
-
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
 
@@ -53,12 +49,11 @@ class acp
 	 * @param \phpbb\language\language					$language
 	 * @param \phpbb\user								$user
 	 * @param \phpbb\log\log							$log
-	 * @param \FastImageSize\FastImageSize				$imagesize
 	 * @param \alfredoramos\seometadata\includes\helper	$helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, FastImageSize $imagesize, helper $helper)
+	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
@@ -66,7 +61,6 @@ class acp
 		$this->language = $language;
 		$this->user = $user;
 		$this->log = $log;
-		$this->imagesize = $imagesize;
 		$this->helper = $helper;
 	}
 
@@ -368,7 +362,7 @@ class acp
 					empty($fields['seo_metadata_default_image_type'])) &&
 					!empty($image_url))
 				{
-					$image_info = $this->imagesize->getImageSize($image_url);
+					$image_info = $this->helper->get_image_info($image_url);
 
 					if ((!empty($image_info['width']) && $image_info['width'] < 200) ||
 						!empty($image_info['height']) && $image_info['height'] < 200)
@@ -445,7 +439,7 @@ class acp
 					empty($fields['seo_metadata_json_ld_logo_height'])) &&
 					!empty($json_ld_logo))
 				{
-					$image_info = $this->imagesize->getImageSize($json_ld_logo);
+					$image_info = $this->helper->get_image_info($json_ld_logo);
 
 					if ((!empty($image_info['width']) && $image_info['width'] < 112) ||
 						!empty($image_info['height']) && $image_info['height'] < 112)

@@ -175,8 +175,14 @@ class helper
 		// Map values to correct properties
 		foreach ($data as $key => $value)
 		{
-			$value = is_string($value) ? trim($value) : $value;
-			$value = is_array($value) ? array_map('trim', $value) : $value;
+			if (is_string($value))
+			{
+				$value = trim($value);
+			}
+			else if (is_array($value))
+			{
+				$value = array_map('trim', $value);
+			}
 
 			switch ($key)
 			{
@@ -194,12 +200,27 @@ class helper
 				break;
 
 				case 'image':
-					$this->metadata['open_graph']['og:image'] = $value['url'];
-					$this->metadata['open_graph']['og:image:type'] = $value['type'];
-					$this->metadata['open_graph']['og:image:width'] = (int) $value['width'];
-					$this->metadata['open_graph']['og:image:height'] = (int) $value['height'];
-					$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
-					$this->metadata['json_ld']['image'] = $value['url'];
+					if (isset($value['url']))
+					{
+						$this->metadata['open_graph']['og:image'] = $value['url'];
+						$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
+						$this->metadata['json_ld']['image'] = $value['url'];
+					}
+
+					if (isset($value['type']))
+					{
+						$this->metadata['open_graph']['og:image:type'] = $value['type'];
+					}
+
+					if (isset($value['width']))
+					{
+						$this->metadata['open_graph']['og:image:width'] = (int) $value['width'];
+					}
+
+					if (isset($value['height']))
+					{
+						$this->metadata['open_graph']['og:image:height'] = (int) $value['height'];
+					}
 				break;
 
 				case 'published_time':
@@ -494,11 +515,12 @@ class helper
 	/**
 	 * Clean URI to be used as image URL.
 	 *
-	 * @param string $uri
+	 * @param string	$uri
+	 * @param bool		$images_dir
 	 *
 	 * @return string
 	 */
-	public function clean_image($uri = '')
+	public function clean_image($uri = '', $images_dir = true)
 	{
 		$uri = trim($uri);
 
@@ -513,8 +535,11 @@ class helper
 			return $this->clean_url($uri);
 		}
 
+		// Whether to check in the /images/ path or in the root
+		$dir = !empty($images_dir) ? 'images/' : '';
+
 		// Image must exist inside the phpBB's images path
-		$base_path = $this->filesystem->realpath($this->root_path . 'images/');
+		$base_path = $this->filesystem->realpath($this->root_path . $dir);
 
 		// \phpbb\filesystem\filesystem::resolve_path() throws warnings when called from
 		// \phpbb\filesystem\filesystem::realpath() and open_basedir is set.
@@ -782,7 +807,7 @@ class helper
 		// Filter images
 		foreach ($images as $key => $value)
 		{
-			$info = $this->imagesize->getImageSize($value);
+			$info = $this->get_image_info($value);
 
 			// Can't get image dimensions
 			if (empty($info))
@@ -798,12 +823,7 @@ class helper
 				continue;
 			}
 
-			$images[$key] = [
-				'url' => $value,
-				'width' => $info['width'],
-				'height' => $info['height'],
-				'type' => image_type_to_mime_type($info['type'])
-			];
+			$images[$key] = $info;
 		}
 
 		// Reindex array
@@ -844,6 +864,50 @@ class helper
 		$this->cache->put($cache_name, $images[0]);
 
 		return $images[0];
+	}
+
+	/**
+	 * Get image information (width, height and MIME type).
+	 *
+	 * It will return an array (url, width, height and type) on success, false otherwise.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool|array
+	 */
+	public function get_image_info($url = '')
+	{
+		$url = trim($url);
+
+		if (empty($url))
+		{
+			return false;
+		}
+
+		// Try to get image information
+		$info = $this->imagesize->getImageSize($url);
+
+		if (!empty($info))
+		{
+			// Replace default values
+			if (is_array($info))
+			{
+				$info = array_merge([
+					'url' => $url,
+					'type' => '',
+					'width' => 0,
+					'height' => 0
+				], $info);
+			}
+
+			// Return MIME type as string
+			if (is_int($info['type']))
+			{
+				$info['type'] = image_type_to_mime_type($info['type']);
+			}
+		}
+
+		return $info;
 	}
 
 	/**

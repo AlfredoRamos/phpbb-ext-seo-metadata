@@ -16,7 +16,6 @@ services:
             - '@language'
             - '@user'
             - '@log'
-            - '@upload_imagesize'
             - '@alfredoramos.seometadata.helper'
 
     alfredoramos.seometadata.helper:
