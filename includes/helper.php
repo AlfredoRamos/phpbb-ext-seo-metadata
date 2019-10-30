@@ -698,7 +698,12 @@ class helper
 
 		if (empty($description) || empty($post_id))
 		{
-			return '';
+			return [
+				'url' => '',
+				'width' => 0,
+				'height' => 0,
+				'type' => ''
+			];
 		}
 
 		$cache_name = sprintf('seo_metadata_image_post_%d', $post_id);
