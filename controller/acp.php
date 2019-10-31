@@ -341,56 +341,34 @@ class acp
 				)
 			];
 
-			// Convert default image filename to URL and validate
-			$image_url = $this->helper->clean_image($fields['seo_metadata_default_image']);
-			$json_ld_logo = $this->helper->clean_image($fields['seo_metadata_json_ld_logo']);
+			// Prepare default image validation
+			$default_image = ['file' => $fields['seo_metadata_default_image']];
 
 			// Default image validation
-			if (!empty($fields['seo_metadata_default_image']))
+			if ($this->helper->validate_image($default_image, $errors))
 			{
-				if (empty($image_url))
+				// Update information
+				foreach (['width', 'height', 'type'] as $key)
 				{
-					$errors[]['message'] = $this->language->lang(
-						'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE',
-						$fields['seo_metadata_default_image']
-					);
-				}
+					$k = sprintf('seo_metadata_default_image_%s', $key);
 
-				// Try to get image width, height and type
-				if ((empty($fields['seo_metadata_default_image_width']) ||
-					empty($fields['seo_metadata_default_image_height']) ||
-					empty($fields['seo_metadata_default_image_type'])) &&
-					!empty($image_url))
-				{
-					$image_info = $this->helper->get_image_info($image_url);
-
-					if ((!empty($image_info['width']) && $image_info['width'] < 200) ||
-						!empty($image_info['height']) && $image_info['height'] < 200)
+					switch ($key)
 					{
-						$errors[]['message'] = $this->language->lang(
-							'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE',
-							$fields['seo_metadata_default_image'],
-							200, 200
-						);
-					}
+						case 'width':
+						case 'height':
+							$fields[$k] = 0;
 
-					// Update information
-					foreach (['width', 'height', 'type'] as $key)
-					{
-						$k = sprintf('seo_metadata_default_image_%s', $key);
+							if (!empty($default_image['info'][$key]) && $default_image['info'][$key] >= 200)
+							{
+								$fields[$k] = $default_image['info'][$key];
+							}
 
-						switch ($key)
-						{
-							case 'width':
-							case 'height':
-								$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] >= 200) ? $image_info[$key] : 0;
 							break;
 
-							case 'type':
-								$fields[$k] = (!empty($image_info[$key])) ? $image_info[$key] : '';
-								$fields[$k] = (is_int($fields[$k])) ? image_type_to_mime_type($fields[$k]) : $fields[$k];
-							break;
-						}
+						case 'type':
+							$fields[$k] = (!empty($default_image['info'][$key])) ? $default_image['info'][$key] : '';
+							$fields[$k] = (is_int($fields[$k])) ? image_type_to_mime_type($fields[$k]) : $fields[$k];
+						break;
 					}
 				}
 			}
@@ -423,39 +401,21 @@ class acp
 				}
 			}
 
+			// Prepare JSON-LD logo validation
+			$json_ld_logo = ['file' => $fields['seo_metadata_json_ld_logo']];
+
 			// JSON-LD logo validation
-			if (!empty($fields['seo_metadata_json_ld_logo']))
+			if ($this->helper->validate_image($json_ld_logo, $errors, [112, 112]))
 			{
-				if (empty($json_ld_logo))
+				// Update information
+				foreach (['width', 'height'] as $key)
 				{
-					$errors[]['message'] = $this->language->lang(
-						'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE',
-						$fields['seo_metadata_json_ld_logo']
-					);
-				}
+					$k = sprintf('seo_metadata_json_ld_logo_%s', $key);
+					$fields[$k] = 0;
 
-				// Try to get image width and height
-				if ((empty($fields['seo_metadata_json_ld_logo_width']) ||
-					empty($fields['seo_metadata_json_ld_logo_height'])) &&
-					!empty($json_ld_logo))
-				{
-					$image_info = $this->helper->get_image_info($json_ld_logo);
-
-					if ((!empty($image_info['width']) && $image_info['width'] < 112) ||
-						!empty($image_info['height']) && $image_info['height'] < 112)
+					if (!empty($json_ld_logo['info'][$key]) && $json_ld_logo['info'][$key] >= 112)
 					{
-						$errors[]['message'] = $this->language->lang(
-							'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE',
-							$fields['seo_metadata_json_ld_logo'],
-							112, 112
-						);
-					}
-
-					// Update information
-					foreach (['width', 'height'] as $key)
-					{
-						$k = sprintf('seo_metadata_json_ld_logo_%s', $key);
-						$fields[$k] = (!empty($image_info[$key]) && $image_info[$key] >= 112) ? $image_info[$key] : 0;
+						$fields[$k] = $json_ld_logo['info'][$key];
 					}
 				}
 			}
@@ -464,7 +424,7 @@ class acp
 			if ($this->helper->validate($fields, $filters, $errors))
 			{
 				// Default image cleanup
-				if (empty($fields['seo_metadata_default_image']) || empty($image_url))
+				if (empty($fields['seo_metadata_default_image']) || empty($default_image))
 				{
 					$fields['seo_metadata_default_image'] = '';
 					$fields['seo_metadata_default_image_type'] = '';
