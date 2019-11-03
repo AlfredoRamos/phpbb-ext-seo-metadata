@@ -88,5 +88,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'El valor especificado como imagen <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imagen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px'
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px',
+	'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE' => 'El tipo de medios <samp>%2$s</samp> de la imagen <samp>%1$s</samp> no esta permitido.'
 ]);

@@ -812,23 +812,16 @@ class helper
 		// Filter images
 		foreach ($images as $key => $value)
 		{
-			$info = $this->get_image_info($value);
+			$image = ['file' => $value];
 
-			// Can't get image dimensions
-			if (empty($info))
+			// Did not pass validation
+			if (!$this->validate_image($image))
 			{
 				unset($images[$key]);
 				continue;
 			}
 
-			// Images should be at least 200x200 px
-			if (($info['width'] < 200) || ($info['height'] < 200))
-			{
-				unset($images[$key]);
-				continue;
-			}
-
-			$images[$key] = $info;
+			$images[$key] = $image['info'];
 		}
 
 		// Reindex array
@@ -962,6 +955,84 @@ class helper
 
 		// Validation check
 		return empty($errors);
+	}
+
+	/**
+	 * Validate image for use in meta tags.
+	 *
+	 * It will return the given data array with information generated from it.
+	 *
+	 * @param array $data	Image data, only the key file containing the path is required
+	 * @param array $errors	Array of message errors
+	 * @param array $extra	Minimum image dimensions, by default 200x200
+	 *
+	 * @return bool
+	 */
+	public function validate_image(&$data = [], &$errors = [], $extra = [])
+	{
+		if (empty($data) || empty($data['file']))
+		{
+			return false;
+		}
+
+		// Minimum dimensions
+		$min = [
+			'width' => !empty($extra[0]) ? (int) $extra[0] : 200,
+			'height' => !empty($extra[1]) ? (int) $extra[1] : 200
+		];
+
+		// Allowed mime types
+		$types = [
+			'image/jpeg',
+			'image/png',
+			'image/gif'
+		];
+
+		// Image URL
+		$url = $this->clean_image($data['file']);
+
+		// Validate image URL
+		if (empty($url))
+		{
+			$errors[]['message'] = $this->language->lang(
+				'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE',
+				$data['file']
+			);
+
+			// Further code depends on the URL
+			return false;
+		}
+
+		// Add image information (URL, width, height, and MIME type)
+		$data['info'] = $this->get_image_info($url);
+
+		// Fix MIME type
+		if (is_int($data['info']['type']))
+		{
+			$data['info']['type'] = image_type_to_mime_type($data['info']['type']);
+		}
+
+		// Validate image dimensions
+		if ((!empty($data['info']['width']) && $data['info']['width'] < $min['width']) ||
+			(!empty($data['info']['height']) && $data['info']['height'] < $min['height']))
+		{
+			$errors[]['message'] = $this->language->lang(
+				'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE',
+				$data['file'], $min['width'], $min['height']
+			);
+		}
+
+		// Validate image MIME type
+		if (!empty($data['info']['type']) && !in_array($data['info']['type'], $types, true))
+		{
+			$errors[]['message'] = $this->language->lang(
+				'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE',
+				$data['file'], $data['info']['type']
+			);
+		}
+
+		// Validation check
+		return (empty($errors) && !empty($data['info']));
 	}
 
 	/**
