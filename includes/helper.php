@@ -812,23 +812,16 @@ class helper
 		// Filter images
 		foreach ($images as $key => $value)
 		{
-			$info = $this->get_image_info($value);
+			$image = ['file' => $value];
 
-			// Can't get image dimensions
-			if (empty($info))
+			// Did not pass validation
+			if (!$this->validate_image($image))
 			{
 				unset($images[$key]);
 				continue;
 			}
 
-			// Images should be at least 200x200 px
-			if (($info['width'] < 200) || ($info['height'] < 200))
-			{
-				unset($images[$key]);
-				continue;
-			}
-
-			$images[$key] = $info;
+			$images[$key] = $image['info'];
 		}
 
 		// Reindex array
@@ -1039,7 +1032,7 @@ class helper
 		}
 
 		// Validation check
-		return empty($errors);
+		return (empty($errors) && !empty($data['info']));
 	}
 
 	/**
