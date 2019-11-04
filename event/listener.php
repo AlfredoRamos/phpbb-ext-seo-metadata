@@ -58,14 +58,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header($event)
 	{
-		if (empty($event['page_title']))
-		{
-			return;
-		}
-
 		$this->helper->set_metadata([
 			'title' => $event['page_title']
 		]);
+
 		$this->helper->metadata_template_vars();
 	}
 
@@ -78,14 +74,16 @@ class listener implements EventSubscriberInterface
 	 */
 	public function viewforum($event)
 	{
-		if (empty($event['forum_data']['forum_desc']))
-		{
-			return;
-		}
+		// Meta data helper
+		$data = [
+			'description' => $this->helper->clean_description($event['forum_data']['forum_desc']),
+			'image' => $this->helper->forum_image(
+				$event['forum_data']['forum_image'],
+				$event['forum_data']['forum_id']
+			)
+		];
 
-		$this->helper->set_metadata([
-			'description' => $this->helper->clean_description($event['forum_data']['forum_desc'])
-		]);
+		$this->helper->set_metadata($data);
 	}
 
 	/**
@@ -97,6 +95,9 @@ class listener implements EventSubscriberInterface
 	 */
 	public function viewtopic($event)
 	{
+		// Meta data helper
+		$data = [];
+
 		// Extract description
 		if ((int) $event['start'] > 0)
 		{
@@ -110,7 +111,8 @@ class listener implements EventSubscriberInterface
 		// Extract image
 		$data['image'] = $this->helper->extract_image(
 			$data['description'],
-			$event['topic_data']['topic_first_post_id']
+			$event['topic_data']['topic_first_post_id'],
+			$event['topic_data']['forum_id']
 		);
 
 		// Helpers

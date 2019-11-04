@@ -172,6 +172,9 @@ class helper
 			];
 		}
 
+		// Remove empty values
+		$data = $this->filter_empty_items($data);
+
 		// Map values to correct properties
 		foreach ($data as $key => $value)
 		{
@@ -687,16 +690,18 @@ class helper
 	 *
 	 * @param string	$description
 	 * @param integer	$post_id
+	 * @param integer	$forum_id
 	 * @param integer	$max_images
 	 *
 	 * @return array	url, width, height and type
 	 */
-	public function extract_image($description = '', $post_id = 0, $max_images = 3)
+	public function extract_image($description = '', $post_id = 0, $forum_id = 0, $max_images = 3)
 	{
 		$description = trim($description);
 		$post_id = (int) $post_id;
+		$forum_id = (int) $forum_id;
 
-		if (empty($description) || empty($post_id))
+		if (empty($description) || empty($post_id) || empty($forum_id))
 		{
 			return [
 				'url' => '',
@@ -706,13 +711,24 @@ class helper
 			];
 		}
 
-		$cache_name = sprintf('seo_metadata_image_post_%d', $post_id);
-		$cached_image = $this->cache->get($cache_name);
+		$cached = [
+			'topic' => [
+				'name' => sprintf('seo_metadata_image_post_%d', $post_id)
+			],
+			'forum' => [
+				'name' => sprintf('seo_metadata_image_forum_%d', $forum_id)
+			]
+		];
+
+		foreach ($cached as $key => $value)
+		{
+			$cached[$key]['image'] = $this->cache->get($value['name']);
+		}
 
 		// Check cached image first
-		if (!empty($cached_image['url']))
+		if (!empty($cached['topic']['image']['url']))
 		{
-			return $cached_image;
+			return $cached['topic']['image'];
 		}
 
 		$server_name = trim($this->config['server_name']);
@@ -848,20 +864,73 @@ class helper
 		}
 
 		// Fallback image
-		if (empty($images[0]))
+		if (empty($images[0]) && !empty($cached['forum']['image']['url']))
 		{
-			return [
-				'url' => trim($this->config['seo_metadata_default_image']),
-				'width' => (int) $this->config['seo_metadata_default_image_width'],
-				'height' => (int) $this->config['seo_metadata_default_image_height'],
-				'type' => trim($this->config['seo_metadata_default_image_type'])
-			];
+			// Forum image
+			return $cached['forum']['image'];
+		}
+		else if (empty($images[0]) && empty($cached['forum']['image']['url']))
+		{
+			// Use default image
+			return null;
 		}
 
 		// Add image to cache
-		$this->cache->put($cache_name, $images[0]);
+		$this->cache->put($cached['topic']['name'], $images[0]);
 
 		return $images[0];
+	}
+
+	/**
+	 * Generate image from forum data.
+	 *
+	 * It will return the image information (url, width, height and type) on success, null otherwise.
+	 *
+	 * @param string	$forum_image
+	 * @param integer	$forum_id
+	 *
+	 * @return null|array
+	 */
+	public function forum_image($forum_image = '', $forum_id = 0)
+	{
+		$forum_image = trim($forum_image);
+		$forum_id = (int) $forum_id;
+		$default = [
+			'url' => '',
+			'width' => 0,
+			'height' => 0,
+			'type' => ''
+		];
+
+		if (empty($forum_image) || empty($forum_id))
+		{
+			return $default;
+		}
+
+		$cache_name = sprintf('seo_metadata_image_forum_%d', $forum_id);
+		$cached_image = $this->cache->get($cache_name);
+
+		// Check cached image first
+		if (!empty($cached_image['url']))
+		{
+			return $cached_image;
+		}
+
+		// Get image from forum data
+		$image = ['file' => $forum_image];
+		$errors = [];
+
+		// Validate forum image
+		if ($this->validate_image($image, $errors, ['images_dir' => 0]))
+		{
+			// Add image to cache
+			$this->cache->put($cache_name, $image['info']);
+
+			return $image['info'];
+		}
+
+		// Use default image
+		return null;
 	}
 
 	/**
@@ -975,6 +1044,9 @@ class helper
 			return false;
 		}
 
+		// Extra parameters
+		$extra['images_dir'] = isset($extra['images_dir']) ? (int) $extra['images_dir'] : 1;
+
 		// Minimum dimensions
 		$min = [
 			'width' => !empty($extra[0]) ? (int) $extra[0] : 200,
@@ -989,7 +1061,7 @@ class helper
 		];
 
 		// Image URL
-		$url = $this->clean_image($data['file']);
+		$url = $this->clean_image($data['file'], $extra['images_dir']);
 
 		// Validate image URL
 		if (empty($url))
@@ -1097,7 +1169,7 @@ class helper
 	 *
 	 * @return array
 	 */
-	private function filter_empty_items($data = [], $depth = 0)
+	public function filter_empty_items($data = [], $depth = 0)
 	{
 		if (empty($data))
 		{
