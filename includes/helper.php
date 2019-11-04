@@ -601,7 +601,7 @@ class helper
 		}
 
 		// Escape ampersand
-		$url = str_replace(['&amp;', '&'], ['&', '&amp;'], $url);
+		$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8', false);
 
 		// Remove SID from URL
 		$url = str_replace($this->user->session_id, '', $url);
