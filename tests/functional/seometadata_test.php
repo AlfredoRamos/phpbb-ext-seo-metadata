@@ -654,4 +654,73 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertSame($description, $elements['meta_description']->attr('content'));
 		$this->assertSame($description, $elements['open_graph']->attr('content'));
 	}
+
+	public function test_forum_image()
+	{
+		$this->login();
+		$this->admin_login();
+
+		// Add forum image
+		$crawler = self::request('GET', sprintf(
+			'adm/index.php?i=acp_forums&mode=manage&f=2&action=edit&sid=%s',
+			$this->sid
+		));
+
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
+			'forum_image' => 'images/forum_image.jpg'
+		]);
+
+		self::submit($form);
+
+		// Check new values
+		$crawler = self::request('GET', sprintf(
+			'adm/index.php?i=acp_forums&mode=manage&f=2&action=edit&sid=%s',
+			$this->sid
+		));
+
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+
+		$this->assertSame('images/forum_image.jpg', $form->get('forum_image')->getValue());
+
+		// Check forum image
+		$crawler = self::request('GET', sprintf(
+			'viewforum.php?f=2&sid=%s',
+			$this->sid
+		));
+
+		$image = $crawler->filter('meta[property="og:image"]');
+
+		$this->assertSame(
+			'http://localhost/images/forum_image.jpg',
+			$image->attr('content')
+		);
+
+		// Check topic image
+		$data = [
+			'title' => 'SEO Metadata Functional Test 4',
+			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt fermentum vehicula.'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$image = $crawler->filter('meta[property="og:image"]');
+
+		$this->assertSame(
+			'http://localhost/images/forum_image.jpg',
+			$image->attr('content')
+		);
+	}
 }
