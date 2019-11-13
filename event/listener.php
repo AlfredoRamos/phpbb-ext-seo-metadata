@@ -98,30 +98,38 @@ class listener implements EventSubscriberInterface
 		// Meta data helper
 		$data = [];
 
+		// Helpers
+		$first_post_id = $event['topic_data']['topic_first_post_id'];
+		$post_id = $first_post_id;
+		$data['title'] = $event['topic_data']['topic_title'];
+		$data['author'] = $event['topic_data']['topic_first_poster_name'];
+		$data['published_time'] = (int) $event['topic_data']['topic_time'];
+		$data['section'] = $event['topic_data']['forum_name'];
+
 		// Extract description
-		if ((int) $event['start'] > 0)
+		if ($this->helper->is_reply($event['post_list'], $first_post_id, $post_id))
 		{
-			$data['description'] = $this->helper->extract_description($event['topic_data']['topic_first_post_id']);
+			$data['description'] = $this->helper->extract_description($post_id);
+		}
+		else if ((int) $event['start'] > 0)
+		{
+			$data['description'] = $this->helper->extract_description($first_post_id);
 		}
 		else
 		{
-			$data['description'] = $event['rowset'][$event['topic_data']['topic_first_post_id']]['post_text'];
+			$data['description'] = $event['rowset'][$first_post_id]['post_text'];
 		}
 
 		// Extract image
 		$data['image'] = $this->helper->extract_image(
 			$data['description'],
-			$event['topic_data']['topic_first_post_id'],
+			$post_id,
 			$event['topic_data']['forum_id']
 		);
 
-		// Helpers
-		$data['author'] = $event['topic_data']['topic_first_poster_name'];
-		$data['title'] = $event['topic_data']['topic_title'];
+		// Clean helpers
 		$data['description'] = $this->helper->clean_description($data['description']);
 		$data['image']['url'] = $this->helper->clean_image($data['image']['url']);
-		$data['published_time'] = (int) $event['topic_data']['topic_time'];
-		$data['section'] = $event['topic_data']['forum_name'];
 
 		$this->helper->set_metadata($data);
 	}
