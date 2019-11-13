@@ -59,6 +59,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS' => 'Preferir adjuntos',
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN' => 'Las imágenes adjuntas tendrán mayor prioridad sobre las que han sido extraídas del mensaje.',
 
+	'ACP_SEO_METADATA_POST_METADATA' => 'Metadatos de mensajes',
+	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'También generará metadatos para URLs de mensajes específicos.',
+
 	'ACP_SEO_METADATA_LOCAL_IMAGES' => 'Imágenes locales',
 	'ACP_SEO_METADATA_LOCAL_IMAGES_EXPLAIN' => 'Extrae imágenes del cuerpo del mensaje únicamente de su dominio (<samp>%s</samp>).',
 

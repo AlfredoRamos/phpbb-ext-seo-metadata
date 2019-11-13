@@ -123,6 +123,16 @@
 				<label><input type="radio" name="seo_metadata_prefer_attachments" value="0"{% if not SEO_METADATA_PREFER_ATTACHMENTS %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_post_metadata">{{ lang('ACP_SEO_METADATA_POST_METADATA') }}{{ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_SEO_METADATA_POST_METADATA_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" id="seo_metadata_post_metadata" name="seo_metadata_post_metadata" value="1"{% if SEO_METADATA_POST_METADATA %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" name="seo_metadata_post_metadata" value="0"{% if not SEO_METADATA_POST_METADATA %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
 	</fieldset>
 
 	<fieldset>

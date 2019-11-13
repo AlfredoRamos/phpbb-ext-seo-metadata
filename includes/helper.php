@@ -12,6 +12,7 @@ namespace alfredoramos\seometadata\includes;
 use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\user;
+use phpbb\request\request;
 use phpbb\template\template;
 use phpbb\language\language;
 use phpbb\filesystem\filesystem;
@@ -30,6 +31,9 @@ class helper
 
 	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\request\request */
+	protected $request;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -67,6 +71,7 @@ class helper
 	 * @param \phpbb\db\driver\factory				$db
 	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\user							$user
+	 * @param \phpbb\request\request				$request
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\language\language				$language
 	 * @param \phpbb\filesystem\filesystem			$filesystem
@@ -79,11 +84,12 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
+	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->user = $user;
+		$this->request = $request;
 		$this->template = $template;
 		$this->language = $language;
 		$this->filesystem = $filesystem;
@@ -1159,6 +1165,55 @@ class helper
 		libxml_clear_errors();
 
 		return empty($errors);
+	}
+
+	/**
+	 * Check if the admin aproved showing metadata for specific posts.
+	 *
+	 * Helper for listener.
+	 *
+	 * @return bool
+	 */
+	public function check_replies()
+	{
+		return ((int) $this->config['seo_metadata_post_metadata'] === 1);
+	}
+
+	/**
+	 * Check if fiven post ID is a reply of the first post.
+	 *
+	 * @param array		$post_list
+	 * @param integer	$first_post_id
+	 * @param integer	$post_id (reference)
+	 *
+	 * @return bool
+	 */
+	public function is_reply($post_list = [], $first_post_id = 0, &$post_id = 0)
+	{
+		// Cast values
+		$first_post_id = (int) $first_post_id;
+
+		// It needs to be checked agains a valid post list
+		// and must be different from the first post ID
+		if (empty($post_list) || empty($first_post_id))
+		{
+			return false;
+		}
+
+		// Get post ID
+		$pid = $this->request->variable('p', 0);
+
+		$is_reply = !empty($pid) &&
+			in_array($pid, $post_list, true) &&
+			$pid !== $first_post_id;
+
+		// Update post ID
+		if ($is_reply)
+		{
+			$post_id = $pid;
+		}
+
+		return $is_reply;
 	}
 
 	/**

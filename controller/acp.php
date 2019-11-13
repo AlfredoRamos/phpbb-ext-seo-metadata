@@ -172,6 +172,13 @@ class acp
 					'max_range' => 1
 				]
 			],
+			'seo_metadata_post_metadata' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
+			],
 
 			// Open Graph
 			'seo_metadata_open_graph' => [
@@ -295,6 +302,10 @@ class acp
 				),
 				'seo_metadata_prefer_attachments' => $this->request->variable(
 					'seo_metadata_prefer_attachments',
+					0
+				),
+				'seo_metadata_post_metadata' => $this->request->variable(
+					'seo_metadata_post_metadata',
 					0
 				),
 
@@ -467,6 +478,7 @@ class acp
 			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
 			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config['seo_metadata_attachments'] === 1),
 			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config['seo_metadata_prefer_attachments'] === 1),
+			'SEO_METADATA_POST_METADATA' => ((int) $this->config['seo_metadata_post_metadata'] === 1),
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
 			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
