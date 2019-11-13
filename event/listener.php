@@ -9,29 +9,23 @@
 
 namespace alfredoramos\seometadata\event;
 
-use phpbb\config\config;
 use alfredoramos\seometadata\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \phpbb\config\config						$config
-	 * @param \alfredoramos\seometadata\includes\helper	$helper
+	 * @param \alfredoramos\seometadata\includes\helper $helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, helper $helper)
+	public function __construct(helper $helper)
 	{
-		$this->config = $config;
 		$this->helper = $helper;
 	}
 
