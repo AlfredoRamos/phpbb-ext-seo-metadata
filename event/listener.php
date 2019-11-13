@@ -101,7 +101,7 @@ class listener implements EventSubscriberInterface
 		$data['section'] = $event['topic_data']['forum_name'];
 
 		// Extract description
-		if ($this->helper->is_reply($event['post_list'], $first_post_id, $post_id))
+		if ($this->helper->check_replies() && $this->helper->is_reply($event['post_list'], $first_post_id, $post_id))
 		{
 			$data['description'] = $this->helper->extract_description($post_id);
 		}

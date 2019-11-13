@@ -1168,6 +1168,18 @@ class helper
 	}
 
 	/**
+	 * Check if the admin aproved showing metadata for specific posts.
+	 *
+	 * Helper for listener.
+	 *
+	 * @return bool
+	 */
+	public function check_replies()
+	{
+		return ((int) $this->config['seo_metadata_post_metadata'] === 1);
+	}
+
+	/**
 	 * Check if fiven post ID is a reply of the first post.
 	 *
 	 * @param array		$post_list

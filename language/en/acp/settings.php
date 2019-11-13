@@ -62,6 +62,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS' => 'Prefer attachments',
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN' => 'Attachment images will have higher priority over the ones that were extracted from the post.',
 
+	'ACP_SEO_METADATA_POST_METADATA' => 'Post metadata',
+	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Also generate metadata for specific post URLs.',
+
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata are dynamically generated from your board data.',
 
 	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Global settings',

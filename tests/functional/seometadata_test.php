@@ -320,6 +320,9 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_prefer_attachments'));
 		$this->assertSame(0, (int) $form->get('seo_metadata_prefer_attachments')->getValue());
 
+		$this->assertTrue($form->has('seo_metadata_post_metadata'));
+		$this->assertSame(0, (int) $form->get('seo_metadata_post_metadata')->getValue());
+
 		$this->assertTrue($form->has('seo_metadata_open_graph'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_open_graph')->getValue());
 
@@ -728,6 +731,10 @@ class seometadata_test extends phpbb_functional_test_case
 	{
 		$this->login();
 		$this->update_config_value(
+			'seo_metadata_post_metadata',
+			'1'
+		);
+		$this->update_config_value(
 			'seo_metadata_local_images',
 			'0'
 		);
@@ -787,6 +794,10 @@ class seometadata_test extends phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
+		$this->update_config_value(
+			'seo_metadata_post_metadata',
+			'0'
+		);
 		$this->update_config_value(
 			'seo_metadata_local_images',
 			'1'
