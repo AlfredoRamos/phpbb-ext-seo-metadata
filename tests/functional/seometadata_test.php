@@ -723,4 +723,73 @@ class seometadata_test extends phpbb_functional_test_case
 			$image->attr('content')
 		);
 	}
+
+	public function test_post_reply_metadata()
+	{
+		$this->login();
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'0'
+		);
+
+		$data = [
+			'title' => 'SEO Metadata Functional test 5',
+			'body' => 'Post reply test' . PHP_EOL . PHP_EOL .
+				'[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+		];
+
+		$post = $this->create_post(
+			2,
+			1,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?p=%d&sid=%s',
+			[
+				$post['post_id'],
+				$this->sid
+			]
+		));
+
+		$elements = [
+			'meta_description' => $crawler->filter('meta[name="description"]'),
+			'open_graph' => [
+				'description' => $crawler->filter('meta[property="og:description"]'),
+				'image' => $crawler->filter('meta[property="og:image"]'),
+				'width' => $crawler->filter('meta[property="og:image:width"]'),
+				'height' => $crawler->filter('meta[property="og:image:height"]'),
+				'type' => $crawler->filter('meta[property="og:image:type"]')
+			],
+			'json_ld' => json_decode($crawler->filter('script[type="application/ld+json"]')->text(), true)
+		];
+
+		$this->assertSame(
+			'Post reply test',
+			$elements['meta_description']->attr('content')
+		);
+
+		$this->assertSame(
+			'Post reply test',
+			$elements['open_graph']['description']->attr('content')
+		);
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['open_graph']['image']->attr('content')
+		);
+		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
+
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['json_ld']['image']
+		);
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'1'
+		);
+	}
 }
