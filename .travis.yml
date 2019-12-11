@@ -27,7 +27,7 @@ matrix:
       env: DB=mariadb
       services:
         - mysql
-    - php: 7.4snapshot
+    - php: 7.4
       env: DB=mariadb
       services:
         - mysql
