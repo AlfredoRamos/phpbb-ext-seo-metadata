@@ -1156,13 +1156,19 @@ class helper
 			return false;
 		}
 
-		libxml_use_internal_errors(true);
+		// Suppress errors
+		libxml_clear_errors();
+		$previous = libxml_use_internal_errors(true);
 
 		$dom = new \DOMDocument;
 		$dom->loadXML($xml);
 
+		// Validation
 		$errors = libxml_get_errors();
+
+		// Clear error buffer and restore previous value
 		libxml_clear_errors();
+		libxml_use_internal_errors($previous);
 
 		return empty($errors);
 	}
