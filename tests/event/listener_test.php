@@ -38,7 +38,7 @@ class listener_test extends phpbb_test_case
 		);
 	}
 
-	public function test_suscribed_events()
+	public function test_subscribed_events()
 	{
 		$this->assertSame(
 			[
