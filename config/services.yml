@@ -33,3 +33,5 @@ services:
             - '@upload_imagesize'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '%tables.posts%'
+            - '%tables.attachments%'
