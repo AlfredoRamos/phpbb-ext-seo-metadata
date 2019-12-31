@@ -9,7 +9,7 @@ SEO Metadata extension for phpBB
 
 ### Dependencies
 
-- PHP 5.6 or greater
+- PHP 7.1.3 or greater
 - phpBB 3.3 or greater
 
 ### Installation
