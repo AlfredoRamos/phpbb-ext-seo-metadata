@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --
 #
 # This file is part of the phpBB Forum Software package.
 #
@@ -11,7 +11,7 @@
 set -e
 set -x
 
-BRANCH=$1
+BRANCH="${1}"
 
 # Copy extension to a temp folder
 mkdir ../../tmp
@@ -19,4 +19,4 @@ cp -R . ../../tmp
 cd ../../
 
 # Clone phpBB
-git clone --depth=1 "git://github.com/phpbb/phpbb.git" "phpBB3" --branch=$BRANCH
+git clone --depth=1 "https://github.com/phpbb/phpbb.git" "phpBB3" --branch="${BRANCH}"

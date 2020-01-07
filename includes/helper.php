@@ -65,6 +65,9 @@ class helper
 	/** @var array */
 	protected $metadata;
 
+	/** @var array */
+	protected $tables;
+
 	/**
 	 * Helper constructor.
 	 *
@@ -81,10 +84,12 @@ class helper
 	 * @param \FastImageSize\FastImageSize			$imagesize
 	 * @param string								$root_path
 	 * @param string								$php_ext
+	 * @param string								$posts_table
+	 * @param string								$attachments_table
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext)
+	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext, $posts_table, $attachments_table)
 	{
 		$this->db = $db;
 		$this->config = $config;
@@ -100,6 +105,15 @@ class helper
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->metadata = [];
+
+		// Assign tables
+		if (empty($this->tables))
+		{
+			$this->tables = [
+				'posts' => $posts_table,
+				'attachments' => $attachments_table
+			];
+		}
 	}
 
 	/**
@@ -681,7 +695,7 @@ class helper
 		}
 
 		$sql = 'SELECT post_text
-			FROM ' . POSTS_TABLE . '
+			FROM ' . $this->tables['posts'] . '
 			WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
 		// Cache query for 24 hours
 		$result = $this->db->sql_query($sql, (24 * 60 * 60));
@@ -792,7 +806,7 @@ class helper
 		// Get attachment images
 		if ($use_attachments)
 		{
-			$sql = 'SELECT attach_id FROM ' . ATTACHMENTS_TABLE . '
+			$sql = 'SELECT attach_id FROM ' . $this->tables['attachments'] . '
 				WHERE post_msg_id = ' . $post_id . '
 					AND ' . $this->db->sql_in_set('extension', ['jpg', 'jpeg', 'png', 'gif']) . '
 					AND is_orphan = 0
@@ -1156,13 +1170,19 @@ class helper
 			return false;
 		}
 
-		libxml_use_internal_errors(true);
+		// Suppress errors
+		libxml_clear_errors();
+		$previous = libxml_use_internal_errors(true);
 
 		$dom = new \DOMDocument;
 		$dom->loadXML($xml);
 
+		// Validation
 		$errors = libxml_get_errors();
+
+		// Clear error buffer and restore previous value
 		libxml_clear_errors();
+		libxml_use_internal_errors($previous);
 
 		return empty($errors);
 	}
