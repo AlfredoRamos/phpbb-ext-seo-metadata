@@ -20,6 +20,6 @@ class ext extends base
 	 */
 	public function is_enableable()
 	{
-		return phpbb_version_compare(PHPBB_VERSION, '3.3.0-b2', '>=');
+		return phpbb_version_compare(PHPBB_VERSION, '3.3.0', '>=');
 	}
 }
