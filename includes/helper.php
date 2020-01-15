@@ -720,15 +720,16 @@ class helper
 		$description = trim($description);
 		$post_id = (int) $post_id;
 		$forum_id = (int) $forum_id;
+		$default = [
+			'url' => '',
+			'width' => 0,
+			'height' => 0,
+			'type' => ''
+		];
 
 		if (empty($description) || empty($post_id) || empty($forum_id))
 		{
-			return [
-				'url' => '',
-				'width' => 0,
-				'height' => 0,
-				'type' => ''
-			];
+			return $default;
 		}
 
 		$cached = [
@@ -892,7 +893,7 @@ class helper
 		else if (empty($images[0]) && empty($cached['forum']['image']['url']))
 		{
 			// Use default image
-			return null;
+			return $default;
 		}
 
 		// Add image to cache
