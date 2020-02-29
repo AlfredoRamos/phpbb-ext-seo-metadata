@@ -1100,7 +1100,7 @@ class helper
 		$data['info'] = $this->get_image_info($url);
 
 		// Fix MIME type
-		if (is_int($data['info']['type']))
+		if (isset($data['info']['type']) && is_int($data['info']['type']))
 		{
 			$data['info']['type'] = image_type_to_mime_type($data['info']['type']);
 		}
