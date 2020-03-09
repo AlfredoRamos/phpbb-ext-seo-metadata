@@ -24,7 +24,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA_EXPLAIN' => 'Changes to the following values will only be applied to new topics, if you want it to be applied to old topics too, you will need to purge the cache.',
+	'ACP_SEO_METADATA_EXPLAIN' => '<p>Here you can configure the meta data you want to generate and display. Consult the <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>FAQ</strong></a> for more information. If you require assistance, please visit the <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Support</strong></a> section.</p>',
+	'ACP_SEO_METADATA_INFO' => 'Changes to the following values will only be applied to new topics, if you want it to be applied to old topics too, you will need to purge the cache.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Enable description',
 	'ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN' => 'Description metatag.',
