@@ -4,6 +4,7 @@ SEO Metadata extension for phpBB
 
 [![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-seo-metadata)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases)
+[![Code Quality](https://img.shields.io/codefactor/grade/github/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://www.codefactor.io/repository/github/alfredoramos/phpbb-ext-seo-metadata)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
 
 ### Dependencies
