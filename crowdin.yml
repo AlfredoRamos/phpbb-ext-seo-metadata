@@ -1,0 +1,8 @@
+files:
+  - source: /language/en/**/*.php
+    translation: /language/%two_letters_code%/**/%original_file_name%
+    languages_mapping:
+      two_letters_code:
+        es-ES: es
+        es-MX: es_x_tu
+        pt-BR: pt_br
