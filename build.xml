@@ -20,8 +20,11 @@
 		<delete file="${dir}/.gitattributes" />
 		<delete file="${dir}/.travis.yml" />
 		<delete file="${dir}/build.xml" />
+		<delete file="${dir}/crowdin.yml" />
 		<delete file="${dir}/phpunit.xml.dist" />
 		<delete file="${dir}/README.md" />
+
+		<phingcall target="clean-langs" />
 	</target>
 
 	<!-- DO NOT EDIT BELOW THIS LINE -->
@@ -29,8 +32,41 @@
 	<property name="build-directory" value="build" override="true" />
 	<property name="package-directory" value="${build-directory}/package/${vendor-name}/${extension-name}" />
 
+	<!-- Remove incomplete translations. -->
+	<property name="exclude-langs" value="" override="true" />
+
 	<!-- These are the main targets which you will probably want to use -->
 	<target name="all" depends="prepare-structure,package" />
+
+	<!-- Remove incomplete language pack -->
+	<target name="clean-lang">
+		<if>
+			<and>
+				<not>
+					<isfalse value="${lang}" />
+				</not>
+				<not>
+					<equals arg1="${lang}" arg2="en" />
+				</not>
+			</and>
+			<then>
+				<delete dir="${package-directory}/language/${lang}" />
+			</then>
+		</if>
+	</target>
+
+	<!-- Clean up the language directory -->
+	<target name="clean-langs">
+		<if>
+			<not>
+				<isfalse value="${exclude-langs}" />
+			</not>
+			<then>
+				<echo msg="Deleting incomplete languages..." />
+				<foreach list="${exclude-langs}" param="lang" target="clean-lang" />
+			</then>
+		</if>
+	</target>
 
 	<!-- Clean up the build directory -->
 	<target name="clean">
