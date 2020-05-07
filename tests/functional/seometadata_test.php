@@ -433,7 +433,7 @@ class seometadata_test extends phpbb_functional_test_case
 		);
 
 		$data = [
-			'title' => 'SEO Metadata Functional Test 3',
+			'title' => 'SEO Metadata functional test 3',
 			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
 
 		];
@@ -495,7 +495,7 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->login();
 
 		$data = [
-			'title' => 'SEO Metadata Functional Test 1',
+			'title' => 'SEO Metadata functional test 1',
 			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius augue ut enim eleifend varius id eget nisl. Suspendisse potenti. Vivamus fringilla tellus consequat lectus venenatis faucibus. Aliquam hendrerit eleifend turpis et ultrices. Cras accumsan, dui sollicitudin faucibus auctor, nunc tellus viverra ex, id viverra nulla enim eget neque. Praesent gravida magna vitae erat convallis dictum. Sed ante lacus, gravida et pharetra vel, porttitor non leo. Sed auctor dolor et ullamcorper consectetur. Ut leo lacus, aliquam at dui eget, convallis tempor sapien. Integer sed lectus quis augue ultricies maximus sit amet nec erat. Duis odio odio, tincidunt quis porta eget, vulputate at eros. Etiam bibendum fringilla libero, sed lobortis lorem placerat eget'.PHP_EOL.
 				'[img]https://dummyimage.com/250x250/fff/000.jpg[/img]'.PHP_EOL.
 				'[img]https://dummyimage.com/600x400/000/fff.png[/img]'
@@ -542,7 +542,7 @@ class seometadata_test extends phpbb_functional_test_case
 		$this->login();
 
 		$data = [
-			'title' => 'SEO Metadata Functional Test 2',
+			'title' => 'SEO Metadata functional test 2',
 			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius augue ut enim eleifend varius id eget nisl. Suspendisse potenti. Vivamus fringilla tellus consequat lectus venenatis faucibus. Aliquam hendrerit eleifend turpis et ultrices. Cras accumsan, dui sollicitudin faucibus auctor, nunc tellus viverra ex, id viverra nulla enim eget neque. Praesent gravida magna vitae erat convallis dictum. Sed ante lacus, gravida et pharetra vel, porttitor non leo. Sed auctor dolor et ullamcorper consectetur. Ut leo lacus, aliquam at dui eget, convallis tempor sapien. Integer sed lectus quis augue ultricies maximus sit amet nec erat. Duis odio odio, tincidunt quis porta eget, vulputate at eros. Etiam bibendum fringilla libero, sed lobortis lorem placerat eget'.PHP_EOL.
 				'[img]https://dummyimage.com/150x150/fff/000.jpg[/img]'.PHP_EOL.
 				'[img]https://dummyimage.com/60x40/000/fff.png[/img]'
@@ -594,7 +594,7 @@ class seometadata_test extends phpbb_functional_test_case
 		);
 
 		$data = [
-			'title' => 'SEO Metadata Functional Test 3',
+			'title' => 'SEO Metadata functional test 3',
 			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
 
 		];
@@ -700,7 +700,7 @@ class seometadata_test extends phpbb_functional_test_case
 
 		// Check topic image
 		$data = [
-			'title' => 'SEO Metadata Functional Test 4',
+			'title' => 'SEO Metadata functional test 4',
 			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt fermentum vehicula.'
 
 		];
@@ -740,7 +740,7 @@ class seometadata_test extends phpbb_functional_test_case
 		);
 
 		$data = [
-			'title' => 'SEO Metadata Functional test 5',
+			'title' => 'SEO Metadata functional test 5',
 			'body' => 'Post reply test' . PHP_EOL . PHP_EOL .
 				'[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
 		];
@@ -800,6 +800,66 @@ class seometadata_test extends phpbb_functional_test_case
 		);
 		$this->update_config_value(
 			'seo_metadata_local_images',
+			'1'
+		);
+	}
+
+	public function test_summary_large_image()
+	{
+		$this->login();
+		$this->update_config_value(
+			'seo_metadata_open_graph',
+			'0'
+		);
+
+		$data = [
+			'title' => 'SEO Metadata functional test 6',
+			'body' => '[img]http://localhost/images/wide_image.jpg[/img]'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$elements = [];
+		$twitter_cards = [
+			'twitter' => [
+				'card',
+				'image'
+			]
+		];
+
+		foreach ($twitter_cards as $key => $value)
+		{
+			foreach ($value as $k => $v)
+			{
+				$elements[$v] = $crawler->filter(
+					vsprintf('meta[name="%1$s:%2$s"]', [$key, $v])
+				);
+
+				$this->assertSame(1, $elements[$v]->count());
+			}
+		}
+
+		$this->assertSame(1, $elements['card']->count());
+		$this->assertSame('summary_large_image', $elements['card']->attr('content'));
+
+		$this->assertSame(1, $elements['image']->count());
+		$this->assertSame('http://localhost/images/wide_image.jpg', $elements['image']->attr('content'));
+
+		$this->update_config_value(
+			'seo_metadata_open_graph',
 			'1'
 		);
 	}
