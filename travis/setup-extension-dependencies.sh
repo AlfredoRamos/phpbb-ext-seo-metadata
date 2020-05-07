@@ -9,17 +9,21 @@ NOTESTS="${3}"
 
 # Add required files for tests
 if [[ "${NOTESTS}" != 1 ]]; then
-	if [[ ! -f phpBB/images/default_image.jpg ]]; then
-		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/default_image.jpg phpBB/images/
-	fi
+	images=(
+		'default_image.jpg'
+		'default_logo.jpg'
+		'forum_image.jpg'
+		'wide_image.jpg'
+	)
 
-	if [[ ! -f phpBB/images/default_logo.jpg ]]; then
-		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/default_logo.jpg phpBB/images/
-	fi
+	for image in "${images[@]}"; do
+		file=phpBB/images/"${image}"
+		fixture="${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/"${image}"
 
-	if [[ ! -f phpBB/images/forum_image.jpg ]]; then
-		cp "${TRAVIS_BUILD_DIR}"/tests/functional/fixtures/images/forum_image.jpg phpBB/images/
-	fi
+		if [[ ! -f "${file}" ]]; then
+			cp "${fixture}" "$(dirname "${file}")"/
+		fi
+	done
 fi
 
 # Check if package have dependencies in the
