@@ -9,7 +9,6 @@
 
 namespace alfredoramos\seometadata\tests\event;
 
-use phpbb_test_case;
 use alfredoramos\seometadata\includes\helper;
 use alfredoramos\seometadata\event\listener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @group event
  */
-class listener_test extends phpbb_test_case
+class listener_test extends \phpbb_test_case
 {
 	/** @var \alfredoramos\seometadata\includes\helper */
 	protected $helper;
