@@ -389,6 +389,14 @@ class acp
 					$fields['seo_metadata_default_image_height'] = 0;
 				}
 
+				// Default JSON-LD logo cleanup
+				if (empty($fields['seo_metadata_json_ld_logo']) || empty($json_ld_logo))
+				{
+					$fields['seo_metadata_json_ld_logo'] = '';
+					$fields['seo_metadata_json_ld_logo_width'] = 0;
+					$fields['seo_metadata_json_ld_logo_height'] = 0;
+				}
+
 				// Save configuration
 				foreach ($fields as $key => $value)
 				{
