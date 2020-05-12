@@ -79,10 +79,12 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN') ~ ' ' ~ lang('ACP_SEO_METADATA_EXTRACTED_IMAGE_DATA') }}</span>
 			</dt>
 			<dd>
+				{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH or SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}
 				<strong id="seo_metadata_default_image_width">{% if SEO_METADATA_DEFAULT_IMAGE_WIDTH %}{{ SEO_METADATA_DEFAULT_IMAGE_WIDTH }}{% else %}0{% endif %}</strong>
 				x
 				<strong id="seo_metadata_default_image_height">{% if SEO_METADATA_DEFAULT_IMAGE_HEIGHT %}{{ SEO_METADATA_DEFAULT_IMAGE_HEIGHT }}{% else %}0{% endif %}</strong>
 				{{ lang('PIXEL') }}
+				{% endif %}
 			</dd>
 		</dl>
 		<dl>
@@ -91,7 +93,7 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_TYPE_EXPLAIN') ~ ' ' ~ lang('ACP_SEO_METADATA_EXTRACTED_IMAGE_DATA') }}</span>
 			</dt>
 			<dd>
-				<strong id="seo_metadata_default_image_type">{% if SEO_METADATA_DEFAULT_IMAGE_TYPE %}{{ SEO_METADATA_DEFAULT_IMAGE_TYPE }}{% endif %}</strong>
+				{% if SEO_METADATA_DEFAULT_IMAGE_TYPE %}<strong id="seo_metadata_default_image_type">{{ SEO_METADATA_DEFAULT_IMAGE_TYPE }}</strong>{% endif %}
 			</dd>
 		</dl>
 		<dl>
@@ -218,10 +220,12 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN') ~ ' ' ~ lang('ACP_SEO_METADATA_EXTRACTED_IMAGE_DATA') }}</span>
 			</dt>
 			<dd>
+				{% if SEO_METADATA_JSON_LD_LOGO_WIDTH or SEO_METADATA_JSON_LD_LOGO_HEIGHT %}
 				<strong id="seo_metadata_json_ld_logo_width">{% if SEO_METADATA_JSON_LD_LOGO_WIDTH %}{{ SEO_METADATA_JSON_LD_LOGO_WIDTH }}{% else %}0{% endif %}</strong>
 				x
 				<strong id="seo_metadata_json_ld_logo_height">{% if SEO_METADATA_JSON_LD_LOGO_HEIGHT %}{{ SEO_METADATA_JSON_LD_LOGO_HEIGHT }}{% else %}0{% endif %}</strong>
 				{{ lang('PIXEL') }}
+				{% endif %}
 			</dd>
 		</dl>
 	</fieldset>
