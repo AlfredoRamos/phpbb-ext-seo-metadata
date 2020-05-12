@@ -131,26 +131,6 @@ class acp
 					'regexp' => '#^(?:[\w\.\-\/]+\.(?:jpe?g|png|gif))?$#'
 				]
 			],
-			'seo_metadata_default_image_width' => [
-				'filter' => FILTER_VALIDATE_INT,
-				'options' => [
-					'min_range' => 0,
-					'max_range' => 1200
-				]
-			],
-			'seo_metadata_default_image_height' => [
-				'filter' => FILTER_VALIDATE_INT,
-				'options' => [
-					'min_range' => 0,
-					'max_range' => 1200
-				]
-			],
-			'seo_metadata_default_image_type' => [
-				'filter' => FILTER_VALIDATE_REGEXP,
-				'options' => [
-					'regexp' => '#^(?:image\/(?:jpe?g|png|gif))?$#'
-				]
-			],
 			'seo_metadata_local_images' => [
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
@@ -228,20 +208,6 @@ class acp
 				'options' => [
 					'regexp' => '#^(?:[\w\.\-\/]+\.(?:jpe?g|png|gif))?$#'
 				]
-			],
-			'seo_metadata_json_ld_logo_width' => [
-				'filter' => FILTER_VALIDATE_INT,
-				'options' => [
-					'min_range' => 0,
-					'max_range' => 1200
-				]
-			],
-			'seo_metadata_json_ld_logo_height' => [
-				'filter' => FILTER_VALIDATE_INT,
-				'options' => [
-					'min_range' => 0,
-					'max_range' => 1200
-				]
 			]
 		];
 
@@ -278,18 +244,6 @@ class acp
 				),
 				'seo_metadata_default_image' => $this->request->variable(
 					'seo_metadata_default_image',
-					''
-				),
-				'seo_metadata_default_image_width' => $this->request->variable(
-					'seo_metadata_default_image_width',
-					0
-				),
-				'seo_metadata_default_image_height' => $this->request->variable(
-					'seo_metadata_default_image_height',
-					0
-				),
-				'seo_metadata_default_image_type' => $this->request->variable(
-					'seo_metadata_default_image_type',
 					''
 				),
 				'seo_metadata_local_images' => $this->request->variable(
@@ -341,14 +295,6 @@ class acp
 				'seo_metadata_json_ld_logo' => $this->request->variable(
 					'seo_metadata_json_ld_logo',
 					''
-				),
-				'seo_metadata_json_ld_logo_width' => $this->request->variable(
-					'seo_metadata_json_ld_logo_width',
-					0
-				),
-				'seo_metadata_json_ld_logo_height' => $this->request->variable(
-					'seo_metadata_json_ld_logo_height',
-					0
 				)
 			];
 
@@ -374,7 +320,7 @@ class acp
 								$fields[$k] = $default_image['info'][$key];
 							}
 
-							break;
+						break;
 
 						case 'type':
 							$fields[$k] = (!empty($default_image['info'][$key])) ? $default_image['info'][$key] : '';

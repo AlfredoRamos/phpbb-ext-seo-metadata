@@ -48,14 +48,14 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_default_image'));
 		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
-		$this->assertTrue($form->has('seo_metadata_default_image_width'));
-		$this->assertSame(0, (int) $form->get('seo_metadata_default_image_width')->getValue());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_width')->count());
+		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
 
-		$this->assertTrue($form->has('seo_metadata_default_image_height'));
-		$this->assertSame(0, (int) $form->get('seo_metadata_default_image_height')->getValue());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_height')->count());
+		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
 
-		$this->assertTrue($form->has('seo_metadata_default_image_type'));
-		$this->assertSame('', $form->get('seo_metadata_default_image_type')->getValue());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_type')->count());
+		$this->assertSame('', $crawler->filter('#seo_metadata_default_image_type')->text());
 
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
@@ -90,11 +90,11 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_json_ld_logo'));
 		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
 
-		$this->assertTrue($form->has('seo_metadata_json_ld_logo_width'));
-		$this->assertSame(0, (int) $form->get('seo_metadata_json_ld_logo_width')->getValue());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
+		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_json_ld_logo_width')->text());
 
-		$this->assertTrue($form->has('seo_metadata_json_ld_logo_height'));
-		$this->assertSame(0, (int) $form->get('seo_metadata_json_ld_logo_height')->getValue());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
+		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_json_ld_logo_height')->text());
 	}
 
 	public function test_update_acp_form_settings()
@@ -106,12 +106,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
 			'seo_metadata_default_image' => 'default_image.jpg',
-			'seo_metadata_default_image_width' => '0',
-			'seo_metadata_default_image_height' => '0',
-			'seo_metadata_default_image_type' => '',
-			'seo_metadata_json_ld_logo' => 'default_logo.jpg',
-			'seo_metadata_json_ld_logo_width' => '0',
-			'seo_metadata_json_ld_logo_height' => '0',
+			'seo_metadata_json_ld_logo' => 'default_logo.jpg'
 		]);
 
 		self::submit($form);
@@ -122,14 +117,12 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 			$this->sid
 		));
 
-		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-
-		// Try to guess default image width, height and MIME type
-		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_width')->getValue());
-		$this->assertSame(250, (int) $form->get('seo_metadata_default_image_height')->getValue());
-		$this->assertSame('image/jpeg', $form->get('seo_metadata_default_image_type')->getValue());
-		$this->assertSame(150, (int) $form->get('seo_metadata_json_ld_logo_width')->getValue());
-		$this->assertSame(150, (int) $form->get('seo_metadata_json_ld_logo_height')->getValue());
+		// Extract image width, height and MIME type
+		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
+		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
+		$this->assertSame('image/jpeg', $crawler->filter('#seo_metadata_default_image_type')->text());
+		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_width')->text());
+		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_height')->text());
 
 		// Check the new values in topics (fallback image)
 		$crawler = self::request('GET', sprintf(
