@@ -48,14 +48,11 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_default_image'));
 		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
-		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_width')->count());
-		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
+		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_width')->count());
 
-		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_height')->count());
-		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
+		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_height')->count());
 
-		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_type')->count());
-		$this->assertSame('', $crawler->filter('#seo_metadata_default_image_type')->text());
+		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_type')->count());
 
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
@@ -90,11 +87,9 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_json_ld_logo'));
 		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
 
-		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
-		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_json_ld_logo_width')->text());
+		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
 
-		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
-		$this->assertSame(0, (int) $crawler->filter('#seo_metadata_json_ld_logo_height')->text());
+		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
 	}
 
 	public function test_update_acp_form_settings()
