@@ -25,7 +25,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_EXPLAIN' => '<p>Aquí puedes configurar los meta datos que desees generar y mostrar. Consulta las <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>Preguntas Frecuentes</strong></a> para obtener más información. Si requieres de ayuda, por favor visita la sección de <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Soporte</strong></a>.</p>',
-	'ACP_SEO_METADATA_INFO' => 'Los cambios en los siguientes valores sólo serán aplicados a los temas nuevos, si deseas que tambien sean aplicados a los temas antiguos, necesitarás limpiar la caché.',
+	'ACP_SEO_METADATA_INFO' => 'Los cambios en los siguientes valores sólo serán aplicados a los temas nuevos, si deseas que también sean aplicados a los temas antiguos, necesitarás limpiar la caché.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Habilitar descripción',
 	'ACP_SEO_METADATA_META_DESCRIPTION_EXPLAIN' => 'Metatag de descripción.',
@@ -66,15 +66,15 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Metadatos de mensajes',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'También generará metadatos para URLs de mensajes específicos.',
 
-	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de su foro.',
+	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de tu foro.',
 
 	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Ajustes globales',
 
 	'ACP_SEO_METADATA_OPEN_GRAPH_SETTINGS' => 'Ajustes de Open Graph',
 	'ACP_SEO_METADATA_OPEN_GRAPH' => 'Habilitar Open Graph',
 
-	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'ID de la applicación de Facebook',
-	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de tu applicación de Facebook.',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION' => 'ID de aplicación de Facebook',
+	'ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN' => 'Identificador de tu aplicación de Facebook.',
 	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER' => 'Editor de Facebook',
 	'ACP_SEO_METADATA_FACEBOOK_PUBLISHER_EXPLAIN' => 'La URL de tu página de Facebook.',
 
