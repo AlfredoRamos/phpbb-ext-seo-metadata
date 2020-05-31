@@ -1104,6 +1104,12 @@ class helper
 		// Add image information (URL, width, height, and MIME type)
 		$data['info'] = $this->get_image_info($url);
 
+		// Could not get image information
+		if (empty($data['info']))
+		{
+			return false;
+		}
+
 		// Fix MIME type
 		if (isset($data['info']['type']) && is_int($data['info']['type']))
 		{
