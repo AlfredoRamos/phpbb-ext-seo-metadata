@@ -53,7 +53,7 @@ Open Graph:
 Twitter Cards:
 
 ```html
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary|summary_large_image">
 <meta name="twitter:site" content="...">
 <meta name="twitter:title" content="...">
 <meta name="twitter:description" content="...">
