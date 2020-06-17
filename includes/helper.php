@@ -432,7 +432,6 @@ class helper
 
 		// DOM manipulation
 		$dom = new \DOMDocument;
-		$dom->preserveWhiteSpace = false;
 		$dom->loadXML($description);
 		$xpath = new \DOMXPath($dom);
 
