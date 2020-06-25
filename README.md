@@ -10,6 +10,74 @@ SEO Metadata extension for phpBB
 
 Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and JSON-LD) of your forums and topics to improve SEO of your board and show correct information when you share it though social networks, including (but not limited to) Facebook, Twitter and Vkontakte.
 
+If available, it will dynamically generate and include the following data inside the `<head>` tag:
+
+**Meta description**
+
+```html
+<meta name="description" content="...">
+```
+
+**Open Graph**
+
+```html
+<meta property="fb:app_id" content="...">
+<meta property="og:locale" content="...">
+<meta property="og:site_name" content="...">
+<meta property="og:url" content="...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="...">
+<meta property="og:description" content="...">
+<meta property="og:image" content="...">
+<meta property="og:image:type" content="...">
+<meta property="og:image:width" content="...">
+<meta property="og:image:height" content="...">
+<meta property="article:published_time" content="...">
+<meta property="article:section" content="...">
+<meta property="article:publisher" content="...">
+```
+
+**Twitter Cards**
+
+```html
+<meta name="twitter:card" content="summary|summary_large_image">
+<meta name="twitter:site" content="...">
+<meta name="twitter:title" content="...">
+<meta name="twitter:description" content="...">
+<meta name="twitter:image" content="..">
+```
+
+**JSON-LD**
+
+```html
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type": "DiscussionForumPosting",
+	"@id": "...",
+	"headline": "...",
+	"description": "...",
+	"image": "...",
+	"author": {
+		"@type": "Person",
+		"name": "..."
+	},
+	"datePublished": "..."
+	"publisher": {
+		"@type": "Organization",
+		"name": "...",
+		"url": "...",
+		"logo": {
+			"@type": "ImageObject",
+			"url": "...",
+			"width": "...",
+			"height": "..."
+		}
+	}
+}
+</script>
+```
+
 ### Features
 
 - Dynamically generated Open Graph, Twitter Cards meta tags and JSON-LD microdata from your board data and current page
@@ -48,75 +116,13 @@ If you like or found my work useful and want to show some appreciation, you can 
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
 - Click on `Enable` and confirm
 
-### Usage
+### Preview
 
-If available, it will dynamically generate and include the following data inside the `<head>` tag:
+[![Global settings](https://i.imgur.com/8rg2fKIb.png)](https://i.imgur.com/8rg2fKI.png)
+[![Open Graph, Twitter Cards and JSON-LD settings](https://i.imgur.com/042NB5Fb.png)](https://i.imgur.com/042NB5F.png)
+[![Generated markup](https://i.imgur.com/xKswZUHb.png)](https://i.imgur.com/xKswZUH.png)
 
-Meta description:
-
-```html
-<meta name="description" content="...">
-```
-
-Open Graph:
-
-```html
-<meta property="fb:app_id" content="...">
-<meta property="og:locale" content="...">
-<meta property="og:site_name" content="...">
-<meta property="og:url" content="...">
-<meta property="og:type" content="article">
-<meta property="og:title" content="...">
-<meta property="og:description" content="...">
-<meta property="og:image" content="...">
-<meta property="og:image:type" content="...">
-<meta property="og:image:width" content="...">
-<meta property="og:image:height" content="...">
-<meta property="article:published_time" content="...">
-<meta property="article:section" content="...">
-<meta property="article:publisher" content="...">
-```
-
-Twitter Cards:
-
-```html
-<meta name="twitter:card" content="summary|summary_large_image">
-<meta name="twitter:site" content="...">
-<meta name="twitter:title" content="...">
-<meta name="twitter:description" content="...">
-<meta name="twitter:image" content="..">
-```
-
-JSON-LD:
-
-```html
-<script type="application/ld+json">
-{
-	"@context": "http://schema.org",
-	"@type": "DiscussionForumPosting",
-	"@id": "...",
-	"headline": "...",
-	"description": "...",
-	"image": "...",
-	"author": {
-		"@type": "Person",
-		"name": "..."
-	},
-	"datePublished": "..."
-	"publisher": {
-		"@type": "Organization",
-		"name": "...",
-		"url": "...",
-		"logo": {
-			"@type": "ImageObject",
-			"url": "...",
-			"width": "...",
-			"height": "..."
-		}
-	}
-}
-</script>
-```
+*(Click to view in full size)*
 
 ### Configuration
 
