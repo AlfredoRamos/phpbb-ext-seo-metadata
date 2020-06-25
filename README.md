@@ -8,10 +8,37 @@ SEO Metadata extension for phpBB
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-seo-metadata/localized.svg)](https://crowdin.com/project/phpbb-ext-seo-metadata)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
 
-### Dependencies
+Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and JSON-LD) of your forums and topics to improve SEO of your board and show correct information when you share it though social networks, including (but not limited to) Facebook, Twitter and Vkontakte.
+
+### Features
+
+- Dynamically generated Open Graph, Twitter Cards meta tags and JSON-LD microdata from your board data and current page
+- Dynamic description
+- Set default image for Open Graph and JSON-LD
+- Set how description will be generated
+- ACP settings to enable/disable Open Graph, Twitter Cards and JSON-LD
+- Support for attachments, for topic image
+- Generate meta data for specific posts
+
+### Requirements
 
 - PHP 7.1.3 or greater
 - phpBB 3.3 or greater
+
+### Support
+
+- [**Download page**](https://www.phpbb.com/customise/db/extension/seo_metadata/)
+- [Support area](https://www.phpbb.com/customise/db/extension/seo_metadata/support)
+- [GitHub issues](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/issues)
+- [Crowdin translations](https://crowdin.com/project/phpbb-ext-seo-metadata)
+
+### Donate
+
+If you like or found my work useful and want to show some appreciation, you can consider supporting its development by giving a donation.
+
+[![Donate with PayPal](https://alfredoramos.github.io/assets/images/donate.png)](https://alfredoramos.github.io/donate/)
+
+[![Donate with PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://alfredoramos.github.io/donate/)
 
 ### Installation
 
