@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA_EXPLAIN' => '<p>Here you can configure the meta data you want to generate and display. Consult the <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>FAQ</strong></a> for more information. If you require assistance, please visit the <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Support</strong></a> section.</p>',
+	'ACP_SEO_METADATA_EXPLAIN' => '<p>Vous pouvez configurer, ici, le contenu des balises meta que vous voulez générer et afficher. Consultez la page <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>FAQ</strong></a> pour obtenir plus d\'informations. Si vous avez besoin d\'aide, veuillez visiter la section <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Support</strong></a> .</p>',
 	'ACP_SEO_METADATA_INFO' => 'Les modifications des valeurs suivantes ne seront appliqués qu\'aux nouveaux sujets, si vous souhaitez qu\'ils soient également appliqués aux anciens sujets, vous devez purger le cache du forum.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Activer la description',
