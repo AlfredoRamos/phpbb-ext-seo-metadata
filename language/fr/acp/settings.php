@@ -64,7 +64,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_PREFER_ATTACHMENTS_EXPLAIN' => 'Les images extraites des pièces-jointes auront une priorité plus importante que celles extraites du message.',
 
 	'ACP_SEO_METADATA_POST_METADATA' => 'Balises meta de message',
-	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Also generate metadata for specific post URLs.',
+	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Générer également des métadonnées pour des URL de publication spécifiques.',
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Les balises meta sont générées dynamiquement depuis les données de votre forum.',
 
@@ -90,7 +90,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Dimensions du logo éditeur',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Largeur x hauteur du logo éditeur.',
 
-	'ACP_SEO_METADATA_EXTRACTED_IMAGE_DATA' => 'This data will be extracted from the image.',
+	'ACP_SEO_METADATA_EXTRACTED_IMAGE_DATA' => 'Ces données seront extraites de l\'image.',
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valeurs incorrectes pour les champs: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'La valeur indiquée pour l\'image <samp>%1$s</samp> à générée une URL vide.<br>Ceci peut être provoqué par le fait que cette image est inexistante ou que le nom de fichier tente de sortir du chemin d\'accès <samp>/images/</samp>.',
