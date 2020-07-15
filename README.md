@@ -12,13 +12,13 @@ Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and
 
 If available, it will dynamically generate and include the following data inside the `<head>` tag:
 
-**Meta description**
+#### Meta description
 
 ```html
 <meta name="description" content="...">
 ```
 
-**Open Graph**
+#### Open Graph
 
 ```html
 <meta property="fb:app_id" content="...">
@@ -37,7 +37,7 @@ If available, it will dynamically generate and include the following data inside
 <meta property="article:publisher" content="...">
 ```
 
-**Twitter Cards**
+#### Twitter Cards
 
 ```html
 <meta name="twitter:card" content="summary|summary_large_image">
@@ -47,7 +47,7 @@ If available, it will dynamically generate and include the following data inside
 <meta name="twitter:image" content="..">
 ```
 
-**JSON-LD**
+#### JSON-LD
 
 ```html
 <script type="application/ld+json">
