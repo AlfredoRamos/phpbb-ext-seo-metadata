@@ -24,6 +24,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA' => 'SEO Metadata',
+	'ACP_SEO_METADATA' => 'Métadonnées SEO',
 	'LOG_SEO_METADATA_DATA' => '<strong>Les données de SEO Metadata ont été modifiées</strong><br>» %s'
 ]);
