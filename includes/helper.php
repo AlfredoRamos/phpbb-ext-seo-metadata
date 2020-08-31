@@ -621,18 +621,17 @@ class helper
 			return '';
 		}
 
+		// Escape ampersand
+		$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8', false);
+
 		// Remove app.php/ from URL
 		if ((int) $this->config['enable_mod_rewrite'] === 1)
 		{
 			$url = preg_replace('#app\.' . $this->php_ext . '/(.+)$#', '\1', $url);
 		}
 
-		// Escape ampersand
-		$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8', false);
-
 		// Remove SID from URL
-		$url = str_replace($this->user->session_id, '', $url);
-		$url = preg_replace('#(?:&amp;|\?)?sid=#', '', $url);
+		$url = preg_replace('#(?:&amp;)?sid=\w{0,128}#', '', $url);
 		$url = str_replace('?&amp;', '?', $url);
 
 		// Remove index.php without parameters
