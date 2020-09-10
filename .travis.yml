@@ -1,7 +1,7 @@
 language: php
 dist: xenial
 
-matrix:
+jobs:
   include:
     - php: 7.1
       env: DB=none;NOTESTS=1
