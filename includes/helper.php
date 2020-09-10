@@ -219,6 +219,7 @@ class helper
 				break;
 
 				case 'description':
+					$value = $this->clean_description($value);
 					$this->metadata['meta_description']['description'] = $value;
 					$this->metadata['open_graph']['og:description'] = $value;
 					$this->metadata['twitter_cards']['twitter:description'] = $value;
@@ -228,6 +229,7 @@ class helper
 				case 'image':
 					if (isset($value['url']))
 					{
+						$value['url'] = $this->clean_image($value['url']);
 						$this->metadata['open_graph']['og:image'] = $value['url'];
 						$this->metadata['twitter_cards']['twitter:image'] = $value['url'];
 						$this->metadata['json_ld']['image'] = $value['url'];
@@ -242,7 +244,6 @@ class helper
 					{
 						$value['width'] = (int) $value['width'];
 						$value['height'] = (int) $value['height'];
-
 						$this->metadata['open_graph']['og:image:width'] = $value['width'];
 						$this->metadata['open_graph']['og:image:height'] = $value['height'];
 						$this->metadata['twitter_cards']['twitter:card'] = $this->is_wide_image(
@@ -568,16 +569,7 @@ class helper
 		// Image must exist inside the phpBB's images path
 		$base_path = $this->filesystem->realpath($this->root_path . $dir);
 
-		// \phpbb\filesystem\filesystem::resolve_path() throws warnings when called from
-		// \phpbb\filesystem\filesystem::realpath() and open_basedir is set.
-		//
-		// It passes directories not allowed (like the web server root directory) as parameter
-		// to is_link(), is_dir() and is_file()
-		//
-		// https://tracker.phpbb.com/browse/PHPBB3-15643
-		// https://github.com/phpbb/phpbb/pull/5673
-		//
-		//$image_path = $this->filesystem->realpath($base_path . '/' . $uri);
+		// Canonicalized absolute path
 		$image_path = $this->filesystem->clean_path($base_path . '/' . $uri);
 
 		// Avoid path traversal attack
