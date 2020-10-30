@@ -8,7 +8,7 @@ SEO Metadata extension for phpBB
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-seo-metadata/localized.svg)](https://crowdin.com/project/phpbb-ext-seo-metadata)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
 
-Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and JSON-LD) of your forums and topics to improve SEO of your board and show correct information when you share it though social networks, including (but not limited to) Facebook, Twitter and Vkontakte.
+Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and JSON-LD) of your forums and topics to improve SEO of your board and show correct information when you share it on social networks, including (but not limited to) Telegram, WhatsApp, Facebook, Twitter and Vkontakte.
 
 If available, it will dynamically generate and include the following data inside the `<head>` tag:
 
