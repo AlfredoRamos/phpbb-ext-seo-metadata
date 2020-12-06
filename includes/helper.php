@@ -169,9 +169,9 @@ class helper
 					'article:publisher' => trim($this->config['seo_metadata_facebook_publisher'])
 				],
 				'json_ld' => [
-					'@context' => 'http://schema.org',
+					'@context' => 'https://schema.org',
 					'@type' => 'DiscussionForumPosting',
-					'@id' => $default['url'],
+					'url' => $default['url'],
 					'headline' => '',
 					'description' => $default['description'],
 					'image' => $default['image']['url'],
@@ -180,6 +180,7 @@ class helper
 						'name' => ''
 					],
 					'datePublished' => '',
+					'articleSection' => '',
 					'publisher' => [
 						'@type' => 'Organization',
 						'name' => trim($this->config['sitename']),
@@ -261,6 +262,7 @@ class helper
 
 				case 'section':
 					$this->metadata['open_graph']['article:section'] = $value;
+					$this->metadata['json_ld']['articleSection'] = $value;
 				break;
 
 				case 'author':
@@ -337,6 +339,12 @@ class helper
 		if (empty($data['json_ld']['author']['name']))
 		{
 			unset($data['json_ld']['author']);
+		}
+
+		// JSON-LD article section
+		if (empty($data['json_ld']['datePublished']))
+		{
+			unset($data['json_ld']['articleSection']);
 		}
 
 		// JSON-LD logo
