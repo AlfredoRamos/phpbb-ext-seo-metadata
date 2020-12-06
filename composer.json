@@ -33,7 +33,7 @@
 	},
 	"require-dev": {
 		"phing/phing": "^2.16.0",
-		"pear/archive_tar": "^1.4.0"
+		"pear/archive_tar": "^1.4.11"
 	},
 	"extra": {
 		"display-name": "SEO Metadata",
