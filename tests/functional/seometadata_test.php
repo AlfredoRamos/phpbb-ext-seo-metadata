@@ -163,7 +163,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertFalse(empty($elements));
 
 		$this->assertSame(
-			'http://schema.org',
+			'https://schema.org',
 			$elements['@context']
 		);
 		$this->assertSame(
@@ -172,12 +172,12 @@ class seometadata_test extends \phpbb_functional_test_case
 		);
 		$this->assertSame(
 			'http://localhost/viewtopic.php?t=1',
-			$elements['@id']
+			$elements['url']
 		);
 		$this->assertTrue(
 			empty(preg_match(
 				'#(?:\?|&amp;)sid=' . preg_quote($this->sid) . '#',
-				$elements['@id']
+				$elements['url']
 			))
 		);
 		$this->assertSame(
@@ -206,6 +206,10 @@ class seometadata_test extends \phpbb_functional_test_case
 				'#^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$#',
 				$elements['datePublished']
 			)
+		);
+		$this->assertSame(
+			'Your first forum',
+			$elements['articleSection']
 		);
 		$this->assertSame(
 			'Organization',
