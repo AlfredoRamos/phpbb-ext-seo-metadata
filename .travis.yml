@@ -31,11 +31,16 @@ jobs:
       env: DB=mariadb
       services:
         - mysql
+    - php: 8.0
+      env: DB=postgres
+      services:
+        - postgresql
     - php: nightly
       env: DB=mariadb
       services:
         - mysql
   allow_failures:
+    - php: 8.0
     - php: nightly
   fast_finish: true
 
