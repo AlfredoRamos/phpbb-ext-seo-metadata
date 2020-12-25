@@ -1,0 +1,194 @@
+name: GitHub Actions CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+env:
+  EXTNAME: 'alfredoramos/seometadata'
+  SNIFF: 1
+  IMAGE_ICC: 1
+  EPV: 1
+  EXECUTABLE_FILES: 0
+  EXTDEPS: 0
+  PHPBB_BRANCH: 3.3.x
+
+jobs:
+  test:
+    name: php ${{ matrix.php-version }}, ${{ matrix.db-type }}
+    runs-on: ubuntu-18.04
+    services:
+      mysql:
+        image: ${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb') && matrix.db-type || 'mariadb' }}:${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
+        credentials:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: phpbb_tests
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      postgres:
+        image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
+        credentials:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          -v /var/run/postgresql:/var/run/postgresql
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    env:
+      DB: ${{ matrix.db-type }}
+      MYISAM: 0
+      PHP_VERSION: ${{ matrix.php-version }}
+      NOTESTS: ${{ matrix.db-type == 'none' && 1 || 0 }}
+    strategy:
+      matrix:
+        include:
+          - php-version: 7.1
+            db-type: 'none'
+            db-version: 'none'
+          - php-version: 7.1
+            db-type: 'mysql'
+            db-version: '5.7'
+          - php-version: 7.1
+            db-type: 'mariadb'
+            db-version: '10.5'
+          - php-version: 7.1
+            db-type: 'postgres'
+            db-version: '13.1'
+          - php-version: 7.2
+            db-type: 'mariadb'
+            db-version: '10.5'
+          - php-version: 7.3
+            db-type: 'mariadb'
+            db-version: '10.5'
+          - php-version: 7.4
+            db-type: 'mysql'
+            db-version: '8.0'
+          - php-version: 7.4
+            db-type: 'mariadb'
+            db-version: '10.5'
+    steps:
+      - name: Checkout phpBB
+        uses: actions/checkout@master
+        with:
+          repository: phpbb/phpbb
+          ref: ${{ env.PHPBB_BRANCH }}
+          path: phpBB3
+
+      - name: Checkout extension
+        uses: actions/checkout@master
+        with:
+          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, sqlite, pdo_sqlite, intl, gd, exif, iconv, pgsql, ldap
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Composer
+        id: setup-composer
+        working-directory: phpBB3/phpBB
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          composer update --no-install --prefer-dist
+
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.setup-composer.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Setup environment for phpBB
+        working-directory: phpBB3
+        run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
+
+      - name: Install extension dependencies
+        if: ${{ env.EXTDEPS == 1 }}
+        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+        run: composer update -n --no-dev --prefer-dist --no-progress
+
+      - name: Setup EPV
+        if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
+        working-directory: phpBB3/phpBB
+        run: composer require -n --dev --prefer-dist --no-progress phpbb/epv:dev-master
+
+      - name: Run code sniffer
+        if: ${{ env.NOTESTS == 1 && env.SNIFF == 1 }}
+        working-directory: phpBB3
+        run: .github/ext-sniff.sh $EXTNAME $NOTESTS
+
+      - name: Check image ICC profiles
+        if: ${{ env.NOTESTS == 1 && env.IMAGE_ICC == 1 }}
+        working-directory: phpBB3
+        run: .github/check-image-icc-profiles.sh
+
+      - name: Check executable files
+        if: ${{ env.NOTESTS == 1 && env.EXECUTABLE_FILES == 1 }}
+        working-directory: phpBB3
+        run: .github/ext-check-executable-files.sh ./ $EXTNAME
+
+      - name: Run EPV
+        if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
+        working-directory: phpBB3
+        run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/$EXTNAME"
+
+      - name: Setup database
+        if: ${{ env.NOTESTS != 1 }}
+        working-directory: phpBB3
+        run: .github/setup-database.sh $DB $MYISAM
+
+      - name: Setup PHPUnit files
+        if: ${{ env.NOTESTS != 1 }}
+        working-directory: phpBB3
+        run: |
+          mkdir -p phpBB/ext/$EXTNAME/ci
+          cp .github/phpunit* phpBB/ext/$EXTNAME/ci/
+
+      - name: Setup tests
+        if: ${{ env.NOTESTS != 1 }}
+        working-directory: phpBB3/phpBB
+        run: |
+          chmod +x ext/$EXTNAME/.github/*.sh
+          ext/$EXTNAME/.github/setup-tests.sh $EXTNAME $NOTESTS
+
+      - name: Run unit tests
+        if: ${{ env.NOTESTS != 1 }}
+        working-directory: phpBB3
+        run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/ci/phpunit-$DB-github.xml --bootstrap tests/bootstrap.php

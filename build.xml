@@ -15,10 +15,9 @@
 	-->
 	<target name="clean-package">
 		<delete dir="${dir}/tests" />
-		<delete dir="${dir}/travis" />
+		<delete dir="${dir}/.github" />
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
-		<delete file="${dir}/.travis.yml" />
 		<delete file="${dir}/build.xml" />
 		<delete file="${dir}/crowdin.yml" />
 		<delete file="${dir}/phpunit.xml.dist" />
@@ -55,6 +54,7 @@
 		</if>
 	</target>
 
+	<!-- Replace invalid characters in language files -->
 	<target name="clean-lang">
 		<echo msg="Replacing invalid characters: ${filename}" />
 		<exec dir="${package-directory}/language" command="sed -ri 's|'\\\\\''|’|g' ${filename}" checkreturn="true" />
