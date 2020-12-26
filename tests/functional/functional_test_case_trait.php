@@ -18,7 +18,7 @@ trait functional_test_case_trait
 
 	abstract protected function init();
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 
