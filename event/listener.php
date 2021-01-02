@@ -14,13 +14,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \alfredoramos\seometadata\includes\helper */
+	/** @var helper */
 	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \alfredoramos\seometadata\includes\helper $helper
+	 * @param helper $helper
 	 *
 	 * @return void
 	 */
