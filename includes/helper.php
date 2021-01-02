@@ -23,37 +23,37 @@ use FastImageSize\FastImageSize;
 
 class helper
 {
-	/** @var \phpbb\db\driver\factory */
+	/** @var factory */
 	protected $db;
 
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\user */
+	/** @var user */
 	protected $user;
 
-	/** @var \phpbb\request\request */
+	/** @var request */
 	protected $request;
 
-	/** @var \phpbb\template\template */
+	/** @var template */
 	protected $template;
 
-	/** @var \phpbb\language\language */
+	/** @var language */
 	protected $language;
 
-	/** @var \phpbb\filesystem\filesystem */
+	/** @var filesystem */
 	protected $filesystem;
 
-	/** @var \phpbb\cache\driver\driver_interface */
+	/** @var driver_interface */
 	protected $cache;
 
-	/** @var \phpbb\controller\helper */
+	/** @var helper */
 	protected $controller_helper;
 
-	/** @var \phpbb\event\dispatcher_interface */
+	/** @var dispatcher_interface */
 	protected $dispatcher;
 
-	/** @var \FastImageSize\FastImageSize */
+	/** @var FastImageSize */
 	protected $imagesize;
 
 	/** @var string */
@@ -71,21 +71,21 @@ class helper
 	/**
 	 * Helper constructor.
 	 *
-	 * @param \phpbb\db\driver\factory				$db
-	 * @param \phpbb\config\config					$config
-	 * @param \phpbb\user							$user
-	 * @param \phpbb\request\request				$request
-	 * @param \phpbb\template\template				$template
-	 * @param \phpbb\language\language				$language
-	 * @param \phpbb\filesystem\filesystem			$filesystem
-	 * @param \phpbb\cache\driver\driver_interface	$cache
-	 * @param \phpbb\controller\helper				$controller_helper
-	 * @param \phpbb\event\dispatcher_interface		$dispatcher
-	 * @param \FastImageSize\FastImageSize			$imagesize
-	 * @param string								$root_path
-	 * @param string								$php_ext
-	 * @param string								$posts_table
-	 * @param string								$attachments_table
+	 * @param factory				$db
+	 * @param config				$config
+	 * @param user					$user
+	 * @param request				$request
+	 * @param template				$template
+	 * @param language				$language
+	 * @param filesystem			$filesystem
+	 * @param driver_interface		$cache
+	 * @param helper				$controller_helper
+	 * @param dispatcher_interface	$dispatcher
+	 * @param FastImageSize			$imagesize
+	 * @param string				$root_path
+	 * @param string				$php_ext
+	 * @param string				$posts_table
+	 * @param string				$attachments_table
 	 *
 	 * @return void
 	 */
