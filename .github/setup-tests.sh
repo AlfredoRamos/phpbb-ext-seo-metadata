@@ -16,8 +16,8 @@ if [[ "${NOTESTS}" != 1 ]]; then
 	)
 
 	for image in "${images[@]}"; do
-		file=images/"${image}"
-		fixture=ext/"${EXTNAME}"/tests/functional/fixtures/images/"${image}"
+		file=../phpBB3/phpBB/images/"${image}"
+		fixture=../phpBB3/phpBB/ext/"${EXTNAME}"/tests/functional/fixtures/images/"${image}"
 
 		if [[ ! -f "${file}" ]]; then
 			cp "${fixture}" "$(dirname "${file}")"/
