@@ -2,7 +2,7 @@
 
 SEO Metadata extension for phpBB
 
-[![Build Status](https://img.shields.io/github/workflow/status/AlfredoRamos/phpbb-ext-seo-metadata/GitHub%20Actions%20CI?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/actions)
+[![Build Status](https://img.shields.io/github/workflow/status/AlfredoRamos/phpbb-ext-seo-metadata/CI?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/actions)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases)
 [![Code Quality](https://img.shields.io/codacy/grade/5da9411a064c41c6931af2a398dfad37.svg?style=flat-square)](https://app.codacy.com/manual/AlfredoRamos/phpbb-ext-seo-metadata/dashboard)
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-seo-metadata/localized.svg)](https://crowdin.com/project/phpbb-ext-seo-metadata)

@@ -1,4 +1,4 @@
-name: GitHub Actions CI
+name: CI
 
 on:
   push:
@@ -15,12 +15,12 @@ env:
   SNIFF: 1
   IMAGE_ICC: 1
   EPV: 1
-  EXECUTABLE_FILES: 0
-  EXTDEPS: 0
+  EXECUTABLE_FILES: 1
   PHPBB_BRANCH: 3.3.x
 
 jobs:
   test:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: php ${{ matrix.php-version }}, ${{ matrix.db-type }}
     runs-on: ubuntu-18.04
     services:
@@ -105,7 +105,7 @@ jobs:
       - name: Checkout extension
         uses: actions/checkout@master
         with:
-          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+          path: extension
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -134,12 +134,11 @@ jobs:
         working-directory: phpBB3
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
-      - name: Install extension dependencies
-        if: ${{ env.EXTDEPS == 1 }}
-        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+      - name: Setup extension
+        working-directory: extension
         run: |
-          composer require -n --prefer-dist --no-progress 'composer/package-versions-deprecated:^1.11.99' 'ocramius/proxy-manager:~2.1.1'
-          composer update -n --no-dev --prefer-dist --no-progress
+          chmod +x .github/*.sh
+          .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
@@ -176,14 +175,14 @@ jobs:
         working-directory: phpBB3
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
-          cp .github/phpunit* phpBB/ext/$EXTNAME/ci/
+          cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
       - name: Setup tests
         if: ${{ env.NOTESTS != 1 }}
-        working-directory: phpBB3/phpBB
+        working-directory: extension
         run: |
-          chmod +x ext/$EXTNAME/.github/*.sh
-          ext/$EXTNAME/.github/setup-tests.sh $EXTNAME $NOTESTS
+          chmod +x .github/*.sh
+          .github/setup-tests.sh $EXTNAME $NOTESTS
 
       - name: Run unit tests
         if: ${{ env.NOTESTS != 1 }}
