@@ -91,9 +91,9 @@ jobs:
           - php-version: '8.0'
             db-type: 'mariadb'
             db-version: '10.5'
-          - php-version: '8.1'
-            db-type: 'mariadb'
-            db-version: '10.5'
+          #- php-version: '8.1'
+          #  db-type: 'mariadb'
+          #  db-version: '10.5'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@master
