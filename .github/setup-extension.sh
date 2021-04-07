@@ -6,19 +6,9 @@ set -x
 EXTNAME="${1}"
 NOTESTS="${2}"
 
-# Fix for Composer 2
-composer require \
-	-n \
-	--ignore-platform-reqs \
-	--prefer-dist \
-	--no-progress \
-	'composer/package-versions-deprecated:^1.11.99' \
-	'ocramius/proxy-manager:~2.1.1'
-
 # Install dependencies
 composer update \
 	-n \
-	--ignore-platform-reqs \
 	--prefer-dist \
 	--no-progress
 
