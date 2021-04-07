@@ -52,9 +52,9 @@ If available, it will dynamically generate and include the following data inside
 ```html
 <script type="application/ld+json">
 {
-	"@context": "http://schema.org",
+	"@context": "https://schema.org",
 	"@type": "DiscussionForumPosting",
-	"@id": "...",
+	"url": "...",
 	"headline": "...",
 	"description": "...",
 	"image": "...",
@@ -62,7 +62,8 @@ If available, it will dynamically generate and include the following data inside
 		"@type": "Person",
 		"name": "..."
 	},
-	"datePublished": "..."
+	"datePublished": "...",
+	"articleSection": "...",
 	"publisher": {
 		"@type": "Organization",
 		"name": "...",
