@@ -23,7 +23,7 @@ use FastImageSize\FastImageSize;
 
 class helper
 {
-	/** @var factory */
+	/** @var database */
 	protected $db;
 
 	/** @var config */
@@ -44,13 +44,13 @@ class helper
 	/** @var filesystem */
 	protected $filesystem;
 
-	/** @var driver_interface */
+	/** @var cache */
 	protected $cache;
 
-	/** @var helper */
+	/** @var controller_helper */
 	protected $controller_helper;
 
-	/** @var dispatcher_interface */
+	/** @var dispatcher */
 	protected $dispatcher;
 
 	/** @var FastImageSize */
@@ -71,21 +71,21 @@ class helper
 	/**
 	 * Helper constructor.
 	 *
-	 * @param factory				$db
-	 * @param config				$config
-	 * @param user					$user
-	 * @param request				$request
-	 * @param template				$template
-	 * @param language				$language
-	 * @param filesystem			$filesystem
-	 * @param driver_interface		$cache
-	 * @param helper				$controller_helper
-	 * @param dispatcher_interface	$dispatcher
-	 * @param FastImageSize			$imagesize
-	 * @param string				$root_path
-	 * @param string				$php_ext
-	 * @param string				$posts_table
-	 * @param string				$attachments_table
+	 * @param database			$db
+	 * @param config			$config
+	 * @param user				$user
+	 * @param request			$request
+	 * @param template			$template
+	 * @param language			$language
+	 * @param filesystem		$filesystem
+	 * @param cache				$cache
+	 * @param controller_helper	$controller_helper
+	 * @param dispatcher		$dispatcher
+	 * @param FastImageSize		$imagesize
+	 * @param string			$root_path
+	 * @param string			$php_ext
+	 * @param string			$posts_table
+	 * @param string			$attachments_table
 	 *
 	 * @return void
 	 */
