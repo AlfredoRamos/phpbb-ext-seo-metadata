@@ -108,7 +108,7 @@ jobs:
           path: extension
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.11.0
         with:
           php-version: ${{ matrix.php-version }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysqli, intl, gd, exif, iconv, pgsql
