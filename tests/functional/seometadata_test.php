@@ -383,6 +383,62 @@ class seometadata_test extends \phpbb_functional_test_case
 		);
 	}
 
+	public function test_extracted_image_parameters()
+	{
+		$this->login();
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'0'
+		);
+
+		$data = [
+			'title' => 'SEO Metadata functional test 4',
+			'body' => '[img]https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder[/img]'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$elements = [];
+
+		// Open Graph image
+		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+
+		// JSON-LD image
+		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+
+		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertSame(
+			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			$elements['opengraph']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertSame(
+			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			$elements['jsonld']['image']
+		);
+
+		$this->update_config_value(
+			'seo_metadata_local_images',
+			'1'
+		);
+	}
+
 	public function test_forum_description()
 	{
 		$crawler = self::request('GET', sprintf(
