@@ -791,17 +791,35 @@ class helper
 			// Get image URL
 			$url = trim($node->getAttribute('src'));
 
+			// Get image path
+			$components = parse_url($url);
+
+			// Failed to parse image URL
+			if (empty($components))
+			{
+				continue;
+			}
+
 			// Only JPEG, PNG and GIF images are supported
-			if (!preg_match('#\.(?:jpe?g|png|gif)$#', $url))
+			if (empty($components['path']) || !preg_match('#\.(?:jpe?g|png|gif)$#', $components['path']))
 			{
 				continue;
 			}
 
 			// Get only local images
-			if ($local_images &&
-				!preg_match('#^https?://(?:\w+\.)?' . preg_quote($server_name) . '#', $url))
+			if ($local_images)
 			{
-				continue;
+				// Invalid server or image host
+				if (empty($server_name) || empty($components['host']))
+				{
+					continue;
+				}
+
+				// Server and image host do not match
+				if (!preg_match('#\.?' . preg_quote($server_name) . '$#', $components['host']))
+				{
+					continue;
+				}
 			}
 
 			$images[] = $url;
