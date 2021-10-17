@@ -2,13 +2,8 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
 
 env:
   EXTNAME: 'alfredoramos/seometadata'
@@ -112,15 +107,13 @@ jobs:
       - name: Setup Composer
         id: setup-composer
         working-directory: phpBB3/phpBB
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup cache
         uses: actions/cache@v2
         with:
           path: ${{ steps.setup-composer.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -131,7 +124,7 @@ jobs:
       - name: Setup extension
         working-directory: extension
         run: |
-          chmod +x .github/*.sh
+          chmod +x .github/setup-extension.sh
           .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup EPV
