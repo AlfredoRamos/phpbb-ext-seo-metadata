@@ -112,6 +112,20 @@ class listener implements EventSubscriberInterface
 		else
 		{
 			$data['description'] = $event['rowset'][$first_post_id]['post_text'];
+			// Prefix with post subject if body length is < 25 (+ 7 for <t>...</t>), to satisfy SEO recommendations
+			if (strlen($data['description']) < 32)
+			{
+				// Load XML document of post body
+				$dom = new \DOMDocument;
+				$dom->loadXML($data['description']);
+				// Prepend post subject to post body in XML
+				$dom->documentElement->insertBefore(
+					$dom->createTextNode($event['rowset'][$first_post_id]['post_subject'] . ': '),
+					$dom->documentElement->firstChild
+				);
+				// Save modified XML
+				$data['description'] = $dom->saveXML($dom->documentElement);
+			}
 		}
 
 		// Extract image
