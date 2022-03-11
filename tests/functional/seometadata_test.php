@@ -503,12 +503,12 @@ class seometadata_test extends \phpbb_functional_test_case
 		];
 
 		$this->assertSame(
-			'Post reply test',
+			'Welcome to phpBB3 Post reply test',
 			$elements['meta_description']->attr('content')
 		);
 
 		$this->assertSame(
-			'Post reply test',
+			'Welcome to phpBB3 Post reply test',
 			$elements['open_graph']['description']->attr('content')
 		);
 		$this->assertSame(

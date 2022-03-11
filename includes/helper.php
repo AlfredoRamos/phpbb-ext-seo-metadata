@@ -221,6 +221,13 @@ class helper
 
 				case 'description':
 					$value = $this->clean_description($value);
+
+					// Prefix with topic title if description length is < 25 to satisfy SEO recommendations
+					if (mb_strlen($value, 'UTF-8') < 25 && !empty($data['title']))
+					{
+						$value = trim($data['title'] . ' ' . $value);
+					}
+
 					$this->metadata['meta_description']['description'] = $value;
 					$this->metadata['open_graph']['og:description'] = $value;
 					$this->metadata['twitter_cards']['twitter:description'] = $value;
@@ -704,29 +711,6 @@ class helper
 		$result = $this->db->sql_query($sql, (24 * 60 * 60));
 		$description = $this->db->sql_fetchfield('post_text');
 		$this->db->sql_freeresult($result);
-
-		// Prefix with post subject if body length is < 25 (+ 7 for <t>...</t>), to satisfy SEO recommendations
-		if (strlen($description) < 32)
-		{
-			// Build database query for post subject
-			$sql = 'SELECT post_subject
-				FROM ' . $this->tables['posts'] . '
-				WHERE ' . $this->db->sql_build_array('SELECT', ['post_id' => $post_id]);
-			// Cache query for 24 hours
-			$result = $this->db->sql_query($sql, (24 * 60 * 60));
-			// Load XML document of post body
-			$dom = new \DOMDocument;
-			$dom->loadXML($description);
-			// Prepend post subject to post body in XML
-			$dom->documentElement->insertBefore(
-				$dom->createTextNode($this->db->sql_fetchfield('post_subject') . ': '),
-				$dom->documentElement->firstChild
-			);
-			// Save modified XML
-			$description = $dom->saveXML($dom->documentElement);
-			// Free SQL result
-			$this->db->sql_freeresult($result);
-		}
 
 		return $description;
 	}
