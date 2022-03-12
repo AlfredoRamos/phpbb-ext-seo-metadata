@@ -85,14 +85,14 @@ jobs:
           #  db-version: '10.5'
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: extension
 
