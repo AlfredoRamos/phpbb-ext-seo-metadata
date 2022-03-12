@@ -16,7 +16,7 @@ env:
 jobs:
   test:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
-    name: php ${{ matrix.php-version }}, ${{ matrix.db-type }}
+    name: php ${{ matrix.php-version }}, ${{ matrix.db-type }} ${{ matrix.db-version }}
     runs-on: ubuntu-18.04
     services:
       mysql:
@@ -33,7 +33,7 @@ jobs:
           --health-retries=3
 
       postgres:
-        image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
+        image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'alpine' }}
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -64,7 +64,7 @@ jobs:
             db-version: '10.5'
           - php-version: '7.1'
             db-type: 'postgres'
-            db-version: '13.1'
+            db-version: '13-alpine'
           - php-version: '7.2'
             db-type: 'mariadb'
             db-version: '10.5'
@@ -80,9 +80,12 @@ jobs:
           - php-version: '8.0'
             db-type: 'mariadb'
             db-version: '10.5'
-          #- php-version: '8.1'
-          #  db-type: 'mariadb'
-          #  db-version: '10.5'
+          - php-version: '8.1'
+            db-type: 'mariadb'
+            db-version: '10.5'
+          - php-version: '8.2'
+            db-type: 'postgres'
+            db-version: '14-alpine'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v3
