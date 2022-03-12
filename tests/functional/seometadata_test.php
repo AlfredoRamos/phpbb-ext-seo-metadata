@@ -543,7 +543,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		);
 
 		$data = [
-			'title' => 'SEO Metadata functional test 6',
+			'title' => 'SEO Metadata functional test 5',
 			'body' => '[img]http://localhost/images/wide_image.jpg[/img]'
 
 		];
@@ -592,5 +592,47 @@ class seometadata_test extends \phpbb_functional_test_case
 			'seo_metadata_open_graph',
 			'1'
 		);
+	}
+
+	public function test_short_description()
+	{
+		$this->login();
+
+		$data = [
+			'title' => 'SEO Metadata functional test 6',
+			'body' => 'Sample text [img]http://localhost/images/wide_image.jpg[/img]'
+
+		];
+
+		$post = $this->create_topic(
+			2,
+			$data['title'],
+			$data['body']
+		);
+
+		$crawler = self::request('GET', vsprintf(
+			'viewtopic.php?t=%d&sid=%s',
+			[
+				$post['topic_id'],
+				$this->sid
+			]
+		));
+
+		$script = $crawler->filter('script[type="application/ld+json"]');
+		$json =  json_decode($script->text(), true);
+
+		$elements = [
+			$crawler->filter('meta[name="description"]')->attr('content'),
+			$crawler->filter('meta[property="og:description"]')->attr('content'),
+			$json['description']
+		];
+
+		foreach ($elements as $value)
+		{
+			$this->assertSame(
+				$data['title'] . ' Sample text',
+				$value
+			);
+		}
 	}
 }
