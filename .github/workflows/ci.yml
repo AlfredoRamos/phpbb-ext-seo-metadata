@@ -88,14 +88,14 @@ jobs:
             db-version: '14-alpine'
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: extension
 
