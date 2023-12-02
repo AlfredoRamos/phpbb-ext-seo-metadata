@@ -1,0 +1,23 @@
+# This file is for standardizing the coding style between different editors
+# http://editorconfig.org/
+
+root = true
+
+[*]
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+quote_type = single
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.yml]
+indent_size = 4
+indent_style = space
+
+[.github/workflows/*.yml]
+indent_size = 2
+indent_style = space
