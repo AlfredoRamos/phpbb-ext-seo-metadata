@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="SEO Metadata Extension Builder" description="Builds an extension.zip from a git repository" default="all">
+	<property name="env" value="production" />
 	<property name="vendor-name" value="alfredoramos" />
 	<property name="extension-name" value="seometadata" />
 	<!--
@@ -14,16 +15,28 @@
 	example: ext/${vendor-name}/${extension-name}/
 	-->
 	<target name="clean-package">
+		<echo msg="Cleaning files and directories" />
+
 		<delete dir="${dir}/tests" />
-		<delete dir="${dir}/.github" />
+		<delete dir="${dir}/.github"/>
+		<delete dir="${dir}/.vscode"/>
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
+		<delete file="${dir}/.editorconfig" />
 		<delete file="${dir}/build.xml" />
 		<delete file="${dir}/crowdin.yml" />
 		<delete file="${dir}/phpunit.xml.dist" />
 		<delete file="${dir}/README.md" />
 
-		<phingcall target="clean-langs" />
+		<if>
+			<and>
+				<equals arg1="${env}" arg2="production" />
+				<isset property="exclude-langs" />
+			</and>
+			<then>
+				<phingcall target="clean-langs" />
+			</then>
+		</if>
 	</target>
 
 	<!-- DO NOT EDIT BELOW THIS LINE -->
@@ -99,7 +112,6 @@
 	<!-- The real packaging -->
 	<target name="package">
 		<echo msg="Extracting ${version}" />
-
 		<phingcall target="git-checkout">
 			<property name="archive-version" value="${version}" />
 		</phingcall>
@@ -108,7 +120,7 @@
 			<equals arg1="${has-dependencies}" arg2="1" />
 			<then>
 				<echo msg="Installing dependencies" />
-				<exec dir="${package-directory}" command="composer install --prefer-dist --no-dev" checkreturn="true" />
+				<exec dir="${package-directory}" command="composer update -n --prefer-dist --no-dev" checkreturn="true" />
 			</then>
 		</if>
 
