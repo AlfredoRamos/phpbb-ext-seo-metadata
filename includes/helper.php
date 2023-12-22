@@ -313,17 +313,6 @@ class helper
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
 
-		// Twitter Cards can use Open Graph data
-		if ((int) $this->config['seo_metadata_open_graph'] === 1 &&
-			(int) $this->config['seo_metadata_twitter_cards'] === 1)
-		{
-			unset(
-				$data['twitter_cards']['twitter:title'],
-				$data['twitter_cards']['twitter:description'],
-				$data['twitter_cards']['twitter:image']
-			);
-		}
-
 		// Open Graph extra check for default image
 		if (empty($data['open_graph']['og:image']))
 		{

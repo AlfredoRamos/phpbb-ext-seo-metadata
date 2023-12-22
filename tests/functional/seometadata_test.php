@@ -119,6 +119,11 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_twitter_cards()
 	{
+		$this->update_config_value(
+			'seo_metadata_twitter_publisher',
+			'@varsmx'
+		);
+
 		$crawler = self::request('GET', sprintf(
 			'viewtopic.php?t=1&sid=%s',
 			$this->sid
@@ -127,7 +132,11 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [];
 		$twitter_cards = [
 			'twitter' => [
-				'card'
+				'card',
+				'site',
+				'title',
+				'description',
+				'image'
 			]
 		];
 
@@ -146,6 +155,22 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(
 			'summary',
 			$elements['card']->attr('content')
+		);
+		$this->assertSame(
+			'@varsmx',
+			$elements['site']->attr('content')
+		);
+		$this->assertSame(
+			'Welcome to phpBB3',
+			$elements['title']->attr('content')
+		);
+		$this->assertSame(
+			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			$elements['description']->attr('content')
+		);
+		$this->assertSame(
+			'http://localhost/images/default_image.jpg',
+			$elements['image']->attr('content')
 		);
 	}
 
@@ -265,22 +290,31 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [];
 
 		// Open Graph image
-		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+		$elements['open_graph'] = $crawler->filter('meta[property="og:image"]');
+
+		// Twitter Cards image
+		$elements['twitter_cards'] = $crawler->filter('meta[name="twitter:image"]');
 
 		// JSON-LD image
-		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
-		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+		$elements['json_ld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['json_ld'] = json_decode($elements['json_ld']->text(), true);
 
-		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
-			$elements['opengraph']->attr('content')
+			$elements['open_graph']->attr('content')
 		);
 
-		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
-			$elements['jsonld']['image']
+			$elements['twitter_cards']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['json_ld']['image']));
+		$this->assertSame(
+			'http://localhost/images/default_image.jpg',
+			$elements['json_ld']['image']
 		);
 	}
 
@@ -312,22 +346,31 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [];
 
 		// Open Graph image
-		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+		$elements['open_graph'] = $crawler->filter('meta[property="og:image"]');
+
+		// Twitter Cards image
+		$elements['twitter_cards'] = $crawler->filter('meta[name="twitter:image"]');
 
 		// JSON-LD image
-		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
-		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+		$elements['json_ld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['json_ld'] = json_decode($elements['json_ld']->text(), true);
 
-		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
-			$elements['opengraph']->attr('content')
+			$elements['open_graph']->attr('content')
 		);
 
-		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
-			$elements['jsonld']['image']
+			$elements['twitter_cards']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['json_ld']['image']));
+		$this->assertSame(
+			'http://localhost/images/default_image.jpg',
+			$elements['json_ld']['image']
 		);
 	}
 
@@ -363,22 +406,31 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [];
 
 		// Open Graph image
-		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+		$elements['open_graph'] = $crawler->filter('meta[property="og:image"]');
+
+		// Twitter Cards image
+		$elements['twitter_cards'] = $crawler->filter('meta[name="twitter:image"]');
 
 		// JSON-LD image
-		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
-		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+		$elements['json_ld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['json_ld'] = json_decode($elements['json_ld']->text(), true);
 
-		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
 			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
-			$elements['opengraph']->attr('content')
+			$elements['open_graph']->attr('content')
 		);
 
-		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
 			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
-			$elements['jsonld']['image']
+			$elements['twitter_cards']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['json_ld']['image']));
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['json_ld']['image']
 		);
 
 		$this->update_config_value(
@@ -419,22 +471,31 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [];
 
 		// Open Graph image
-		$elements['opengraph'] = $crawler->filter('meta[property="og:image"]');
+		$elements['open_graph'] = $crawler->filter('meta[property="og:image"]');
+
+		// Twitter Cards image
+		$elements['twitter_cards'] = $crawler->filter('meta[name="twitter:image"]');
 
 		// JSON-LD image
-		$elements['jsonld'] = $crawler->filter('script[type="application/ld+json"]');
-		$elements['jsonld'] = json_decode($elements['jsonld']->text(), true);
+		$elements['json_ld'] = $crawler->filter('script[type="application/ld+json"]');
+		$elements['json_ld'] = json_decode($elements['json_ld']->text(), true);
 
-		$this->assertFalse(empty($elements['opengraph']->attr('content')));
+		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
 			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
-			$elements['opengraph']->attr('content')
+			$elements['open_graph']->attr('content')
 		);
 
-		$this->assertFalse(empty($elements['jsonld']['image']));
+		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
 			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
-			$elements['jsonld']['image']
+			$elements['twitter_cards']->attr('content')
+		);
+
+		$this->assertFalse(empty($elements['json_ld']['image']));
+		$this->assertSame(
+			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			$elements['json_ld']['image']
 		);
 
 		$this->update_config_value(
@@ -452,13 +513,15 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$elements = [
 			'meta_description' => $crawler->filter('meta[name="description"]'),
-			'open_graph' => $crawler->filter('meta[property="og:description"]')
+			'open_graph' => $crawler->filter('meta[property="og:description"]'),
+			'twitter_cards' => $crawler->filter('meta[name="twitter:description"]')
 		];
 
 		$description = 'Description of your first forum.';
 
 		$this->assertSame($description, $elements['meta_description']->attr('content'));
 		$this->assertSame($description, $elements['open_graph']->attr('content'));
+		$this->assertSame($description, $elements['twitter_cards']->attr('content'));
 	}
 
 	public function test_post_reply_metadata()
@@ -503,6 +566,10 @@ class seometadata_test extends \phpbb_functional_test_case
 				'height' => $crawler->filter('meta[property="og:image:height"]'),
 				'type' => $crawler->filter('meta[property="og:image:type"]')
 			],
+			'twitter_cards' => [
+				'description' => $crawler->filter('meta[name="twitter:description"]'),
+				'image' => $crawler->filter('meta[name="twitter:image"]'),
+			],
 			'json_ld' => json_decode($crawler->filter('script[type="application/ld+json"]')->text(), true)
 		];
 
@@ -522,6 +589,15 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
 		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
 		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
+
+		$this->assertSame(
+			'Welcome to phpBB3 Post reply test',
+			$elements['twitter_cards']['description']->attr('content')
+		);
+		$this->assertSame(
+			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			$elements['twitter_cards']['image']->attr('content')
+		);
 
 		$this->assertSame(
 			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
@@ -628,6 +704,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$elements = [
 			$crawler->filter('meta[name="description"]')->attr('content'),
 			$crawler->filter('meta[property="og:description"]')->attr('content'),
+			$crawler->filter('meta[name="twitter:description"]')->attr('content'),
 			$json['description']
 		];
 
