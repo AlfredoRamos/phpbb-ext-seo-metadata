@@ -174,6 +174,7 @@ class helper
 					'url' => $default['url'],
 					'headline' => '',
 					'description' => $default['description'],
+					'text' => $default['description'],
 					'image' => $default['image']['url'],
 					'author' => [
 						'@type' => 'Person',
@@ -232,6 +233,7 @@ class helper
 					$this->metadata['open_graph']['og:description'] = $value;
 					$this->metadata['twitter_cards']['twitter:description'] = $value;
 					$this->metadata['json_ld']['description'] = $value;
+					$this->metadata['json_ld']['text'] = $value;
 				break;
 
 				case 'image':

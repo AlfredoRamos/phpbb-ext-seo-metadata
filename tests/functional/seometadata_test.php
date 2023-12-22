@@ -189,6 +189,10 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['description']
 		);
 		$this->assertSame(
+			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			$elements['text']
+		);
+		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
 			$elements['image']
 		);
