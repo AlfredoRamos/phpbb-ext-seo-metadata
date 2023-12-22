@@ -109,7 +109,7 @@ class listener implements EventSubscriberInterface
 		{
 			$data['description'] = $this->helper->extract_description($first_post_id);
 		}
-		else
+		else if (!empty($event['rowset'][$first_post_id]['post_text']))
 		{
 			$data['description'] = $event['rowset'][$first_post_id]['post_text'];
 		}
