@@ -2,7 +2,7 @@
 
 /**
  * SEO Metadata extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
+ * @author Alfredo Ramos <alfredo.ramos@skiff.com>
  * @copyright 2018 Alfredo Ramos
  * @license GNU GPL-2.0-only
  */
