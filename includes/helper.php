@@ -276,6 +276,7 @@ class helper
 
 				case 'author':
 					$this->metadata['json_ld']['author']['name'] = $value;
+					$this->metadata['json_ld']['author']['url'] = ( generate_board_url() . '/memberlist.php?mode=viewprofile&un=' . $value);
 				break;
 			}
 		}
