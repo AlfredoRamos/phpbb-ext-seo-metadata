@@ -277,6 +277,10 @@ class helper
 				case 'author':
 					$this->metadata['json_ld']['author']['name'] = $value;
 				break;
+
+				case 'author_id':
+					$this->metadata['json_ld']['author']['url'] = sprintf('%s/memberlist.php?mode=viewprofile&u=%s',generate_board_url(),$value);
+				break;
 			}
 		}
 	}
