@@ -96,6 +96,7 @@ class listener implements EventSubscriberInterface
 		$first_post_id = $event['topic_data']['topic_first_post_id'];
 		$post_id = $first_post_id;
 		$data['title'] = $event['topic_data']['topic_title'];
+		$data['author_id'] = $event['topic_data']['topic_poster'];
 		$data['author'] = $event['topic_data']['topic_first_poster_name'];
 		$data['published_time'] = (int) $event['topic_data']['topic_time'];
 		$data['section'] = $event['topic_data']['forum_name'];
