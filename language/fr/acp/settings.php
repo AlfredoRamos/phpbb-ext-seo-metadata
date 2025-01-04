@@ -66,8 +66,8 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Balises meta de message',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Générer également des métadonnées pour des URL de publication spécifiques.',
 
-	'ACP_SEO_METADATA_MAX_IMAGES' => 'Number of images',
-	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Maximum number of images to extract per post. Be aware that increasing this number might negatively affect the first load time if images have not been extracted before for the topic or post. It has a hard maximum value of <samp>%d</samp>.',
+	'ACP_SEO_METADATA_MAX_IMAGES' => 'Nombre d\'images',
+	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Nombre maximal d\'images à extraire par article. Sachez que l\'augmentation de ce nombre peut affecter négativement le temps de premier chargement si aucune image n\'a été extraite auparavant pour le sujet ou l\'article. Sa valeur maximale est de <samp>%d</samp>.',
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Les balises meta sont générées dynamiquement depuis les données de votre forum.',
 
