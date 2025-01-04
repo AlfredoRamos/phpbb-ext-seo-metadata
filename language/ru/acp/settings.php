@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA_EXPLAIN' => '<p>Здесь вы можете настроить метаданные, которые вы хотите генерировать и отображать. Ознакомьтесь с <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>Часто задаваемые вопросы</strong></a> для получения дополнительной информации. Если вам нужна помощь, посетите раздел <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Поддержка</strong></a></p>',
+	'ACP_SEO_METADATA_EXPLAIN' => '<p>Здесь вы можете настроить метаданные, которые вы хотите сгенерировать и отобразить. Ознакомьтесь с разделом <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>FAQ</strong>< /a> для получения дополнительной информации. Если вам нужна помощь, посетите раздел <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Поддержка</strong></a>.</p>',
 	'ACP_SEO_METADATA_INFO' => 'Изменения следующих значений будут применены только к новым темам, если вы хотите, чтобы они были применены и к старым темам, вам нужно будет очистить кэш.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Включить описание',
@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'По размеру изображения',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Изображение по умолчанию',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be larger than <samp>%1$d</samp> x <samp>%1$d</samp> px and relative to <samp>%2$s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL изображения по умолчанию для метатегов, таких как <samp>og:image</samp>. Он будет использоваться только в том случае, если изображение не может быть найдено на текущей странице. Он должен быть больше, чем <samp>%1$d</samp> x <samp>%1$d</samp> пикселей и относительно <samp>%2$s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Размеры изображения по умолчанию',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ширина и высота изображения по умолчанию.',
@@ -66,8 +66,8 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Метаданные поста',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Также генерировать метаданные для определенных URL-адресов поста.',
 
-	'ACP_SEO_METADATA_MAX_IMAGES' => 'Number of images',
-	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Maximum number of images to extract per post. Be aware that increasing this number might negatively affect the first load time if images have not been extracted before for the topic or post. It has a hard maximum value of <samp>%d</samp>.',
+	'ACP_SEO_METADATA_MAX_IMAGES' => 'Количество изображений',
+	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Максимальное количество изображений для извлечения на пост. Имейте в виду, что увеличение этого числа может негативно повлиять на время первой загрузки, если изображения ранее не извлекались для темы или поста. Оно имеет жесткое максимальное значение <samp>%d</samp>.',
 
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Метаданные динамически генерируются из данных вашего форума.',
 
@@ -89,7 +89,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'Настройки JSON-LDs',
 	'ACP_SEO_METADATA_JSON_LD' => 'Включить JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Логотип издателя',
-	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'A custom logo used by Google in the search results. It must be larger than <samp>112</samp> x <samp>112</samp> px and relative to <samp>%s</samp>.',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Пользовательский логотип, используемый Google в результатах поиска. Он должен быть больше <samp>112</samp> x <samp>112</samp> пикселей и относительно <samp>%s</samp>.',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Размеры логотипа издателя',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Ширина и высота логотипа издателя.',
 
@@ -97,6 +97,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Недопустимые значения полей: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'Значение, указанное для изображения <samp>%1$s</samp> сгенерировало пустой URL.<br>Возможно, было указано несуществующее изображение или файл находится за пределами <samp>/images/</samp> path.',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp> x <samp>%3$s</samp> px.',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Размеры изображения <samp>%1$s</samp> должны быть больше, чем <samp>%2$s</samp> x <samp>%3$s</samp> пикселей.',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE' => 'Тип MIME <samp>%2$s</samp> для изображения <samp>%1$s</samp> не допустим.'
 ]);
