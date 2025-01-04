@@ -159,6 +159,13 @@ class acp
 					'max_range' => 1
 				]
 			],
+			'seo_metadata_max_images' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 1,
+					'max_range' => $this->helper::MAX_IMG_EXTRACTION
+				]
+			],
 
 			// Open Graph
 			'seo_metadata_open_graph' => [
@@ -262,6 +269,10 @@ class acp
 					'seo_metadata_post_metadata',
 					0
 				),
+				'seo_metadata_max_images' => $this->request->variable(
+					'seo_metadata_max_images',
+					$this->helper::MAX_IMG_EXTRACTION
+				),
 
 				// Open Graph
 				'seo_metadata_open_graph' => $this->request->variable(
@@ -315,7 +326,7 @@ class acp
 						case 'height':
 							$fields[$k] = 0;
 
-							if (!empty($default_image['info'][$key]) && $default_image['info'][$key] >= 200)
+							if (!empty($default_image['info'][$key]) && $default_image['info'][$key] >= $this->helper::MIN_IMAGE_DIMENSION)
 							{
 								$fields[$k] = $default_image['info'][$key];
 							}
@@ -433,6 +444,8 @@ class acp
 			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config['seo_metadata_attachments'] === 1),
 			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config['seo_metadata_prefer_attachments'] === 1),
 			'SEO_METADATA_POST_METADATA' => ((int) $this->config['seo_metadata_post_metadata'] === 1),
+			'SEO_METADATA_MAX_IMAGES' => ((int) $this->config['seo_metadata_max_images']),
+			'SEO_METADATA_MAX_IMAGES_DEFAULT' => $this->helper::MAX_IMG_EXTRACTION,
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
 			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
 			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
@@ -442,6 +455,7 @@ class acp
 			'SEO_METADATA_JSON_LD_LOGO' => trim($this->config['seo_metadata_json_ld_logo']),
 			'SEO_METADATA_JSON_LD_LOGO_WIDTH' => (int) $this->config['seo_metadata_json_ld_logo_width'],
 			'SEO_METADATA_JSON_LD_LOGO_HEIGHT' => (int) $this->config['seo_metadata_json_ld_logo_height'],
+			'SEO_METADATA_MIN_IMAGE_DIMENSION' => $this->helper::MIN_IMAGE_DIMENSION,
 			'SERVER_NAME' => trim($this->config['server_name']),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);

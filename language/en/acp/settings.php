@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Image dimensions',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Default image',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be larger than <samp>200</samp>x<samp>200</samp>px and relative to <samp>%s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'Default image URL for meta tags such as <samp>og:image</samp>. It will only be used if an image cannot be found within the current page. It must be larger than <samp>%1$d</samp> x <samp>%1$d</samp> px and relative to <samp>%2$s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Default image dimensions',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Width x height of default image.',
@@ -66,6 +66,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Post metadata',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Also generate metadata for specific post URLs.',
 
+	'ACP_SEO_METADATA_MAX_IMAGES' => 'Number of images',
+	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Maximum number of images to extract per post. Be aware that increasing this number might negatively affect the first load time if images have not been extracted before for the topic or post. It has a hard maximum value of <samp>%d</samp>.',
+
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata are dynamically generated from your board data.',
 
 	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Global settings',
@@ -86,7 +89,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'JSON-LD settings',
 	'ACP_SEO_METADATA_JSON_LD' => 'Enable JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Publisher logo',
-	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'A custom logo used by Google in the search results. It must be larger than <samp>112</samp>x<samp>112</samp>px and relative to <samp>%s</samp>',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'A custom logo used by Google in the search results. It must be larger than <samp>112</samp> x <samp>112</samp> px and relative to <samp>%s</samp>.',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Publisher logo dimensions',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Width x height of publisher logo.',
 
@@ -94,6 +97,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'The value specified for image <samp>%1$s</samp> generated an empty URL.<br>It could be due a non-existent image was specified or the file name was trying to go outside the <samp>/images/</samp> path.',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp>x<samp>%3$s</samp>px',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'The dimensions for image <samp>%1$s</samp> must be greater than <samp>%2$s</samp> x <samp>%3$s</samp> px.',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE' => 'The MIME type <samp>%2$s</samp> for image <samp>%1$s</samp> is not allowed.'
 ]);

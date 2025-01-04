@@ -67,7 +67,7 @@
 		<dl>
 			<dt>
 				<label for="seo_metadata_default_image">{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE') ~ lang('COLON') }}</label>
-				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', BOARD_IMAGES_URL) }}</span>
+				<br><span>{{ lang('ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN', SEO_METADATA_MIN_IMAGE_DIMENSION, BOARD_IMAGES_URL) }}</span>
 			</dt>
 			<dd>
 				<input type="text" id="seo_metadata_default_image" name="seo_metadata_default_image"{% if SEO_METADATA_DEFAULT_IMAGE %} value="{{ SEO_METADATA_DEFAULT_IMAGE }}"{% endif %} class="full">
@@ -136,6 +136,15 @@
 				<label><input type="radio" name="seo_metadata_post_metadata" value="0"{% if not SEO_METADATA_POST_METADATA %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
 			</dd>
 		</dl>
+		<dl>
+			<dt>
+				<label for="seo_metadata_max_images">{{ lang('ACP_SEO_METADATA_MAX_IMAGES') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN', SEO_METADATA_MAX_IMAGES_DEFAULT) }}</span>
+			</dt>
+			<dd>
+				<input type="number" id="seo_metadata_max_images" name="seo_metadata_max_images" min="1" max="{{ SEO_METADATA_MAX_IMAGES_DEFAULT }}" value="{% if SEO_METADATA_MAX_IMAGES %}{{ SEO_METADATA_MAX_IMAGES }}{% else %}{{ SEO_METADATA_MAX_IMAGES_DEFAULT }}{% endif %}">
+			</dd>
+		</dl>
 	</fieldset>
 
 	<fieldset>
@@ -156,7 +165,7 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_FACEBOOK_APPLICATION_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_facebook_application" name="seo_metadata_facebook_application"{% if SEO_METADATA_FACEBOOK_APPLICATION %} value="{{ SEO_METADATA_FACEBOOK_APPLICATION }}"{% endif %} class="full">
+				<input type="text" id="seo_metadata_facebook_application" name="seo_metadata_facebook_application"{% if SEO_METADATA_FACEBOOK_APPLICATION %} value="{{ SEO_METADATA_FACEBOOK_APPLICATION }}"{% endif %} class="narrow">
 			</dd>
 		</dl>
 		<dl>
@@ -188,7 +197,7 @@
 				<br><span>{{ lang('ACP_SEO_METADATA_TWITTER_PUBLISHER_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="seo_metadata_twitter_publisher" name="seo_metadata_twitter_publisher"{% if SEO_METADATA_TWITTER_PUBLISHER %} value="{{ SEO_METADATA_TWITTER_PUBLISHER }}"{% endif %} class="full">
+				<input type="text" id="seo_metadata_twitter_publisher" name="seo_metadata_twitter_publisher"{% if SEO_METADATA_TWITTER_PUBLISHER %} value="{{ SEO_METADATA_TWITTER_PUBLISHER }}"{% endif %} class="narrow">
 			</dd>
 		</dl>
 	</fieldset>

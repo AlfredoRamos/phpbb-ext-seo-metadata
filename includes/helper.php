@@ -68,6 +68,12 @@ class helper
 	/** @var array */
 	protected $tables;
 
+	/** @var integer */
+	public const MIN_IMAGE_DIMENSION = 200;
+
+	/** @var integer */
+	public const MAX_IMG_EXTRACTION = 10;
+
 	/**
 	 * Helper constructor.
 	 *
@@ -712,11 +718,10 @@ class helper
 	 * @param string	$description
 	 * @param integer	$post_id
 	 * @param integer	$forum_id
-	 * @param integer	$max_images
 	 *
 	 * @return array	url, width, height and type
 	 */
-	public function extract_image($description = '', $post_id = 0, $forum_id = 0, $max_images = 3)
+	public function extract_image($description = '', $post_id = 0, $forum_id = 0)
 	{
 		$description = trim($description);
 		$post_id = (int) $post_id;
@@ -758,9 +763,9 @@ class helper
 		$local_images = ((int) $this->config['seo_metadata_local_images'] === 1) && !empty($server_name);
 		$use_attachments = ((int) $this->config['seo_metadata_attachments'] === 1);
 		$prefer_attachments = ((int) $this->config['seo_metadata_prefer_attachments'] === 1);
-		$max_images = abs((int) $max_images);
-		$max_images = empty($max_images) ? 5 : $max_images;
-		$max_images = ($max_images > 5) ? 5 : $max_images;
+		$max_images = abs((int) $this->config['seo_metadata_max_images']);
+		$max_images = empty($max_images) ? self::MAX_IMG_EXTRACTION : $max_images;
+		$max_images = ($max_images > self::MAX_IMG_EXTRACTION) ? self::MAX_IMG_EXTRACTION : $max_images;
 		$images = [];
 
 		// Ensure it's XML
@@ -786,6 +791,11 @@ class helper
 		// Get post images
 		foreach ($xpath->query('//IMG') as $node)
 		{
+			if (count($images) > $max_images)
+			{
+				continue;
+			}
+
 			// Get image URL
 			$url = trim($node->getAttribute('src'));
 
@@ -818,6 +828,10 @@ class helper
 				{
 					continue;
 				}
+			}
+
+			if (in_array($url, $images)) {
+				continue;
 			}
 
 			$images[] = $url;
@@ -1089,8 +1103,8 @@ class helper
 
 		// Minimum dimensions
 		$min = [
-			'width' => !empty($extra[0]) ? (int) $extra[0] : 200,
-			'height' => !empty($extra[1]) ? (int) $extra[1] : 200
+			'width' => !empty($extra[0]) ? (int) $extra[0] : self::MIN_IMAGE_DIMENSION,
+			'height' => !empty($extra[1]) ? (int) $extra[1] : self::MIN_IMAGE_DIMENSION
 		];
 
 		// Allowed mime types

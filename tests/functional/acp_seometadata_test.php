@@ -49,7 +49,6 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
 		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_width')->count());
-
 		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_height')->count());
 
 		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_type')->count());
@@ -65,6 +64,9 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertTrue($form->has('seo_metadata_post_metadata'));
 		$this->assertSame(0, (int) $form->get('seo_metadata_post_metadata')->getValue());
+
+		$this->assertTrue($form->has('seo_metadata_max_images'));
+		$this->assertSame(5, (int) $form->get('seo_metadata_max_images')->getValue());
 
 		$this->assertTrue($form->has('seo_metadata_open_graph'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_open_graph')->getValue());
@@ -88,7 +90,6 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
 
 		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
-
 		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
 	}
 

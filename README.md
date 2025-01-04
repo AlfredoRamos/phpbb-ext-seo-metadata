@@ -2,7 +2,7 @@
 
 SEO Metadata extension for phpBB
 
-[![Build Status](https://img.shields.io/github/workflow/status/AlfredoRamos/phpbb-ext-seo-metadata/CI?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/AlfredoRamos/phpbb-ext-seo-metadata/ci.yml?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/actions)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases)
 [![Code Quality](https://img.shields.io/codacy/grade/5da9411a064c41c6931af2a398dfad37.svg?style=flat-square)](https://app.codacy.com/gh/AlfredoRamos/phpbb-ext-seo-metadata/dashboard)
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-seo-metadata/localized.svg)](https://crowdin.com/project/phpbb-ext-seo-metadata)
@@ -44,7 +44,7 @@ If available, it will dynamically generate and include the following data inside
 <meta name="twitter:site" content="...">
 <meta name="twitter:title" content="...">
 <meta name="twitter:description" content="...">
-<meta name="twitter:image" content="..">
+<meta name="twitter:image" content="...">
 ```
 
 #### JSON-LD
