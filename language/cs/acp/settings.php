@@ -66,6 +66,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Metadata příspěvku',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Generovat metadata také pro URL adresy konkrétních příspěvků.',
 
+	'ACP_SEO_METADATA_MAX_IMAGES' => 'Počet obrázků',
+	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Maximální počet obrázků k extrakci na příspěvek. Uvědomte si, že zvýšení tohoto čísla může negativně ovlivnit dobu prvního načítání, pokud obrázky nebyly dříve extrahovány pro téma nebo příspěvek. Má tvrdou maximální hodnotu <samp>%d</samp>.',
+
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Metadata jsou generována dynamicky z obsahu vašeho fóra.',
 
 	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Globální nastavení',
