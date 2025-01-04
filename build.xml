@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SEO Metadata Extension Builder" description="Builds an extension.zip from a git repository" default="all">
+<project name="SEO Metadata Extension Builder"
+	description="Builds an extension.zip from a git repository" default="all">
 	<property name="env" value="production" />
 	<property name="vendor-name" value="alfredoramos" />
 	<property name="extension-name" value="seometadata" />
@@ -18,8 +19,8 @@
 		<echo msg="Cleaning files and directories" />
 
 		<delete dir="${dir}/tests" />
-		<delete dir="${dir}/.github"/>
-		<delete dir="${dir}/.vscode"/>
+		<delete dir="${dir}/.github" />
+		<delete dir="${dir}/.vscode" />
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
 		<delete file="${dir}/.editorconfig" />
@@ -42,7 +43,8 @@
 	<!-- DO NOT EDIT BELOW THIS LINE -->
 	<property name="version" value="HEAD" override="true" />
 	<property name="build-directory" value="build" override="true" />
-	<property name="package-directory" value="${build-directory}/package/${vendor-name}/${extension-name}" />
+	<property name="package-directory"
+		value="${build-directory}/package/${vendor-name}/${extension-name}" />
 
 	<!-- Remove incomplete translations. -->
 	<property name="exclude-langs" value="" override="true" />
@@ -70,7 +72,8 @@
 	<!-- Replace invalid characters in language files -->
 	<target name="clean-lang">
 		<echo msg="Replacing invalid characters: ${filename}" />
-		<exec dir="${package-directory}/language" command="sed -ri 's|'\\\\\''|’|g' ${filename}" checkreturn="true" />
+		<exec dir="${package-directory}/language" command="sed -ri 's|'\\\\\''|’|g' ${filename}"
+			checkreturn="true" />
 	</target>
 
 	<!-- Clean up the language directory -->
@@ -120,7 +123,8 @@
 			<equals arg1="${has-dependencies}" arg2="1" />
 			<then>
 				<echo msg="Installing dependencies" />
-				<exec dir="${package-directory}" command="composer update -n --prefer-dist --no-dev" checkreturn="true" />
+				<exec dir="${package-directory}" command="composer update -n --prefer-dist --no-dev"
+					checkreturn="true" />
 			</then>
 		</if>
 
@@ -135,7 +139,8 @@
 			outputProperty='package-version' />
 
 		<phingcall target="wrap-package">
-			<property name="destination-filename" value="${build-directory}/upload/${vendor-name}_${extension-name}_${package-version}" />
+			<property name="destination-filename"
+				value="${build-directory}/upload/${vendor-name}_${extension-name}_${package-version}" />
 		</phingcall>
 	</target>
 
@@ -143,17 +148,21 @@
 	<target name="git-checkout">
 		<echo msg="Getting archive for ${archive-version}" />
 
-		<exec command="git archive ${archive-version} --format zip --output ${build-directory}/checkout/${archive-version}.zip"
+		<exec
+			command="git archive ${archive-version} --format zip --output ${build-directory}/checkout/${archive-version}.zip"
 			checkreturn="true" />
-		<unzip file="${build-directory}/checkout/${archive-version}.zip" todir="${package-directory}" />
+		<unzip file="${build-directory}/checkout/${archive-version}.zip"
+			todir="${package-directory}" />
 	</target>
 
 	<!-- Create the zip and tar ball -->
 	<target name="wrap-package">
 		<echo msg="Creating archives (${vendor-name}/${extension-name} ${version})" />
 		<zip basedir="${build-directory}/package/" destfile="${destination-filename}.zip" />
-		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.gz" compression="gzip" />
-		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.bz2" compression="bzip2" />
+		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.gz"
+			compression="gzip" />
+		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.bz2"
+			compression="bzip2" />
 
 		<echo msg="Generating checksums" />
 		<manifest checksum="sha512" file="${build-directory}/upload/checksums.sha512">

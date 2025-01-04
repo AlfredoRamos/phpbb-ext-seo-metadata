@@ -21,6 +21,7 @@ jobs:
     env:
       PHP_VERSION: ${{ matrix.php-version }}
     strategy:
+      fail-fast: false
       matrix:
         php-version: ['7.2']
     steps:
@@ -140,6 +141,12 @@ jobs:
           - php-version: '8.2'
             db-type: 'mariadb'
             db-version: '10.6'
+          - php-version: '8.3'
+            db-type: 'mariadb'
+            db-version: '10.11'
+          - php-version: '8.4'
+            db-type: 'mariadb'
+            db-version: '10.11'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v4
@@ -231,10 +238,10 @@ jobs:
         include:
           - php-version: '7.2'
             db-type: 'postgres'
-            db-version: '15-alpine'
-          - php-version: '8.2'
-            db-type: 'postgres'
             db-version: '16-alpine'
+          - php-version: '8.4'
+            db-type: 'postgres'
+            db-version: '17-alpine'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v4
