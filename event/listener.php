@@ -96,7 +96,7 @@ class listener implements EventSubscriberInterface
 		$first_post_id = $event['topic_data']['topic_first_post_id'];
 		$post_id = $first_post_id;
 		$data['title'] = $event['topic_data']['topic_title'];
-		$data['author'] = $event['topic_data']['topic_first_poster_name'];
+		$data['author'] = $this->helper->extract_author($event['topic_data']['topic_first_poster_name'], $event['topic_data']['topic_poster']);
 		$data['published_time'] = (int) $event['topic_data']['topic_time'];
 		$data['section'] = $event['topic_data']['forum_name'];
 
@@ -104,10 +104,12 @@ class listener implements EventSubscriberInterface
 		if ($this->helper->check_replies() && $this->helper->is_reply($event['post_list'], $first_post_id, $post_id))
 		{
 			$data['description'] = $this->helper->extract_description($post_id);
+			$data['author'] = $this->helper->extract_author(null, null, $post_id);
 		}
 		else if ((int) $event['start'] > 0)
 		{
 			$data['description'] = $this->helper->extract_description($first_post_id);
+			$data['author'] = $this->helper->extract_author(null, null, $first_post_id);
 		}
 		else if (!empty($event['rowset'][$first_post_id]['post_text']))
 		{
@@ -115,11 +117,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Extract image
-		$data['image'] = $this->helper->extract_image(
-			$data['description'],
-			$post_id,
-			$event['topic_data']['forum_id']
-		);
+		$data['image'] = $this->helper->extract_image($data['description'], $post_id, $event['topic_data']['forum_id']);
 
 		$this->helper->set_metadata($data);
 	}

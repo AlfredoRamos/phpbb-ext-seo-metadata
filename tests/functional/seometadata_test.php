@@ -53,6 +53,7 @@ class seometadata_test extends \phpbb_functional_test_case
 				'image'
 			],
 			'article' => [
+				'author',
 				'published_time',
 				'section'
 			]
@@ -103,6 +104,10 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(
 			'http://localhost/images/default_image.jpg',
 			$elements['image']->attr('content')
+		);
+		$this->assertSame(
+			'admin',
+			$elements['author']->attr('content')
 		);
 		$this->assertSame(
 			1,
@@ -228,6 +233,10 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(
 			'admin',
 			$elements['author']['name']
+		);
+		$this->assertSame(
+			'http://localhost/memberlist.php?mode=viewprofile&u=2',
+			$elements['author']['url']
 		);
 		$this->assertSame(
 			1,

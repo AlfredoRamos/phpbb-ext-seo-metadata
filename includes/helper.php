@@ -95,7 +95,7 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext, $posts_table, $attachments_table)
+	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext, $users_table, $posts_table, $attachments_table)
 	{
 		$this->db = $db;
 		$this->config = $config;
@@ -116,6 +116,7 @@ class helper
 		if (empty($this->tables))
 		{
 			$this->tables = [
+				'users' => $users_table,
 				'posts' => $posts_table,
 				'attachments' => $attachments_table
 			];
@@ -170,6 +171,7 @@ class helper
 					'og:image:type' => $default['image']['type'],
 					'og:image:width' => $default['image']['width'],
 					'og:image:height' => $default['image']['height'],
+					'article:author' => '',
 					'article:published_time' => '',
 					'article:section' => '',
 					'article:publisher' => trim($this->config['seo_metadata_facebook_publisher'])
@@ -184,7 +186,8 @@ class helper
 					'image' => $default['image']['url'],
 					'author' => [
 						'@type' => 'Person',
-						'name' => ''
+						'name' => '',
+						'url' => ''
 					],
 					'datePublished' => '',
 					'articleSection' => '',
@@ -281,7 +284,16 @@ class helper
 				break;
 
 				case 'author':
-					$this->metadata['json_ld']['author']['name'] = $value;
+					if (isset($value['name']))
+					{
+						$this->metadata['open_graph']['article:author'] = $value['name'];
+						$this->metadata['json_ld']['author']['name'] = $value['name'];
+					}
+
+					if (isset($value['url']))
+					{
+						$this->metadata['json_ld']['author']['url'] = $value['url'];
+					}
 				break;
 			}
 		}
@@ -333,6 +345,7 @@ class helper
 		if ($data['open_graph']['og:type'] !== 'article')
 		{
 			unset(
+				$data['open_graph']['article:author'],
 				$data['open_graph']['article:published_time'],
 				$data['open_graph']['article:section'],
 				$data['open_graph']['article:publisher']
@@ -600,11 +613,7 @@ class helper
 		}
 
 		// Absolute URL
-		$url = sprintf(
-			'%s/%s',
-			generate_board_url(),
-			$image_path
-		);
+		$url = sprintf('%s/%s', generate_board_url(), $image_path);
 
 		return $url;
 	}
@@ -830,7 +839,8 @@ class helper
 				}
 			}
 
-			if (in_array($url, $images)) {
+			if (in_array($url, $images))
+			{
 				continue;
 			}
 
@@ -1263,9 +1273,7 @@ class helper
 		// Get post ID
 		$pid = $this->request->variable('p', 0);
 
-		$is_reply = !empty($pid) &&
-			in_array($pid, $post_list, true) &&
-			$pid !== $first_post_id;
+		$is_reply = !empty($pid) && in_array($pid, $post_list, true) && $pid !== $first_post_id;
 
 		// Update post ID
 		if ($is_reply)
@@ -1341,6 +1349,75 @@ class helper
 		}
 
 		// Return a copy
+		return $data;
+	}
+
+	/**
+	 * Generate URL for user profile.
+	 *
+	 * @param integer $id
+	 *
+	 * @return string
+	 */
+	public function generate_user_url($id = 0)
+	{
+		$id = (int) $id;
+
+		if (empty($id))
+		{
+			return '';
+		}
+
+		return sprintf('%s/memberlist.%s?mode=viewprofile&u=%d', generate_board_url(), $this->php_ext, $id);
+	}
+
+	/**
+	 * Generate author data from topic or post data.
+	 *
+	 * @param string	$name
+	 * @param integer	$id
+	 * @param integer	$post_id
+	 *
+	 * @return array
+	 */
+	public function extract_author($name = '', $id = 0, $post_id = 0)
+	{
+		$id = (int) $id;
+		$post_id = (int) $post_id;
+
+		$data = [
+			'name' => $name,
+			'url' => $this->generate_user_url($id)
+		];
+
+		if (empty($post_id))
+		{
+			return $data;
+		}
+
+		$sql_array = [
+			'SELECT' => 'u.user_id, u.username',
+			'FROM' => [$this->tables['users'] => 'u'],
+			'LEFT_JOIN' => [
+				[
+					'FROM' => [$this->tables['posts'] => 'p'],
+					'ON' => 'p.poster_id = u.user_id'
+				]
+			],
+			'WHERE' => 'p.post_id = ' . $post_id
+		];
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		// Cache query for 24 hours
+		$result = $this->db->sql_query($sql, (24 * 60 * 60));
+		$user = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		$data = [
+			'name' => $user['username'],
+			'url' => $this->generate_user_url($user['user_id'])
+		];
+
 		return $data;
 	}
 }
