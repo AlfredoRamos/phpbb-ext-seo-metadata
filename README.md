@@ -32,6 +32,7 @@ If available, it will dynamically generate and include the following data inside
 <meta property="og:image:type" content="...">
 <meta property="og:image:width" content="...">
 <meta property="og:image:height" content="...">
+<meta property="article:author" content="...">
 <meta property="article:published_time" content="...">
 <meta property="article:section" content="...">
 <meta property="article:publisher" content="...">
@@ -61,7 +62,8 @@ If available, it will dynamically generate and include the following data inside
 	"image": "...",
 	"author": {
 		"@type": "Person",
-		"name": "..."
+		"name": "...",
+		"url": "..."
 	},
 	"datePublished": "...",
 	"articleSection": "...",
