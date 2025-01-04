@@ -115,6 +115,7 @@ jobs:
       MYISAM: 0
       PHP_VERSION: ${{ matrix.php-version }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php-version: '7.2'
@@ -234,6 +235,7 @@ jobs:
       MYISAM: 0
       PHP_VERSION: ${{ matrix.php-version }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php-version: '7.2'
