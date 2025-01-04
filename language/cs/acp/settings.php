@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Podle rozměru',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Výchozí obrázek',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL adresa výchozího obrázku pro metatagy (např. <samp>og:image</samp>). Tento obrázek bude použit jen v případě, že v nebude na stránce nalezený žádný jiný. Jeho velikost musí být větší než <samp>200</samp>x<samp>200</samp>px a jeho URL relativní k <samp>%s</samp>.',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL adresa výchozího obrázku pro metatagy (např. <samp>og:image</samp>). Tento obrázek bude použit jen v případě, že v nebude na stránce nalezený žádný jiný. Jeho velikost musí být větší než <samp>%1$d</samp>x<samp>%1$d</samp>px a jeho URL relativní k <samp>%1$s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Výchozí rozměry obrázku',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Výška a šířka výchozího obrázku.',
@@ -86,7 +86,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD' => 'Povolit JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Logo vydavatele',
-	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Vlastní logo použité ve výsledcích vyhledávání na Googlu. Jeho velikost musí být větší než <samp>200</samp>x<samp>200</samp>px a jeho URL relativní k <samp>%s</samp>.',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Vlastní logo použité ve výsledcích vyhledávání na Googlu. Jeho velikost musí být větší než <samp>112</samp> x <samp>112</samp> px a jeho URL relativní k <samp>%s</samp>.',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Rozměry loga vydavatele',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Šířka a výška loga vydavatele.',
 
@@ -94,6 +94,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Neplatné hodnoty pro pole: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'Hodnota zadaná pro obrázek <samp>%1$s</samp> vygenerovala prázdnou URL.<br>To může být proto, že obrázek neexistuje, nebo jeho cesta směřovala mimo adresář <samp>/images/</samp>.',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Rozměry obrázku <samp>%1$s</samp> musí být větší než <samp>%2$s</samp>x<samp>%3$s</samp>px',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Rozměry obrázku <samp>%1$s</samp> musí být větší než <samp>%2$s</samp> x <samp>%3$s</samp> px.',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE' => 'MIME typ <samp>%2$s</samp> obrázku <samp>%1$s</samp> není povolený.'
 ]);

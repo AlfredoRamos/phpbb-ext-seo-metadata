@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Dimensiones de imagen',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Imagen por defecto',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>200</samp>x<samp>200</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL de la imagen por defecto que será usada en metaetiquetas como <samp>og:image</samp>. Solo será usada si no se puede encontrar una imagen en la página actual. La imagen debe ser mayor a <samp>%1$d</samp> x <samp>%1$d</samp> px y su ruta debe ser relativa a <samp>%2$s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Dimensiones de la imagen por defecto',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Ancho x alto de la imagen por defecto.',
@@ -66,6 +66,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Metadatos de mensajes',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'También generará metadatos para URLs de mensajes específicos.',
 
+	'ACP_SEO_METADATA_MAX_IMAGES' => 'Número de imágenes',
+	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Número máximo de imágenes que se pueden extraer por mensaje. Ten en cuenta que aumentar este número puede afectar negativamente el tiempo de carga inicial si no se han extraído imágenes antes para el tema o mensaje. Tiene un valor máximo predefinido de <samp>%d</samp>.',
+
 	'ACP_SEO_METADATA_DATA_EXPLAIN' => 'Los metadatos son generados de manera dinámica usando los datos de tu foro.',
 
 	'ACP_SEO_METADATA_GLOBAL_SETTINGS' => 'Ajustes globales',
@@ -86,7 +89,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_JSON_LD_SETTINGS' => 'Ajustes de JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD' => 'Habilitar JSON-LD',
 	'ACP_SEO_METADATA_JSON_LD_LOGO' => 'Logotipo del editor',
-	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Un logotipo personalizado usado por Google en los resultados de búsqueda. Debe ser mayor a <samp>112</samp>x<samp>112</samp>px y su ruta debe ser relativa a <samp>%s</samp>',
+	'ACP_SEO_METADATA_JSON_LD_LOGO_EXPLAIN' => 'Un logotipo personalizado usado por Google en los resultados de búsqueda. Debe ser mayor a <samp>112</samp> x <samp>112</samp> px y su ruta debe ser relativa a <samp>%s</samp>',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS' => 'Dimensiones del logotipo del editor',
 	'ACP_SEO_METADATA_JSON_LD_LOGO_DIMENSIONS_EXPLAIN' => 'Ancho x alto del logotipo del editor.',
 
@@ -94,6 +97,6 @@ $lang = array_merge($lang, [
 
 	'ACP_SEO_METADATA_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_IMAGE' => 'El valor especificado como imagen <samp>%1$s</samp> generó una URL vacía.<br>Pudo ser debido a que la imagen no existe o que el nombre de archivo intentó salir de la ruta <samp>/images/</samp>',
-	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp>x<samp>%3$s</samp>px',
+	'ACP_SEO_METADATA_VALIDATE_SMALL_IMAGE' => 'Las dimensiones de la imagen <samp>%1$s</samp> deben ser mayor a <samp>%2$s</samp> x <samp>%3$s</samp> px.',
 	'ACP_SEO_METADATA_VALIDATE_INVALID_MIME_TYPE' => 'El tipo de medios <samp>%2$s</samp> de la imagen <samp>%1$s</samp> no esta permitido.'
 ]);
