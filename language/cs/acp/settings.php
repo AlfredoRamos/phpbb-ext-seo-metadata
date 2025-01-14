@@ -44,7 +44,7 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_IMAGE_DIMENSIONS' => 'Podle rozměru',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE' => 'Výchozí obrázek',
-	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL adresa výchozího obrázku pro metatagy (např. <samp>og:image</samp>). Tento obrázek bude použit jen v případě, že v nebude na stránce nalezený žádný jiný. Jeho velikost musí být větší než <samp>%1$d</samp>x<samp>%1$d</samp>px a jeho URL relativní k <samp>%1$s</samp>',
+	'ACP_SEO_METADATA_DEFAULT_IMAGE_EXPLAIN' => 'URL adresa výchozího obrázku pro metatagy (např. <samp>og:image</samp>). Tento obrázek bude použit jen v případě, že v nebude na stránce nalezený žádný jiný. Jeho velikost musí být větší než <samp>%1$d</samp> x <samp>%1$d</samp>px a jeho URL relativní k <samp>%2$s</samp>',
 
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS' => 'Výchozí rozměry obrázku',
 	'ACP_SEO_METADATA_DEFAULT_IMAGE_DIMENSIONS_EXPLAIN' => 'Výška a šířka výchozího obrázku.',

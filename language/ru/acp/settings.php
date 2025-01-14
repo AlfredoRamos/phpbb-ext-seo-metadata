@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA_EXPLAIN' => '<p>Здесь вы можете настроить метаданные, которые вы хотите сгенерировать и отобразить. Ознакомьтесь с разделом <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>FAQ</strong>< /a> для получения дополнительной информации. Если вам нужна помощь, посетите раздел <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Поддержка</strong></a>.</p>',
+	'ACP_SEO_METADATA_EXPLAIN' => '<p>Здесь вы можете настроить метаданные, которые вы хотите генерировать и отображать. Ознакомьтесь с <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>Часто задаваемые вопросы</strong></a> для получения дополнительной информации. Если вам нужна помощь, посетите раздел <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Поддержка</strong></a>.</p>',
 	'ACP_SEO_METADATA_INFO' => 'Изменения следующих значений будут применены только к новым темам, если вы хотите, чтобы они были применены и к старым темам, вам нужно будет очистить кэш.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Включить описание',
