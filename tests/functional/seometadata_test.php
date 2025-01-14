@@ -278,8 +278,8 @@ class seometadata_test extends \phpbb_functional_test_case
 		$data = [
 			'title' => 'SEO Metadata functional test 1',
 			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius augue ut enim eleifend varius id eget nisl. Suspendisse potenti. Vivamus fringilla tellus consequat lectus venenatis faucibus. Aliquam hendrerit eleifend turpis et ultrices. Cras accumsan, dui sollicitudin faucibus auctor, nunc tellus viverra ex, id viverra nulla enim eget neque. Praesent gravida magna vitae erat convallis dictum. Sed ante lacus, gravida et pharetra vel, porttitor non leo. Sed auctor dolor et ullamcorper consectetur. Ut leo lacus, aliquam at dui eget, convallis tempor sapien. Integer sed lectus quis augue ultricies maximus sit amet nec erat. Duis odio odio, tincidunt quis porta eget, vulputate at eros. Etiam bibendum fringilla libero, sed lobortis lorem placerat eget'.PHP_EOL.
-				'[img]https://dummyimage.com/250x250/fff/000.jpg[/img]'.PHP_EOL.
-				'[img]https://dummyimage.com/600x400/000/fff.png[/img]'
+				'[img]https://placehold.co/250x250/fff/000.jpg[/img]'.PHP_EOL.
+				'[img]https://placehold.co/600x400/000/fff.png[/img]'
 		];
 
 		$post = $this->create_topic(
@@ -334,8 +334,8 @@ class seometadata_test extends \phpbb_functional_test_case
 		$data = [
 			'title' => 'SEO Metadata functional test 2',
 			'body' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius augue ut enim eleifend varius id eget nisl. Suspendisse potenti. Vivamus fringilla tellus consequat lectus venenatis faucibus. Aliquam hendrerit eleifend turpis et ultrices. Cras accumsan, dui sollicitudin faucibus auctor, nunc tellus viverra ex, id viverra nulla enim eget neque. Praesent gravida magna vitae erat convallis dictum. Sed ante lacus, gravida et pharetra vel, porttitor non leo. Sed auctor dolor et ullamcorper consectetur. Ut leo lacus, aliquam at dui eget, convallis tempor sapien. Integer sed lectus quis augue ultricies maximus sit amet nec erat. Duis odio odio, tincidunt quis porta eget, vulputate at eros. Etiam bibendum fringilla libero, sed lobortis lorem placerat eget'.PHP_EOL.
-				'[img]https://dummyimage.com/150x150/fff/000.jpg[/img]'.PHP_EOL.
-				'[img]https://dummyimage.com/60x40/000/fff.png[/img]'
+				'[img]https://placehold.co/150x150/fff/000.jpg[/img]'.PHP_EOL.
+				'[img]https://placehold.co/60x40/000/fff.png[/img]'
 		];
 
 		$post = $this->create_topic(
@@ -459,7 +459,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$data = [
 			'title' => 'SEO Metadata functional test 4',
-			'body' => '[img]https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder[/img]'
+			'body' => '[img]https://placehold.co/600x300/08c/fff.jpg?text=placeholder[/img]'
 
 		];
 
@@ -491,19 +491,19 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
-			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			'https://placehold.co/600x300/08c/fff.jpg?text=placeholder',
 			$elements['open_graph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
-			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			'https://placehold.co/600x300/08c/fff.jpg?text=placeholder',
 			$elements['twitter_cards']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['json_ld']['image']));
 		$this->assertSame(
-			'https://via.placeholder.com/600x300/08c/fff.jpg?text=placeholder',
+			'https://placehold.co/600x300/08c/fff.jpg?text=placeholder',
 			$elements['json_ld']['image']
 		);
 
