@@ -56,6 +56,7 @@ If available, it will dynamically generate and include the following data inside
 	"@context": "https://schema.org",
 	"@type": "DiscussionForumPosting",
 	"url": "...",
+	"mainEntityOfPage": "...",
 	"headline": "...",
 	"description": "...",
 	"text": "...",
@@ -77,7 +78,17 @@ If available, it will dynamically generate and include the following data inside
 			"width": "...",
 			"height": "..."
 		}
-	}
+	},
+	"comment": [{
+		"@type": "Comment",
+		"identifier": "...",
+		"text": "...",
+		"author": {
+			"@type": "Person",
+			"name": "...",
+			"url": "..."
+		}
+	}]
 }
 </script>
 ```
