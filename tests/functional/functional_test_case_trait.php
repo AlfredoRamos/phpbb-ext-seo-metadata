@@ -24,7 +24,12 @@ trait functional_test_case_trait
 
 		$this->update_config([
 			'seo_metadata_default_image' => 'default_image.jpg',
-			'seo_metadata_json_ld_logo' => 'default_logo.jpg'
+			'seo_metadata_default_image_type' => 'image/jpeg',
+			'seo_metadata_default_image_width' => '640',
+			'seo_metadata_default_image_height' => '480',
+			'seo_metadata_json_ld_logo' => 'default_logo.jpg',
+			'seo_metadata_json_ld_logo_width' => '150',
+			'seo_metadata_json_ld_logo_height' => '150'
 		]);
 
 		$this->init();
