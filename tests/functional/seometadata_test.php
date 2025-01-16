@@ -272,7 +272,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		);
 		$this->assertSame(1, count($elements['comment']));
 		$this->assertSame('Comment', $elements['comment'][0]['@type']);
-		$this->assertSame('http://localhost/forum/viewtopic.php?p=1#p1', $elements['comment'][0]['identifier']);
+		$this->assertSame('http://localhost/viewtopic.php?p=1#p1', $elements['comment'][0]['identifier']);
 		$this->assertSame('This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. During the installation process your first category and your first forum are assigned an appropriate set of permissions for the predefined usergroups administrators, bots, global moderators, guests, registered users and registered COPPA users. If you also choose to delete your first category and your first forum, do not forget to assign permissions for all these usergroups for all new categories and forums you create. It is recommended to rename your first category and your first forum and copy permissions from these while creating new categories and forums. Have fun!', $elements['comment'][0]['text']);
 		$this->assertSame('Person', $elements['comment'][0]['author']['@type']);
 		$this->assertSame('admin', $elements['comment'][0]['author']['name']);
@@ -282,6 +282,7 @@ class seometadata_test extends \phpbb_functional_test_case
 	public function test_extracted_image_first_found_local()
 	{
 		$this->login();
+		$this->update_config(['seo_metadata_local_images' => '1']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 1',
