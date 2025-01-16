@@ -124,10 +124,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_twitter_cards()
 	{
-		$this->update_config_value(
-			'seo_metadata_twitter_publisher',
-			'@varsmx'
-		);
+		$this->update_config(['seo_metadata_twitter_publisher' => '@varsmx']);
 
 		$crawler = self::request('GET', sprintf(
 			'viewtopic.php?t=1&sid=%s',
@@ -386,11 +383,7 @@ class seometadata_test extends \phpbb_functional_test_case
 	public function test_extracted_image_remote()
 	{
 		$this->login();
-
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
@@ -442,20 +435,13 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_extracted_image_parameters()
 	{
 		$this->login();
-
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 4',
@@ -507,10 +493,7 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_forum_description()
@@ -536,14 +519,10 @@ class seometadata_test extends \phpbb_functional_test_case
 	public function test_post_reply_metadata()
 	{
 		$this->login();
-		$this->update_config_value(
-			'seo_metadata_post_metadata',
-			'1'
-		);
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config([
+			'seo_metadata_post_metadata' => '1',
+			'seo_metadata_local_images' => '0'
+		]);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
@@ -613,23 +592,16 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_post_metadata',
-			'0'
-		);
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config([
+			'seo_metadata_post_metadata' => '0',
+			'seo_metadata_local_images' => '1'
+		]);
 	}
 
 	public function test_summary_large_image()
 	{
 		$this->login();
-		$this->update_config_value(
-			'seo_metadata_open_graph',
-			'0'
-		);
+		$this->update_config(['seo_metadata_open_graph' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
@@ -677,10 +649,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(1, $elements['image']->count());
 		$this->assertSame('http://localhost/images/wide_image.jpg', $elements['image']->attr('content'));
 
-		$this->update_config_value(
-			'seo_metadata_open_graph',
-			'1'
-		);
+		$this->update_config(['seo_metadata_open_graph' => '1']);
 	}
 
 	public function test_short_description()

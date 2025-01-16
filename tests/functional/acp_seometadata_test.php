@@ -24,10 +24,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 	public function test_acp_form_settings()
 	{
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
@@ -95,10 +92,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 	public function test_update_acp_form_settings()
 	{
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
 			'seo_metadata_default_image' => 'default_image.jpg',
@@ -108,10 +102,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		self::submit($form);
 
 		// Check the new values in the ACP form
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		// Extract image width, height and MIME type
 		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
@@ -159,10 +150,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
 		// Check the new values in topics (remote image)
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
@@ -216,10 +204,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['width']);
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_forum_image()

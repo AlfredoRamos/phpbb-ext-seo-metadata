@@ -1551,7 +1551,9 @@ class helper
 	 */
 	private function comment_exists($comment_list = [], $identifier = '')
 	{
-		if (empty($comment_list))
+		$identifier = trim($identifier);
+
+		if (empty($comment_list) || empty($identifier))
 		{
 			return false;
 		}
