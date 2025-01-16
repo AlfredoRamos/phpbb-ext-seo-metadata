@@ -20,10 +20,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_meta_description()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$element = $crawler->filter('meta[name="description"]');
 
@@ -36,10 +33,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_open_graph()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [];
 		$open_graph = [
@@ -126,10 +120,7 @@ class seometadata_test extends \phpbb_functional_test_case
 	{
 		$this->update_config(['seo_metadata_twitter_publisher' => '@varsmx']);
 
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [];
 		$twitter_cards = [
@@ -178,10 +169,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_json_ld()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$script = $crawler->filter('script[type="application/ld+json"]');
 		$elements = json_decode($script->text(), true);

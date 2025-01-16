@@ -105,17 +105,14 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		// Extract image width, height and MIME type
-		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
-		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
+		$this->assertSame(640, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
+		$this->assertSame(480, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
 		$this->assertSame('image/jpeg', $crawler->filter('#seo_metadata_default_image_type')->text());
 		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_width')->text());
 		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_height')->text());
 
 		// Check the new values in topics (fallback image)
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [
 			'open_graph' => [
@@ -134,10 +131,10 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		);
 
 		$this->assertSame(1, $elements['open_graph']['width']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(640, (int) $elements['open_graph']['width']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['height']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame(480, (int) $elements['open_graph']['height']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['type']->count());
 		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
@@ -189,10 +186,10 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		);
 
 		$this->assertSame(1, $elements['open_graph']['width']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(640, (int) $elements['open_graph']['width']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['height']->count());
-		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame(480, (int) $elements['open_graph']['height']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['type']->count());
 		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
