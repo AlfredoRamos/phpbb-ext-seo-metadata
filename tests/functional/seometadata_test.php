@@ -527,7 +527,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
 			'body' => 'Post reply test' . PHP_EOL . PHP_EOL .
-				'[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+				'[img]https://placehold.co/250x200/fff/000.png[/img]'
 		];
 
 		$post = $this->create_post(
@@ -571,7 +571,7 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['open_graph']['description']->attr('content')
 		);
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://placehold.co/250x200/fff/000.png',
 			$elements['open_graph']['image']->attr('content')
 		);
 		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
