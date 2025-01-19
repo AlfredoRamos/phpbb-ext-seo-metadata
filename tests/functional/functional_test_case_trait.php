@@ -22,33 +22,45 @@ trait functional_test_case_trait
 	{
 		parent::setUp();
 
-		// Set default image
-		$this->update_config_value(
-			'seo_metadata_default_image',
-			'default_image.jpg'
-		);
-
-		// Set JSON-LD logo
-		$this->update_config_value(
-			'seo_metadata_json_ld_logo',
-			'default_logo.jpg'
-		);
+		$this->update_config([
+			'seo_metadata_default_image' => 'default_image.jpg',
+			'seo_metadata_default_image_type' => 'image/jpeg',
+			'seo_metadata_default_image_width' => '640',
+			'seo_metadata_default_image_height' => '480',
+			'seo_metadata_json_ld_logo' => 'default_logo.jpg',
+			'seo_metadata_json_ld_logo_width' => '150',
+			'seo_metadata_json_ld_logo_height' => '150'
+		]);
 
 		$this->init();
 	}
 
-	private function update_config_value($name = '', $value = '')
+	private function update_config(array $data = [])
 	{
-		$name = trim($name);
-		$value = trim($value);
-
-		if (empty($name))
+		if (empty($data))
 		{
 			return;
 		}
 
 		$db = $this->get_db();
-		$sql = 'UPDATE ' . CONFIG_TABLE . '
+		$db->sql_transaction('begin');
+
+		foreach ($data as $key => $value)
+		{
+			if (!is_string($key) || !is_string($value))
+			{
+				continue;
+			}
+
+			$key = trim($key);
+			$value = trim($value);
+
+			if (empty($key))
+			{
+				continue;
+			}
+
+			$sql = 'UPDATE ' . CONFIG_TABLE . '
 			SET ' . $db->sql_build_array('UPDATE',
 				[
 					'config_value' => $value,
@@ -56,8 +68,11 @@ trait functional_test_case_trait
 				]
 			) . '
 			WHERE ' . $db->sql_build_array('UPDATE',
-				['config_name' => $name]
+				['config_name' => $key]
 			);
-		$db->sql_query($sql);
+			$db->sql_query($sql);
+		}
+
+		$db->sql_transaction('commit');
 	}
 }

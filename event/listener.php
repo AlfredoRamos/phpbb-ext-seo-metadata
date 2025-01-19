@@ -39,7 +39,8 @@ class listener implements EventSubscriberInterface
 		return [
 			'core.page_header_after' => 'page_header',
 			'core.viewforum_modify_page_title' => 'viewforum',
-			'core.viewtopic_modify_post_data' => 'viewtopic'
+			'core.viewtopic_modify_post_data' => 'viewtopic',
+			'core.viewtopic_post_row_after' => 'post_row'
 		];
 	}
 
@@ -118,6 +119,33 @@ class listener implements EventSubscriberInterface
 
 		// Extract image
 		$data['image'] = $this->helper->extract_image($data['description'], $post_id, $event['topic_data']['forum_id']);
+
+		$this->helper->set_metadata($data);
+	}
+
+	/**
+	 * Assign post template variables.
+	 *
+	 * @param object $event
+	 *
+	 * @return void
+	 */
+	public function post_row($event)
+	{
+		if (empty($event['row']['post_id']) || empty($event['row']['post_text']))
+		{
+			return;
+		}
+
+		// Meta data helper
+		$data = [];
+
+		// Helpers
+		$data['comment'] = [
+			'identifier' => $this->helper->generate_post_url($event['row']['post_id']),
+			'text' => $this->helper->clean_post_data($event['row']['post_text']),
+			'author' => $this->helper->extract_author($event['row']['username'], $event['row']['user_id'])
+		];
 
 		$this->helper->set_metadata($data);
 	}
