@@ -7,10 +7,7 @@ EXTNAME="${1}"
 NOTESTS="${2}"
 
 # Install dependencies
-composer update \
-	-n \
-	--prefer-dist \
-	--no-progress
+composer update -n --prefer-dist --no-progress
 
 # Prepare extension structure
 mkdir -p ../phpBB3/phpBB/ext/"${EXTNAME}"
