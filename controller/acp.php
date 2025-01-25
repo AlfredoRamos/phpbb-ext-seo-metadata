@@ -434,29 +434,29 @@ class acp
 
 		// Assign template variables
 		$this->template->assign_vars([
-			'SEO_METADATA_META_DESCRIPTION' => ((int) $this->config['seo_metadata_meta_description'] === 1),
-			'SEO_METADATA_DESC_LENGTH' => (int) $this->config['seo_metadata_desc_length'],
-			'SEO_METADATA_DEFAULT_IMAGE' => $this->config['seo_metadata_default_image'],
-			'SEO_METADATA_DEFAULT_IMAGE_WIDTH' => (int) $this->config['seo_metadata_default_image_width'],
-			'SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => (int) $this->config['seo_metadata_default_image_height'],
-			'SEO_METADATA_DEFAULT_IMAGE_TYPE' => trim($this->config['seo_metadata_default_image_type']),
-			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config['seo_metadata_local_images'] === 1),
-			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config['seo_metadata_attachments'] === 1),
-			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config['seo_metadata_prefer_attachments'] === 1),
-			'SEO_METADATA_POST_METADATA' => ((int) $this->config['seo_metadata_post_metadata'] === 1),
-			'SEO_METADATA_MAX_IMAGES' => ((int) $this->config['seo_metadata_max_images']),
+			'SEO_METADATA_META_DESCRIPTION' => ((int) $this->config->offsetGet('seo_metadata_meta_description') === 1),
+			'SEO_METADATA_DESC_LENGTH' => (int) $this->config->offsetGet('seo_metadata_desc_length'),
+			'SEO_METADATA_DEFAULT_IMAGE' => $this->config->offsetGet('seo_metadata_default_image'),
+			'SEO_METADATA_DEFAULT_IMAGE_WIDTH' => (int) $this->config->offsetGet('seo_metadata_default_image_width'),
+			'SEO_METADATA_DEFAULT_IMAGE_HEIGHT' => (int) $this->config->offsetGet('seo_metadata_default_image_height'),
+			'SEO_METADATA_DEFAULT_IMAGE_TYPE' => trim($this->config->offsetGet('seo_metadata_default_image_type')),
+			'SEO_METADATA_LOCAL_IMAGES' => ((int) $this->config->offsetGet('seo_metadata_local_images') === 1),
+			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config->offsetGet('seo_metadata_attachments') === 1),
+			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config->offsetGet('seo_metadata_prefer_attachments') === 1),
+			'SEO_METADATA_POST_METADATA' => ((int) $this->config->offsetGet('seo_metadata_post_metadata') === 1),
+			'SEO_METADATA_MAX_IMAGES' => ((int) $this->config->offsetGet('seo_metadata_max_images')),
 			'SEO_METADATA_MAX_IMAGES_DEFAULT' => $this->helper::MAX_IMG_EXTRACTION,
-			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config['seo_metadata_open_graph'] === 1),
-			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config['seo_metadata_facebook_application'],
-			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config['seo_metadata_facebook_publisher'],
-			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config['seo_metadata_twitter_cards'] === 1),
-			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config['seo_metadata_twitter_publisher'],
-			'SEO_METADATA_JSON_LD' => ((int) $this->config['seo_metadata_json_ld'] === 1),
-			'SEO_METADATA_JSON_LD_LOGO' => trim($this->config['seo_metadata_json_ld_logo']),
-			'SEO_METADATA_JSON_LD_LOGO_WIDTH' => (int) $this->config['seo_metadata_json_ld_logo_width'],
-			'SEO_METADATA_JSON_LD_LOGO_HEIGHT' => (int) $this->config['seo_metadata_json_ld_logo_height'],
+			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config->offsetGet('seo_metadata_open_graph') === 1),
+			'SEO_METADATA_FACEBOOK_APPLICATION' => (int) $this->config->offsetGet('seo_metadata_facebook_application'),
+			'SEO_METADATA_FACEBOOK_PUBLISHER' => $this->config->offsetGet('seo_metadata_facebook_publisher'),
+			'SEO_METADATA_TWITTER_CARDS' => ((int) $this->config->offsetGet('seo_metadata_twitter_cards') === 1),
+			'SEO_METADATA_TWITTER_PUBLISHER' => $this->config->offsetGet('seo_metadata_twitter_publisher'),
+			'SEO_METADATA_JSON_LD' => ((int) $this->config->offsetGet('seo_metadata_json_ld') === 1),
+			'SEO_METADATA_JSON_LD_LOGO' => trim($this->config->offsetGet('seo_metadata_json_ld_logo')),
+			'SEO_METADATA_JSON_LD_LOGO_WIDTH' => (int) $this->config->offsetGet('seo_metadata_json_ld_logo_width'),
+			'SEO_METADATA_JSON_LD_LOGO_HEIGHT' => (int) $this->config->offsetGet('seo_metadata_json_ld_logo_height'),
 			'SEO_METADATA_MIN_IMAGE_DIMENSION' => $this->helper::MIN_IMAGE_DIMENSION,
-			'SERVER_NAME' => trim($this->config['server_name']),
+			'SERVER_NAME' => trim($this->config->offsetGet('server_name')),
 			'BOARD_IMAGES_URL' => generate_board_url() . '/images/'
 		]);
 
@@ -466,7 +466,7 @@ class acp
 			$this->template->assign_block_vars('SEO_METADATA_DESC_STRATEGIES', [
 				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_DESC_%s', strtoupper($value))),
 				'VALUE' => $key,
-				'SELECTED' => ($key === (int) $this->config['seo_metadata_desc_strategy'])
+				'SELECTED' => ($key === (int) $this->config->offsetGet('seo_metadata_desc_strategy'))
 			]);
 		}
 
@@ -476,7 +476,7 @@ class acp
 			$this->template->assign_block_vars('SEO_METADATA_IMAGE_STRATEGIES', [
 				'NAME' => $this->language->lang(sprintf('ACP_SEO_METADATA_IMAGE_%s', strtoupper($value))),
 				'VALUE' => $key,
-				'SELECTED' => ($key === (int) $this->config['seo_metadata_image_strategy'])
+				'SELECTED' => ($key === (int) $this->config->offsetGet('seo_metadata_image_strategy'))
 			]);
 		}
 

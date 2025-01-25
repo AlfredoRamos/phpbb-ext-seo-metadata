@@ -24,10 +24,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 	public function test_acp_form_settings()
 	{
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
@@ -48,10 +45,9 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_default_image'));
 		$this->assertSame('default_image.jpg', $form->get('seo_metadata_default_image')->getValue());
 
-		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_width')->count());
-		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_height')->count());
-
-		$this->assertSame(0, $crawler->filter('#seo_metadata_default_image_type')->count());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_type')->count());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_width')->count());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_default_image_height')->count());
 
 		$this->assertTrue($form->has('seo_metadata_local_images'));
 		$this->assertSame(1, (int) $form->get('seo_metadata_local_images')->getValue());
@@ -89,16 +85,13 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('seo_metadata_json_ld_logo'));
 		$this->assertSame('default_logo.jpg', $form->get('seo_metadata_json_ld_logo')->getValue());
 
-		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
-		$this->assertSame(0, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_width')->count());
+		$this->assertSame(1, $crawler->filter('#seo_metadata_json_ld_logo_height')->count());
 	}
 
 	public function test_update_acp_form_settings()
 	{
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
 			'seo_metadata_default_image' => 'default_image.jpg',
@@ -108,23 +101,17 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		self::submit($form);
 
 		// Check the new values in the ACP form
-		$crawler = self::request('GET', sprintf(
-			'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'adm/index.php?i=-alfredoramos-seometadata-acp-main_module&mode=settings&sid=' . $this->sid);
 
 		// Extract image width, height and MIME type
-		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
-		$this->assertSame(250, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
+		$this->assertSame(640, (int) $crawler->filter('#seo_metadata_default_image_width')->text());
+		$this->assertSame(480, (int) $crawler->filter('#seo_metadata_default_image_height')->text());
 		$this->assertSame('image/jpeg', $crawler->filter('#seo_metadata_default_image_type')->text());
 		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_width')->text());
 		$this->assertSame(150, (int) $crawler->filter('#seo_metadata_json_ld_logo_height')->text());
 
 		// Check the new values in topics (fallback image)
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [
 			'open_graph' => [
@@ -143,10 +130,10 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		);
 
 		$this->assertSame(1, $elements['open_graph']['width']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(640, (int) $elements['open_graph']['width']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['height']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame(480, (int) $elements['open_graph']['height']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['type']->count());
 		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
@@ -159,10 +146,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
 		// Check the new values in topics (remote image)
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
@@ -216,10 +200,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['width']);
 		$this->assertSame(150, (int) $elements['json_ld']['publisher']['logo']['height']);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_forum_image()

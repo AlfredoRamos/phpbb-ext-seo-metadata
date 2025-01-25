@@ -20,10 +20,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_meta_description()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$element = $crawler->filter('meta[name="description"]');
 
@@ -36,10 +33,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_open_graph()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [];
 		$open_graph = [
@@ -124,15 +118,9 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_twitter_cards()
 	{
-		$this->update_config_value(
-			'seo_metadata_twitter_publisher',
-			'@varsmx'
-		);
+		$this->update_config(['seo_metadata_twitter_publisher' => '@varsmx']);
 
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$elements = [];
 		$twitter_cards = [
@@ -181,10 +169,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 	public function test_json_ld()
 	{
-		$crawler = self::request('GET', sprintf(
-			'viewtopic.php?t=1&sid=%s',
-			$this->sid
-		));
+		$crawler = self::request('GET', 'viewtopic.php?t=1&sid=' . $this->sid);
 
 		$script = $crawler->filter('script[type="application/ld+json"]');
 		$elements = json_decode($script->text(), true);
@@ -203,6 +188,10 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(
 			'http://localhost/viewtopic.php?t=1',
 			$elements['url']
+		);
+		$this->assertSame(
+			'http://localhost/viewtopic.php?t=1',
+			$elements['mainEntityOfPage']
 		);
 		$this->assertTrue(
 			empty(preg_match(
@@ -269,11 +258,19 @@ class seometadata_test extends \phpbb_functional_test_case
 			'http://localhost/images/default_logo.jpg',
 			$elements['publisher']['logo']['url']
 		);
+		$this->assertSame(1, count($elements['comment']));
+		$this->assertSame('Comment', $elements['comment'][0]['@type']);
+		$this->assertSame('http://localhost/viewtopic.php?p=1#p1', $elements['comment'][0]['identifier']);
+		$this->assertSame('This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. During the installation process your first category and your first forum are assigned an appropriate set of permissions for the predefined usergroups administrators, bots, global moderators, guests, registered users and registered COPPA users. If you also choose to delete your first category and your first forum, do not forget to assign permissions for all these usergroups for all new categories and forums you create. It is recommended to rename your first category and your first forum and copy permissions from these while creating new categories and forums. Have fun!', $elements['comment'][0]['text']);
+		$this->assertSame('Person', $elements['comment'][0]['author']['@type']);
+		$this->assertSame('admin', $elements['comment'][0]['author']['name']);
+		$this->assertSame('http://localhost/memberlist.php?mode=viewprofile&u=2', $elements['comment'][0]['author']['url']);
 	}
 
 	public function test_extracted_image_first_found_local()
 	{
 		$this->login();
+		$this->update_config(['seo_metadata_local_images' => '1']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 1',
@@ -386,11 +383,7 @@ class seometadata_test extends \phpbb_functional_test_case
 	public function test_extracted_image_remote()
 	{
 		$this->login();
-
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
@@ -442,20 +435,13 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_extracted_image_parameters()
 	{
 		$this->login();
-
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config(['seo_metadata_local_images' => '0']);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 4',
@@ -507,10 +493,7 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config(['seo_metadata_local_images' => '1']);
 	}
 
 	public function test_forum_description()
@@ -536,14 +519,10 @@ class seometadata_test extends \phpbb_functional_test_case
 	public function test_post_reply_metadata()
 	{
 		$this->login();
-		$this->update_config_value(
-			'seo_metadata_post_metadata',
-			'1'
-		);
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'0'
-		);
+		$this->update_config([
+			'seo_metadata_post_metadata' => '1',
+			'seo_metadata_local_images' => '0'
+		]);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
@@ -613,23 +592,15 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['json_ld']['image']
 		);
 
-		$this->update_config_value(
-			'seo_metadata_post_metadata',
-			'0'
-		);
-		$this->update_config_value(
-			'seo_metadata_local_images',
-			'1'
-		);
+		$this->update_config([
+			'seo_metadata_post_metadata' => '0',
+			'seo_metadata_local_images' => '1'
+		]);
 	}
 
 	public function test_summary_large_image()
 	{
 		$this->login();
-		$this->update_config_value(
-			'seo_metadata_open_graph',
-			'0'
-		);
 
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
@@ -637,11 +608,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		];
 
-		$post = $this->create_topic(
-			2,
-			$data['title'],
-			$data['body']
-		);
+		$post = $this->create_topic(2, $data['title'], $data['body']);
 
 		$crawler = self::request('GET', vsprintf(
 			'viewtopic.php?t=%d&sid=%s',
@@ -676,11 +643,6 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertSame(1, $elements['image']->count());
 		$this->assertSame('http://localhost/images/wide_image.jpg', $elements['image']->attr('content'));
-
-		$this->update_config_value(
-			'seo_metadata_open_graph',
-			'1'
-		);
 	}
 
 	public function test_short_description()
