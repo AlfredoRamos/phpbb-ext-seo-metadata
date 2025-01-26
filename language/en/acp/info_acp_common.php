@@ -25,5 +25,8 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_SEO_METADATA' => 'SEO Metadata',
-	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s'
+	'LOG_SEO_METADATA_DATA' => '<strong>SEO Metadata data changed</strong><br>» %s',
+
+	// TODO: Remove debug language
+	'LOG_SEO_METADATA_DEBUG_ENABLE' => '<strong>[DEBUG] SEO Metadata</strong><br>»GD extension loaded: <code>%s</code>',
 ]);
