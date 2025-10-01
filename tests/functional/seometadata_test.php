@@ -387,7 +387,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
-			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+			'body' => '[img]https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg[/img]'
 
 		];
 
@@ -419,19 +419,19 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertFalse(empty($elements['open_graph']->attr('content')));
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['open_graph']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['twitter_cards']->attr('content')));
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['twitter_cards']->attr('content')
 		);
 
 		$this->assertFalse(empty($elements['json_ld']['image']));
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['json_ld']['image']
 		);
 
@@ -527,7 +527,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$data = [
 			'title' => 'SEO Metadata functional test 5',
 			'body' => 'Post reply test' . PHP_EOL . PHP_EOL .
-				'[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+				'[img]https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg[/img]'
 		];
 
 		$post = $this->create_post(
@@ -571,24 +571,24 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['open_graph']['description']->attr('content')
 		);
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['open_graph']['image']->attr('content')
 		);
-		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
-		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
-		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
+		$this->assertSame(3353, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(2514, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
 
 		$this->assertSame(
 			'Welcome to phpBB3 Post reply test',
 			$elements['twitter_cards']['description']->attr('content')
 		);
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['twitter_cards']['image']->attr('content')
 		);
 
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['json_ld']['image']
 		);
 

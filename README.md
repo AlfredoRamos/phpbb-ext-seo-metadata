@@ -6,7 +6,7 @@ SEO Metadata extension for phpBB
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-seo-metadata/releases)
 [![Code Quality](https://img.shields.io/codacy/grade/5da9411a064c41c6931af2a398dfad37.svg?style=flat-square)](https://app.codacy.com/gh/AlfredoRamos/phpbb-ext-seo-metadata/dashboard)
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-seo-metadata/localized.svg)](https://crowdin.com/project/phpbb-ext-seo-metadata)
-[![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/master/license.txt)
+[![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-seo-metadata.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-seo-metadata/main/license.txt)
 
 Add dynamically generated meta tags and microdata (Open Graph, Twitter Cards and JSON-LD) of your forums and topics to improve SEO of your board and show correct information when you share it on social networks, including (but not limited to) Telegram, WhatsApp, Facebook, Twitter and Vkontakte.
 
