@@ -150,7 +150,7 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 		$data = [
 			'title' => 'SEO Metadata functional test 3',
-			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'
+			'body' => '[img]https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg[/img]'
 
 		];
 
@@ -180,18 +180,18 @@ class acp_seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertSame(1, $elements['open_graph']['image']->count());
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements['open_graph']['image']->attr('content')
 		);
 
 		$this->assertSame(1, $elements['open_graph']['width']->count());
-		$this->assertSame(250, (int) $elements['open_graph']['width']->attr('content'));
+		$this->assertSame(3353, (int) $elements['open_graph']['width']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['height']->count());
-		$this->assertSame(200, (int) $elements['open_graph']['height']->attr('content'));
+		$this->assertSame(2514, (int) $elements['open_graph']['height']->attr('content'));
 
 		$this->assertSame(1, $elements['open_graph']['type']->count());
-		$this->assertSame('image/png', $elements['open_graph']['type']->attr('content'));
+		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
 
 		$this->assertSame(
 			'http://localhost/images/default_logo.jpg',
