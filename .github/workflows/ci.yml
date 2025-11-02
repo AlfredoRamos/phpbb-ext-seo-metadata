@@ -30,7 +30,7 @@ jobs:
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
-          path: phpBB3
+          path: phpbb
 
       - name: Checkout extension
         uses: actions/checkout@v5
@@ -47,7 +47,7 @@ jobs:
 
       - name: Setup Composer
         id: setup-composer
-        working-directory: phpBB3/phpBB
+        working-directory: phpbb/phpBB
         run: echo "cache-dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Setup cache
@@ -59,7 +59,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Setup environment for phpBB
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
       - name: Setup extension
@@ -70,27 +70,27 @@ jobs:
 
       - name: Setup EPV
         if: ${{ env.EPV == 1 }}
-        working-directory: phpBB3/phpBB
+        working-directory: phpbb/phpBB
         run: composer require -n --prefer-dist --no-progress phpbb/epv:dev-master
 
       - name: Run code sniffer
         if: ${{ env.SNIFF == 1 }}
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/ext-sniff.sh $EXTNAME $NOTESTS
 
       - name: Check image ICC profiles
         if: ${{ env.IMAGE_ICC == 1 }}
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/check-image-icc-profiles.sh
 
       - name: Check executable files
         if: ${{ env.EXECUTABLE_FILES == 1 }}
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/ext-check-executable-files.sh ./ $EXTNAME
 
       - name: Run EPV
         if: ${{ env.EPV == 1 }}
-        working-directory: phpBB3
+        working-directory: phpbb
         run: phpBB/vendor/bin/EPV.php run --dir="phpBB/ext/$EXTNAME"
 
   mysql-tests:
@@ -139,7 +139,7 @@ jobs:
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
-          path: phpBB3
+          path: phpbb
 
       - name: Checkout extension
         uses: actions/checkout@v5
@@ -156,7 +156,7 @@ jobs:
 
       - name: Setup Composer
         id: setup-composer
-        working-directory: phpBB3/phpBB
+        working-directory: phpbb/phpBB
         run: echo "cache-dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Setup cache
@@ -168,7 +168,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Setup environment for phpBB
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
       - name: Setup extension
@@ -178,17 +178,17 @@ jobs:
           .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup database
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/setup-database.sh $DB $MYISAM
 
       - name: Setup PHPUnit files
-        working-directory: phpBB3
+        working-directory: phpbb
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
           cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
       - name: Run unit tests
-        working-directory: phpBB3
+        working-directory: phpbb
         run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/ci/phpunit-$DB-github.xml --bootstrap tests/bootstrap.php
 
   postgresql-tests:
@@ -229,7 +229,7 @@ jobs:
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
-          path: phpBB3
+          path: phpbb
 
       - name: Checkout extension
         uses: actions/checkout@v5
@@ -246,7 +246,7 @@ jobs:
 
       - name: Setup Composer
         id: setup-composer
-        working-directory: phpBB3/phpBB
+        working-directory: phpbb/phpBB
         run: echo "cache-dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Setup cache
@@ -258,7 +258,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Setup environment for phpBB
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
       - name: Setup extension
@@ -268,15 +268,15 @@ jobs:
           .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup database
-        working-directory: phpBB3
+        working-directory: phpbb
         run: .github/setup-database.sh $DB $MYISAM
 
       - name: Setup PHPUnit files
-        working-directory: phpBB3
+        working-directory: phpbb
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
           cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
       - name: Run unit tests
-        working-directory: phpBB3
+        working-directory: phpbb
         run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/ci/phpunit-$DB-github.xml --bootstrap tests/bootstrap.php

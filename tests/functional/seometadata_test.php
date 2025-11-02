@@ -26,7 +26,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertSame(1, $element->count());
 		$this->assertSame(
-			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$element->attr('content')
 		);
 	}
@@ -92,7 +92,7 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -158,7 +158,7 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -204,11 +204,11 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['headline']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['text']
 		);
 		$this->assertSame(
