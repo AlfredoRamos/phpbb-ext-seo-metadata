@@ -100,6 +100,7 @@ class listener implements EventSubscriberInterface
 		$data['author'] = $this->helper->extract_author($event['topic_data']['topic_first_poster_name'], $event['topic_data']['topic_poster']);
 		$data['published_time'] = (int) $event['topic_data']['topic_time'];
 		$data['section'] = $event['topic_data']['forum_name'];
+		$data['description'] = '';
 
 		// Extract description
 		if ($this->helper->check_replies() && $this->helper->is_reply($event['post_list'], $first_post_id, $post_id))
