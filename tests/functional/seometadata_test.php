@@ -26,7 +26,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertSame(1, $element->count());
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$element->attr('content')
 		);
 	}
@@ -88,11 +88,11 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['type']->attr('content')
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -154,11 +154,11 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['site']->attr('content')
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -200,15 +200,15 @@ class seometadata_test extends \phpbb_functional_test_case
 			))
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['headline']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['description']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
 			$elements['text']
 		);
 		$this->assertSame(
@@ -261,7 +261,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame(1, count($elements['comment']));
 		$this->assertSame('Comment', $elements['comment'][0]['@type']);
 		$this->assertSame('http://localhost/viewtopic.php?p=1#p1', $elements['comment'][0]['identifier']);
-		$this->assertSame('This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. During the installation process your first category and your first forum are assigned an appropriate set of permissions for the predefined usergroups administrators, bots, global moderators, guests, registered users and registered COPPA users. If you also choose to delete your first category and your first forum, do not forget to assign permissions for all these usergroups for all new categories and forums you create. It is recommended to rename your first category and your first forum and copy permissions from these while creating new categories and forums. Have fun!', $elements['comment'][0]['text']);
+		$this->assertSame('This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. During the installation process your first category and your first forum are assigned an appropriate set of permissions for the predefined usergroups administrators, bots, global moderators, guests, registered users and registered COPPA users. If you also choose to delete your first category and your first forum, do not forget to assign permissions for all these usergroups for all new categories and forums you create. It is recommended to rename your first category and your first forum and copy permissions from these while creating new categories and forums. Have fun!', $elements['comment'][0]['text']);
 		$this->assertSame('Person', $elements['comment'][0]['author']['@type']);
 		$this->assertSame('admin', $elements['comment'][0]['author']['name']);
 		$this->assertSame('http://localhost/memberlist.php?mode=viewprofile&u=2', $elements['comment'][0]['author']['url']);
@@ -562,12 +562,12 @@ class seometadata_test extends \phpbb_functional_test_case
 		];
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['meta_description']->attr('content')
 		);
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['open_graph']['description']->attr('content')
 		);
 		$this->assertSame(
@@ -579,7 +579,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['twitter_cards']['description']->attr('content')
 		);
 		$this->assertSame(
