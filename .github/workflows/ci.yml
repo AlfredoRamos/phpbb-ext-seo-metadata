@@ -11,19 +11,19 @@ env:
   IMAGE_ICC: 1
   EPV: 1
   EXECUTABLE_FILES: 1
-  PHPBB_BRANCH: 3.3.x
+  PHPBB_BRANCH: master
 
 jobs:
   basic-tests:
     if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
     name: php ${{ matrix.php-version }}, none none
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       PHP_VERSION: ${{ matrix.php-version }}
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.2']
+        php-version: ['8.1']
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v5
@@ -96,7 +96,7 @@ jobs:
   mysql-tests:
     if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
     name: php ${{ matrix.php-version }}, ${{ matrix.db-type }} ${{ matrix.db-version }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     services:
       mysql:
         image: ${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb') && matrix.db-type || 'mariadb' }}:${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
@@ -118,24 +118,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: '7.2'
+          - php-version: '8.1'
             db-type: 'mysql'
             db-version: '5.7'
-          - php-version: '7.2'
-            db-type: 'mariadb'
-            db-version: '10.5'
-          - php-version: '7.3'
-            db-type: 'mariadb'
-            db-version: '10.5'
-          - php-version: '7.4'
-            db-type: 'mysql'
-            db-version: '8.0'
-          - php-version: '7.4'
-            db-type: 'mariadb'
-            db-version: '10.5'
-          - php-version: '8.0'
-            db-type: 'mariadb'
-            db-version: '10.5'
           - php-version: '8.1'
             db-type: 'mariadb'
             db-version: '10.6'
@@ -202,12 +187,6 @@ jobs:
           mkdir -p phpBB/ext/$EXTNAME/ci
           cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
-      - name: Setup tests
-        working-directory: extension
-        run: |
-          chmod +x .github/setup-tests.sh
-          .github/setup-tests.sh $EXTNAME $NOTESTS
-
       - name: Run unit tests
         working-directory: phpBB3
         run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/ci/phpunit-$DB-github.xml --bootstrap tests/bootstrap.php
@@ -215,7 +194,7 @@ jobs:
   postgresql-tests:
     if: ${{ !contains(github.event.head_commit.message, 'skip ci') }}
     name: php ${{ matrix.php-version }}, ${{ matrix.db-type }} ${{ matrix.db-version }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'alpine' }}
@@ -238,12 +217,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: '7.2'
-            db-type: 'postgres'
-            db-version: '16-alpine'
-          - php-version: '8.4'
+          - php-version: '8.1'
             db-type: 'postgres'
             db-version: '17-alpine'
+          - php-version: '8.4'
+            db-type: 'postgres'
+            db-version: '18-alpine'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v5
@@ -297,12 +276,6 @@ jobs:
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
           cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
-
-      - name: Setup tests
-        working-directory: extension
-        run: |
-          chmod +x .github/setup-tests.sh
-          .github/setup-tests.sh $EXTNAME $NOTESTS
 
       - name: Run unit tests
         working-directory: phpBB3
