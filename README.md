@@ -105,7 +105,7 @@ If available, it will dynamically generate and include the following data inside
 
 ### Requirements
 
-- PHP 7.1.3 or greater
+- PHP 8.1 or greater
 - phpBB 3.3 or greater
 
 ### Support
@@ -117,11 +117,7 @@ If available, it will dynamically generate and include the following data inside
 
 ### Donate
 
-If you like or found my work useful and want to show some appreciation, you can consider supporting its development by giving a donation.
-
-|    [![Donate with PayPal](https://alfredoramos.mx/images/paypal.svg)](https://alfredoramos.mx/donate/)     |    [![Donate with Stripe](https://alfredoramos.mx/images/stripe.svg)](https://alfredoramos.mx/donate/)     |
-| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
-| [![Donate with PayPal](https://alfredoramos.mx/images/donate_paypal.svg)](https://alfredoramos.mx/donate/) | [![Donate with Stripe](https://alfredoramos.mx/images/donate_stripe.svg)](https://alfredoramos.mx/donate/) |
+If you like or found my work useful and want to show some appreciation, you can consider supporting its development by [**giving a donation**](https://alfredoramos.mx/donate/).
 
 ### Installation
 
@@ -133,11 +129,7 @@ If you like or found my work useful and want to show some appreciation, you can 
 
 ### Preview
 
-[![Global settings](https://i.imgur.com/8rg2fKIb.png)](https://i.imgur.com/8rg2fKI.png)
-[![Open Graph, Twitter Cards and JSON-LD settings](https://i.imgur.com/042NB5Fb.png)](https://i.imgur.com/042NB5F.png)
-[![Generated markup](https://i.imgur.com/xKswZUHb.png)](https://i.imgur.com/xKswZUH.png)
-
-*(Click to view in full size)*
+See the [full blog post](https://alfredoramos.mx/seo-metadata-extension-for-phpbb/) for the screenshots gallery.
 
 ### Configuration
 
