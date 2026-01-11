@@ -83,6 +83,7 @@ If available, it will dynamically generate and include the following data inside
 		"@type": "Comment",
 		"identifier": "...",
 		"text": "...",
+		"datePublished": "...",
 		"author": {
 			"@type": "Person",
 			"name": "...",
