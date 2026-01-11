@@ -305,15 +305,17 @@ class helper
 
 				case 'comment':
 					if (isset($value['text'], $value['identifier']))
-					{
+					{          
 						$data = [
 							'identifier' => $value['identifier'],
 							'text' => $value['text'],
+                            'datePublished' => $value['datePublished'] ?? '',
 						];
 						$default = [
 							'@type' => 'Comment',
 							'identifier' => '',
 							'text' => '',
+							'datePublished' => '',
 							'author' => [
 								'@type' => 'Person',
 								'name' => '',

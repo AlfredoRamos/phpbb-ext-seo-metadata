@@ -137,6 +137,12 @@ class listener implements EventSubscriberInterface
 		{
 			return;
 		}
+   
+        $iso_date = '';
+		if (!empty($event['row']['post_time']))
+		{
+			$iso_date = date('c', (int) $event['row']['post_time']);
+		}
 
 		// Meta data helper
 		$data = [];
@@ -145,7 +151,8 @@ class listener implements EventSubscriberInterface
 		$data['comment'] = [
 			'identifier' => $this->helper->generate_post_url($event['row']['post_id']),
 			'text' => $this->helper->clean_post_data($event['row']['post_text']),
-			'author' => $this->helper->extract_author($event['row']['username'], $event['row']['user_id'])
+			'author' => $this->helper->extract_author($event['row']['username'], $event['row']['user_id']),
+			'datePublished' => $iso_date
 		];
 
 		$this->helper->set_metadata($data);
