@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_SEO_METADATA_EXPLAIN' => '<p>Zde můžete nastavit metadata, která se mají generovat a zobrazovat. Podrobnosti najdete v <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>často kladených otázkách</strong></a>. Pokud potřebujete pomoci, navštivte prosím sekci <a href="https://www.phpbb.com/customise/db/extension/seo_metadata/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Support</strong></a>.</p>',
+	'ACP_SEO_METADATA_EXPLAIN' => '<p>Zde můžete nastavit metadata, která se mají generovat a zobrazovat. Podrobnosti najdete v <a href="%1$s" rel="external nofollow noreferrer noopener" target="_blank"><strong>často kladených otázkách</strong></a>. Pokud potřebujete pomoci, navštivte prosím sekci <a href="%2$s" rel="external nofollow noreferrer noopener" target="_blank"><strong>Support</strong></a>.</p>',
 	'ACP_SEO_METADATA_INFO' => 'Změny v nastavení se projeví pouze pro nová témata. Pokud chcete změny aplikovat i pro starší témata, spusťte pročištění mezipaměti fóra.',
 
 	'ACP_SEO_METADATA_META_DESCRIPTION' => 'Povolit popis',

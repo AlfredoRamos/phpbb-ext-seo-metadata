@@ -130,7 +130,7 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function set_metadata($data = [])
+	public function set_metadata(array $data = []): void
 	{
 		// Set initial metadata
 		if (empty($this->metadata))
@@ -355,7 +355,7 @@ class helper
 	 *
 	 * @return array
 	 */
-	public function get_metadata($key = '')
+	public function get_metadata(string $key = ''): array
 	{
 		if (!empty($key))
 		{
@@ -375,7 +375,7 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function metadata_template_vars()
+	public function metadata_template_vars(): void
 	{
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
@@ -487,7 +487,7 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function clean_post_data($post_data = '')
+	public function clean_post_data(string $post_data = ''): string
 	{
 		if (empty($post_data))
 		{
@@ -595,7 +595,7 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function clean_description($description = '')
+	public function clean_description(string $description = ''): string
 	{
 		$description = $this->clean_post_data($description);
 
@@ -654,7 +654,7 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function clean_image($uri = '', $images_dir = true)
+	public function clean_image(string $uri = '', bool $images_dir = true): string
 	{
 		$uri = trim($uri);
 
@@ -706,7 +706,7 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function clean_url($url = '')
+	public function clean_url(string $url = ''): string
 	{
 		$url = trim($url);
 
@@ -741,7 +741,7 @@ class helper
 	 *
 	 * @return string The localization in the format en_GB
 	 */
-	public function extract_locale($locale = '')
+	public function extract_locale(string $locale = ''): string
 	{
 		if (empty($locale))
 		{
@@ -782,7 +782,7 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function extract_description($post_id = 0)
+	public function extract_description(int $post_id = 0): string
 	{
 		$post_id = (int) $post_id;
 
@@ -811,7 +811,7 @@ class helper
 	 *
 	 * @return array	url, width, height and type
 	 */
-	public function extract_image($description = '', $post_id = 0, $forum_id = 0)
+	public function extract_image(string $description = '', int $post_id = 0, int $forum_id = 0): array
 	{
 		$description = trim($description);
 		$post_id = (int) $post_id;
@@ -1034,9 +1034,9 @@ class helper
 	 * @param string	$forum_image
 	 * @param integer	$forum_id
 	 *
-	 * @return null|array
+	 * @return array	url, width, height and type
 	 */
-	public function forum_image($forum_image = '', $forum_id = 0)
+	public function forum_image(string $forum_image = '', int $forum_id = 0): array
 	{
 		$forum_image = trim($forum_image);
 		$forum_id = (int) $forum_id;
@@ -1075,7 +1075,7 @@ class helper
 		}
 
 		// Use default image
-		return null;
+		return $default;
 	}
 
 	/**
@@ -1087,7 +1087,7 @@ class helper
 	 *
 	 * @return bool|array
 	 */
-	public function get_image_info($url = '')
+	public function get_image_info(string $url = ''): bool|array
 	{
 		$url = trim($url);
 
@@ -1131,8 +1131,12 @@ class helper
 	 *
 	 * @return bool
 	 */
-	public function validate(&$fields = [], &$filters = [], &$errors = [])
+	public function validate(array &$fields = null, array &$filters = null, array &$errors = null): bool
 	{
+		$fields = $fields ?? [];
+		$filters = $filters ?? [];
+		$errors = $errors ?? [];
+
 		if (empty($fields) || empty($filters))
 		{
 			return false;
@@ -1182,8 +1186,11 @@ class helper
 	 *
 	 * @return bool
 	 */
-	public function validate_image(&$data = [], &$errors = [], $extra = [])
+	public function validate_image(array &$data = null, array &$errors = null, array $extra = []): bool
 	{
+		$data = $data ?? [];
+		$errors = $errors ?? [];
+
 		if (empty($data) || empty($data['file']))
 		{
 			return false;
@@ -1268,7 +1275,7 @@ class helper
 	 *
 	 * @return array
 	 */
-	private function supported_locales()
+	private function supported_locales(): array
 	{
 		return [
 			'af_ZA','ar_AR','as_IN','az_AZ','be_BY','bg_BG','bn_IN','br_FR','bs_BA','ca_ES',
@@ -1292,7 +1299,7 @@ class helper
 	 *
 	 * @return bool
 	 */
-	private function is_valid_xml($xml = '')
+	private function is_valid_xml(string $xml = ''): bool
 	{
 		$xml = trim($xml);
 
@@ -1325,7 +1332,7 @@ class helper
 	 *
 	 * @return bool
 	 */
-	public function check_replies()
+	public function check_replies(): bool
 	{
 		return ((int) $this->config->offsetGet('seo_metadata_post_metadata') === 1);
 	}
@@ -1339,8 +1346,13 @@ class helper
 	 *
 	 * @return bool
 	 */
-	public function is_reply($post_list = [], $first_post_id = 0, &$post_id = 0)
+	public function is_reply(array $post_list = [], int $first_post_id = 0, int &$post_id = null): bool
 	{
+		if ($post_id === null)
+		{
+			$post_id = 0;
+		}
+
 		// Cast values
 		$first_post_id = (int) $first_post_id;
 
@@ -1375,7 +1387,7 @@ class helper
 	 *
 	 * @param bool
 	 */
-	public function is_wide_image($width = 0, $height = 0)
+	public function is_wide_image(int $width = 0, int $height = 0): bool
 	{
 		$width = abs((int) $width);
 		$height = abs((int) $height);
@@ -1399,7 +1411,7 @@ class helper
 	 *
 	 * @return mixed
 	 */
-	public function trim_items($data = [], $depth = 0)
+	public function trim_items(mixed $data = [], int $depth = 0): mixed
 	{
 		if (empty($data))
 		{
@@ -1449,7 +1461,7 @@ class helper
 	 *
 	 * @return array
 	 */
-	public function filter_empty_items($data = [], $depth = 0)
+	public function filter_empty_items(array $data = [], int $depth = 0): array
 	{
 		if (empty($data))
 		{
@@ -1490,10 +1502,8 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function generate_user_url($user_id = 0)
+	public function generate_user_url(int $user_id = 0): string
 	{
-		$user_id = (int) $user_id;
-
 		if (empty($user_id))
 		{
 			return '';
@@ -1505,20 +1515,17 @@ class helper
 	/**
 	 * Generate author data from topic or post data.
 	 *
-	 * @param string	$name
-	 * @param integer	$user_id
-	 * @param integer	$post_id
+	 * @param string|null	$name
+	 * @param integer|null	$user_id
+	 * @param integer		$post_id
 	 *
 	 * @return array
 	 */
-	public function extract_author($name = '', $user_id = 0, $post_id = 0)
+	public function extract_author(?string $name = null, ?int $user_id = null, int $post_id = 0): array
 	{
-		$user_id = (int) $user_id;
-		$post_id = (int) $post_id;
-
 		$data = [
-			'name' => $name,
-			'url' => $this->generate_user_url($user_id)
+			'name' => $name ?? '',
+			'url' => $this->generate_user_url($user_id ?? 0)
 		];
 
 		if (empty($post_id))
@@ -1559,10 +1566,8 @@ class helper
 	 *
 	 * @return string
 	 */
-	public function generate_post_url($post_id = 0)
+	public function generate_post_url(int $post_id = 0): string
 	{
-		$post_id = (int) $post_id;
-
 		if (empty($post_id))
 		{
 			return '';
@@ -1579,7 +1584,7 @@ class helper
 	 *
 	 * @param bool
 	 */
-	private function comment_exists($comment_list = [], $identifier = '')
+	private function comment_exists(array $comment_list = [], string $identifier = ''): bool
 	{
 		$identifier = trim($identifier);
 

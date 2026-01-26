@@ -24,7 +24,7 @@ class main_info
 			'modes'		=> [
 				'settings'	=> [
 					'title'	=> 'SETTINGS',
-					'auth'	=> 'ext_alfredoramos/seometadata && acl_a_board',
+					'auth'	=> 'ext_alfredoramos/seometadata && acl_a_board && acl_a_extensions',
 					'cat'	=> ['ACP_SEO_METADATA']
 				]
 			]

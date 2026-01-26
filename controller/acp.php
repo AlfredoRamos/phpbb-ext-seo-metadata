@@ -71,7 +71,7 @@ class acp
 	 *
 	 * @return void
 	 */
-	public function settings_mode($u_action = '')
+	public function settings_mode(string $u_action = ''): void
 	{
 		if (empty($u_action))
 		{
@@ -428,6 +428,12 @@ class acp
 
 		// Assign template variables
 		$this->template->assign_vars([
+			'ACP_SEO_METADATA_EXPLAIN' => $this->language->lang(
+				'ACP_SEO_METADATA_EXPLAIN',
+				'https://www.phpbb.com/customise/db/extension/seo_metadata/faq',
+				'https://www.phpbb.com/customise/db/extension/seo_metadata/support',
+				'https://alfredoramos.mx/donate/'
+			),
 			'SEO_METADATA_META_DESCRIPTION' => ((int) $this->config->offsetGet('seo_metadata_meta_description') === 1),
 			'SEO_METADATA_DESC_LENGTH' => (int) $this->config->offsetGet('seo_metadata_desc_length'),
 			'SEO_METADATA_DEFAULT_IMAGE' => $this->config->offsetGet('seo_metadata_default_image'),
