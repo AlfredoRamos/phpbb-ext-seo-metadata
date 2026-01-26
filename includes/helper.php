@@ -680,7 +680,7 @@ class helper
 
 		// Avoid path traversal attack
 		// Image must exist and be readable
-		if (empty($image_path) || strpos($image_path, $base_path) !== 0 || !$this->filesystem->is_readable($image_path))
+		if (empty($image_path) || !str_starts_with($image_path, $base_path) || !$this->filesystem->is_readable($image_path))
 		{
 			return '';
 		}

@@ -358,15 +358,9 @@ class acp
 			{
 				unset($filters['seo_metadata_twitter_publisher']);
 			}
-			else
+			else if (!empty($fields['seo_metadata_twitter_publisher']) && !str_starts_with($fields['seo_metadata_twitter_publisher'], '@'))
 			{
-				if (strpos($fields['seo_metadata_twitter_publisher'], '@') === false)
-				{
-					$fields['seo_metadata_twitter_publisher'] = sprintf(
-						'@%s',
-						$fields['seo_metadata_twitter_publisher']
-					);
-				}
+				$fields['seo_metadata_twitter_publisher'] = '@' . $fields['seo_metadata_twitter_publisher'];
 			}
 
 			// Prepare JSON-LD logo validation
