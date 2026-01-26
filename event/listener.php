@@ -145,6 +145,7 @@ class listener implements EventSubscriberInterface
 		$data['comment'] = [
 			'identifier' => $this->helper->generate_post_url($event['row']['post_id']),
 			'text' => $this->helper->clean_post_data($event['row']['post_text']),
+			'date' => (int) $event['row']['post_time'],
 			'author' => $this->helper->extract_author($event['row']['username'], $event['row']['user_id'])
 		];
 
