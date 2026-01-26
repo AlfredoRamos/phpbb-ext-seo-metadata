@@ -209,6 +209,7 @@ class helper
 						// 	'@type' => 'Comment',
 						// 	'identifier' => '',
 						// 	'text' => '',
+						//	'datePublished' => '',
 						// 	'author' => [
 						// 		'@type' => 'Person',
 						// 		'name' => '',
@@ -314,12 +315,18 @@ class helper
 							'@type' => 'Comment',
 							'identifier' => '',
 							'text' => '',
+							'datePublished' => '',
 							'author' => [
 								'@type' => 'Person',
 								'name' => '',
 								'url' => ''
 							]
 						];
+
+						if (isset($value['date']))
+						{
+							$data['datePublished'] = date('c', (int) $value['date']);
+						}
 
 						if (isset($value['author']['name']))
 						{
