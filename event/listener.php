@@ -40,7 +40,8 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after' => 'page_header',
 			'core.viewforum_modify_page_title' => 'viewforum',
 			'core.viewtopic_modify_post_data' => 'viewtopic',
-			'core.viewtopic_post_row_after' => 'post_row'
+			'core.viewtopic_post_row_after' => 'post_row',
+			'core.memberlist_view_profile' => 'viewprofile'
 		];
 	}
 
@@ -148,6 +149,25 @@ class listener implements EventSubscriberInterface
 			'date' => (int) $event['row']['post_time'],
 			'author' => $this->helper->extract_author($event['row']['username'], $event['row']['user_id'])
 		];
+
+		$this->helper->set_metadata($data);
+	}
+
+	public function viewprofile($event)
+	{
+		if (empty($event['member']) || !$this->helper->public_profiles_enabled())
+		{
+			return;
+		}
+
+		$this->helper->set_profile_metadata($event['member']);
+
+		// Meta data helper
+		$data = [];
+
+		// Helpers
+		$data['profile'] = $this->helper->extract_profile($event['member']);
+		$data['image'] = $this->helper->extract_profile_image($event['member']);
 
 		$this->helper->set_metadata($data);
 	}

@@ -43,7 +43,8 @@ class listener_test extends \phpbb_test_case
 				'core.page_header_after',
 				'core.viewforum_modify_page_title',
 				'core.viewtopic_modify_post_data',
-				'core.viewtopic_post_row_after'
+				'core.viewtopic_post_row_after',
+				'core.memberlist_view_profile'
 			],
 			array_keys(listener::getSubscribedEvents())
 		);
