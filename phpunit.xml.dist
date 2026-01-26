@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="true"
-	backupStaticAttributes="true"
 	bootstrap="../../../../tests/bootstrap.php"
 	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
 	processIsolation="false"
 	stopOnError="false"
 	stopOnFailure="false"
 	stopOnIncomplete="false"
 	stopOnSkipped="false"
-	stopOnRisky="false"
-	syntaxCheck="true"
-	verbose="true">
+	stopOnRisky="false">
 	<testsuites>
 		<testsuite name="Extension Test Suite">
 			<directory suffix="_test.php">./tests/</directory>
