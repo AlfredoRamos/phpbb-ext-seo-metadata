@@ -694,4 +694,106 @@ class seometadata_test extends \phpbb_functional_test_case
 			);
 		}
 	}
+
+	public function test_user_profile_page()
+	{
+		$this->login();
+		$this->admin_login();
+		$crawler = self::request('GET', 'adm/index.php?i=acp_permissions&icat=16&mode=setting_group_global&sid=' . $this->sid);
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form([
+			'group_id[]' => '1' // Guests
+		]);
+
+		$crawler = self::submit($form);
+		$form = $crawler->selectButton($this->lang('APPLY_PERMISSIONS'))->form([
+			'setting[1][0][u_viewprofile]' => '1' // Yes
+		]);
+		self::submit($form);
+
+		$this->logout();
+		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2');
+
+		$script = $crawler->filter('script[type="application/ld+json"]');
+		$elements = json_decode($script->text(), true);
+
+		$this->assertSame(1, $script->count());
+		$this->assertFalse(empty($elements));
+
+		$this->assertSame(
+			'https://schema.org',
+			$elements['@context']
+		);
+		$this->assertSame(
+			'ProfilePage',
+			$elements['@type']
+		);
+
+		$this->assertSame(
+			1,
+			preg_match(
+				'#^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$#',
+				$elements['dateCreated']
+			)
+		);
+		$this->assertSame(
+			1,
+			preg_match(
+				'#^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$#',
+				$elements['dateModified']
+			)
+		);
+
+		$this->assertFalse(
+			empty($elements['mainEntity'])
+		);
+		$this->assertTrue(
+			is_array($elements['mainEntity'])
+		);
+
+		$this->assertSame(
+			'Person',
+			$elements['mainEntity']['@type']
+		);
+		$this->assertSame(
+			'admin',
+			$elements['mainEntity']['name']
+		);
+		$this->assertSame(
+			'admin',
+			$elements['mainEntity']['alternateName']
+		);
+		$this->assertSame(
+			2,
+			(int) $elements['mainEntity']['identifier']
+		);
+		$this->assertTrue(
+			empty($elements['mainEntity']['image'])
+		);
+		$this->assertTrue(
+			empty($elements['mainEntity']['description'])
+		);
+		$this->assertSame(
+			'http://localhost/memberlist.php?mode=viewprofile&u=2',
+			(int) $elements['mainEntity']['url']
+		);
+
+		$this->assertFalse(
+			empty($elements['mainEntity']['agentInteractionStatistic'])
+		);
+		$this->assertTrue(
+			is_array($elements['mainEntity']['agentInteractionStatistic'])
+		);
+		$this->assertSame(
+			'InteractionCounter',
+			$elements['mainEntity']['agentInteractionStatistic']['@type']
+		);
+		$this->assertSame(
+			'https://schema.org/WriteAction',
+			$elements['mainEntity']['agentInteractionStatistic']['interactionType']
+		);
+		$this->assertSame(
+			1,
+			(int) $elements['mainEntity']['agentInteractionStatistic']['userInteractionCount']
+		);
+	}
 }

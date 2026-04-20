@@ -12,12 +12,14 @@ namespace alfredoramos\seometadata\includes;
 use phpbb\db\driver\factory as database;
 use phpbb\config\config;
 use phpbb\user;
+use phpbb\auth\auth;
 use phpbb\request\request;
 use phpbb\template\template;
 use phpbb\language\language;
 use phpbb\filesystem\filesystem;
 use phpbb\cache\driver\driver_interface as cache;
 use phpbb\controller\helper as controller_helper;
+use phpbb\avatar\manager as avatar_manager;
 use phpbb\event\dispatcher_interface as dispatcher;
 use FastImageSize\FastImageSize;
 
@@ -31,6 +33,9 @@ class helper
 
 	/** @var user */
 	protected $user;
+
+	/** @var auth */
+	protected $auth;
 
 	/** @var request */
 	protected $request;
@@ -50,6 +55,9 @@ class helper
 	/** @var controller_helper */
 	protected $controller_helper;
 
+	/** @var avatar_manager */
+	protected $avatar_manager;
+
 	/** @var dispatcher */
 	protected $dispatcher;
 
@@ -66,6 +74,9 @@ class helper
 	protected $metadata;
 
 	/** @var array */
+	protected $profile_metadata;
+
+	/** @var array */
 	protected $tables;
 
 	/** @var integer */
@@ -80,12 +91,14 @@ class helper
 	 * @param database			$db
 	 * @param config			$config
 	 * @param user				$user
+	 * @param auth				$auth
 	 * @param request			$request
 	 * @param template			$template
 	 * @param language			$language
 	 * @param filesystem		$filesystem
 	 * @param cache				$cache
 	 * @param controller_helper	$controller_helper
+	 * @param avatar_manager	$avatar_manager
 	 * @param dispatcher		$dispatcher
 	 * @param FastImageSize		$imagesize
 	 * @param string			$root_path
@@ -95,17 +108,19 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(database $db, config $config, user $user, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext, $users_table, $posts_table, $attachments_table)
+	public function __construct(database $db, config $config, user $user, auth $auth, request $request, template $template, language $language, filesystem $filesystem, cache $cache, controller_helper $controller_helper, avatar_manager $avatar_manager, dispatcher $dispatcher, FastImageSize $imagesize, $root_path, $php_ext, $users_table, $posts_table, $attachments_table)
 	{
 		$this->db = $db;
 		$this->config = $config;
 		$this->user = $user;
+		$this->auth = $auth;
 		$this->request = $request;
 		$this->template = $template;
 		$this->language = $language;
 		$this->filesystem = $filesystem;
 		$this->cache = $cache;
 		$this->controller_helper = $controller_helper;
+		$this->avatar_manager = $avatar_manager;
 		$this->dispatcher = $dispatcher;
 		$this->imagesize = $imagesize;
 		$this->root_path = $root_path;
@@ -344,8 +359,80 @@ class helper
 						}
 					}
 				break;
+
+				case 'profile':
+					$this->metadata['open_graph']['og:type'] = 'profile';
+
+					if (isset($value['first_name']))
+					{
+						$this->metadata['open_graph']['profile:first_name'] = $value['first_name'];
+					}
+
+					if (isset($value['last_name']))
+					{
+						$this->metadata['open_graph']['profile:last_name'] = $value['last_name'];
+					}
+
+					if (isset($value['username']))
+					{
+						$this->metadata['open_graph']['profile:username'] = $value['username'];
+					}
+				break;
 			}
 		}
+	}
+
+	/**
+	 * Check user profile visibility.
+	 *
+	 * @return bool
+	 */
+	public function public_profiles_enabled(): bool
+	{
+		return $this->auth->acl_get('u_viewprofile');
+	}
+
+	/**
+	 * Add profile metadata.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function set_profile_metadata(array $data = []): void
+	{
+		if (!$this->profile_metadata_enabled() || empty($data))
+		{
+			return;
+		}
+
+		if (!in_array((int) $data['user_type'], [USER_NORMAL, USER_FOUNDER], true) || (int) $data['user_id'] === ANONYMOUS || !empty((int) $data['user_inactive_reason']))
+		{
+			return;
+		}
+
+		$this->profile_metadata = [
+			'json_ld' => [
+				'@context' => 'https://schema.org',
+				'@type' => 'ProfilePage',
+				'dateCreated' => !empty($data['user_regdate']) ? date('Y-m-d\TH:i:sP', (int) $data['user_regdate']) : '',
+				'dateModified' => !empty($data['user_last_active']) ? date('Y-m-d\TH:i:sP', (int) $data['user_last_active']) : '',
+				'mainEntity' => [
+					'@type' => 'Person',
+					'name' => !empty($data['username']) ? $data['username'] : '',
+					'alternateName' => !empty($data['username_clean']) ? $data['username_clean'] : '',
+					'identifier' => !empty($data['user_id']) ? $data['user_id'] : '',
+					'image' => !empty($data['user_avatar']) ? $this->user_avatar_url($data)['src'] : '',
+					'description' => '',
+					'url' => $this->clean_url($this->controller_helper->get_current_url()),
+					'agentInteractionStatistic' => [
+						'@type' => 'InteractionCounter',
+						'interactionType' => 'https://schema.org/WriteAction',
+						'userInteractionCount' => !empty($data['user_posts']) ? (int) $data['user_posts'] : 0
+					]
+				]
+			]
+		];
 	}
 
 	/**
@@ -371,6 +458,64 @@ class helper
 	}
 
 	/**
+	 * Get internal profile metadata.
+	 *
+	 * @param string $key (Optional)
+	 *
+	 * @return array
+	 */
+	public function get_profile_metadata(?string $key = null): array
+	{
+		if (!$this->profile_metadata_enabled())
+		{
+			return [];
+		}
+
+		if (!empty($key))
+		{
+			return (!empty($this->profile_metadata[$key])) ? $this->profile_metadata[$key] : [];
+		}
+
+		return $this->profile_metadata;
+	}
+
+	/**
+	 * Checkc if is profile page.
+	 *
+	 * @return bool
+	 */
+	public function is_profile_page(): bool
+	{
+		$url = $this->clean_url($this->controller_helper->get_current_url());
+		$components = parse_url($url);
+		$query_ary = [];
+
+		if (!empty($components['query']))
+		{
+			$components['query'] = html_entity_decode($components['query'], ENT_QUOTES | ENT_HTML5);
+			parse_str($components['query'], $query_ary);
+		}
+
+		if (empty($components) || empty($components['path']) || empty($components['query']) || empty($query_ary))
+		{
+			return false;
+		}
+
+		$is_profile = str_contains($components['path'], 'memberlist.php');
+
+		if (!empty($query_ary['u']))
+		{
+			$query_ary['u'] = (int) $query_ary['u'];
+		}
+
+		$is_profile = $is_profile &&
+			(!empty($query_ary['mode']) && $query_ary['mode'] === 'viewprofile') &&
+			(!empty($query_ary['u']) && $query_ary['u'] > ANONYMOUS);
+
+		return $is_profile;
+	}
+
+	/**
 	 * Assign or update template variables.
 	 *
 	 * @return void
@@ -379,6 +524,7 @@ class helper
 	{
 		$this->template->destroy_block_vars('SEO_METADATA');
 		$data = $this->get_metadata();
+		$is_profile_metadata = $this->profile_metadata_enabled() && $this->is_profile_page();
 
 		// Open Graph extra check for default image
 		if (empty($data['open_graph']['og:image']))
@@ -401,30 +547,47 @@ class helper
 			);
 		}
 
-		// JSON-LD author
-		if (empty($data['json_ld']['author']['name']))
+		if ($is_profile_metadata)
 		{
-			unset($data['json_ld']['author']);
-		}
+			$data['json_ld'] = $this->get_profile_metadata('json_ld');
 
-		// JSON-LD article section
-		if (empty($data['json_ld']['datePublished']))
-		{
-			unset($data['json_ld']['articleSection']);
-		}
-
-		// JSON-LD logo
-		if (empty($data['json_ld']['publisher']['logo']['url']))
-		{
-			unset($data['json_ld']['publisher']['logo']);
-		}
-
-		// JSON-LD comment
-		foreach ($data['json_ld']['comment'] as $key => $value)
-		{
-			if (empty($value['text']))
+			// Open Graph profile metadata
+			if ($data['open_graph']['og:type'] !== 'profile')
 			{
-				unset($data['json_ld']['comment'][$key]);
+				unset(
+					$data['open_graph']['profile:first_name'],
+					$data['open_graph']['profile:last_name'],
+					$data['open_graph']['profile:username']
+				);
+			}
+		}
+		else
+		{
+			// JSON-LD author
+			if (empty($data['json_ld']['author']['name']))
+			{
+				unset($data['json_ld']['author']);
+			}
+
+			// JSON-LD article section
+			if (empty($data['json_ld']['datePublished']))
+			{
+				unset($data['json_ld']['articleSection']);
+			}
+
+			// JSON-LD logo
+			if (empty($data['json_ld']['publisher']['logo']['url']))
+			{
+				unset($data['json_ld']['publisher']['logo']);
+			}
+
+			// JSON-LD comment
+			foreach ($data['json_ld']['comment'] as $key => $value)
+			{
+				if (empty($value['text']))
+				{
+					unset($data['json_ld']['comment'][$key]);
+				}
 			}
 		}
 
@@ -478,6 +641,10 @@ class helper
 				}
 			}
 		}
+
+		$this->template->assign_vars([
+			'S_PROFILE_METADATA' => $is_profile_metadata
+		]);
 	}
 
 	/**
@@ -647,6 +814,45 @@ class helper
 	}
 
 	/**
+	 * Get user avatar URL.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function user_avatar_url(array $data = []): array
+	{
+		$avatar_data = ['src' => '', 'width' => 0, 'height' => 0];
+
+		if (empty($data))
+		{
+			return $avatar_data;
+		}
+
+		$row = $this->avatar_manager::clean_row($data, 'user');
+
+		if (empty($row['avatar']) || empty($row['avatar_type']) || !in_array($row['avatar_type'], $this->avatar_manager->get_enabled_drivers(), true))
+		{
+			return $avatar_data;
+		}
+
+		$driver = $this->avatar_manager->get_driver($row['avatar_type'], false);
+
+		if ($driver)
+		{
+			$avatar_data = array_replace($avatar_data, $driver->get_data($row));
+		}
+
+		if (!empty($avatar_data['src']))
+		{
+			$avatar_data['src'] = str_starts_with($avatar_data['src'], './') ? substr($avatar_data['src'], 2) : $avatar_data['src'];
+			$avatar_data['src'] = $this->clean_url(sprintf('%s/%s', generate_board_url(), $avatar_data['src']));
+		}
+
+		return $avatar_data;
+	}
+
+	/**
 	 * Clean URI to be used as image URL.
 	 *
 	 * @param string	$uri
@@ -809,7 +1015,7 @@ class helper
 	 * @param integer	$post_id
 	 * @param integer	$forum_id
 	 *
-	 * @return array	url, width, height and type
+	 * @return array url, width, height and type
 	 */
 	public function extract_image(string $description = '', int $post_id = 0, int $forum_id = 0): array
 	{
@@ -1027,6 +1233,40 @@ class helper
 	}
 
 	/**
+	 * Generate image from profile image.
+	 *
+	 * @param array $member
+	 *
+	 * @return array url, width, height and type
+	 */
+	public function extract_profile_image(array $member = []): array
+	{
+		$default = [
+			'url' => '',
+			'width' => 0,
+			'height' => 0,
+			'type' => ''
+		];
+
+		if (empty($member))
+		{
+			return $default;
+		}
+
+		$avatar_data = $this->user_avatar_url($member);
+		$image = ['file' => $avatar_data['src']];
+		$errors = [];
+
+		if ($this->validate_image($image, $errors, ['images_dir' => false]))
+		{
+
+			return $image['info'];
+		}
+
+		return $default;
+	}
+
+	/**
 	 * Generate image from forum data.
 	 *
 	 * It will return the image information (url, width, height and type) on success, null otherwise.
@@ -1034,7 +1274,7 @@ class helper
 	 * @param string	$forum_image
 	 * @param integer	$forum_id
 	 *
-	 * @return array	url, width, height and type
+	 * @return array url, width, height and type
 	 */
 	public function forum_image(string $forum_image = '', int $forum_id = 0): array
 	{
@@ -1066,7 +1306,7 @@ class helper
 		$errors = [];
 
 		// Validate forum image
-		if ($this->validate_image($image, $errors, ['images_dir' => 0]))
+		if ($this->validate_image($image, $errors, ['images_dir' => false]))
 		{
 			// Add image to cache
 			$this->cache->put($cache_name, $image['info']);
@@ -1197,7 +1437,7 @@ class helper
 		}
 
 		// Extra parameters
-		$extra['images_dir'] = isset($extra['images_dir']) ? (int) $extra['images_dir'] : 1;
+		$extra['images_dir'] = isset($extra['images_dir']) ? (bool) $extra['images_dir'] : true;
 
 		// Minimum dimensions
 		$min = [
@@ -1335,6 +1575,17 @@ class helper
 	public function check_replies(): bool
 	{
 		return ((int) $this->config->offsetGet('seo_metadata_post_metadata') === 1);
+	}
+
+	/**
+	 * Check if profile metadata for user profile page is enabled.
+	 *
+	 * @return bool
+	 */
+	public function profile_metadata_enabled()
+	{
+		return ((int) $this->config->offsetGet('seo_metadata_user_profile_metadata') === 1) &&
+			$this->public_profiles_enabled();
 	}
 
 	/**
@@ -1555,6 +1806,64 @@ class helper
 			'name' => $user['username'],
 			'url' => $this->generate_user_url($user['user_id'])
 		];
+
+		return $data;
+	}
+
+	/**
+	 * Generate profile data from user profile page.
+	 *
+	 * @param array $member
+	 *
+	 * @return array
+	 */
+	public function extract_profile(array $member = []): array
+	{
+		$data = [
+			'first_name' => '',
+			'last_name' => '',
+			'username' => ''
+		];
+
+		if (empty($member))
+		{
+			return $data;
+		}
+
+		if (!empty($member['username_clean']))
+		{
+			$data['username'] = $member['username_clean'];
+		}
+
+		if (!empty($member['username']))
+		{
+			$name_ary = $this->filter_empty_items(explode(' ', trim($member['username'])));
+			$name_ary_size = count($name_ary);
+			$max_iterations = 5;
+
+			if ($name_ary_size > 0)
+			{
+				$last_names = [];
+
+				foreach ($name_ary as $key => $value)
+				{
+					if ($key >= $max_iterations)
+					{
+						break;
+					}
+
+					if ($key === 0)
+					{
+						$data['first_name'] = $value;
+						continue;
+					}
+
+					$last_names[] = $value;
+				}
+
+				$data['last_name'] = implode(' ', $last_names);
+			}
+		}
 
 		return $data;
 	}

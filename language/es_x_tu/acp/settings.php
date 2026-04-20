@@ -66,6 +66,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Metadatos de mensajes',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'También generará metadatos para URLs de mensajes específicos.',
 
+	'ACP_SEO_METADATA_USER_PROFILE_METADATA' => 'Metadatos de perfil de usuario',
+	'ACP_SEO_METADATA_USER_PROFILE_METADATA_EXPLAIN' => 'También generará metadatos en páginas de perfil de usuario.',
+
 	'ACP_SEO_METADATA_MAX_IMAGES' => 'Número de imágenes',
 	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Número máximo de imágenes que se pueden extraer por mensaje. Ten en cuenta que aumentar este número puede afectar negativamente el tiempo de carga inicial si no se han extraído imágenes antes para el tema o mensaje. Tiene un valor máximo predefinido de <samp>%d</samp>.',
 
