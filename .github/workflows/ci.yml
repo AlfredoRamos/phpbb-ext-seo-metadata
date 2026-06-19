@@ -26,14 +26,14 @@ jobs:
         php-version: ['8.1']
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: extension
 
@@ -138,14 +138,14 @@ jobs:
             db-version: '10.11'
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: extension
 
@@ -237,14 +237,14 @@ jobs:
             db-version: '18-alpine'
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: extension
 
