@@ -21,7 +21,7 @@ jobs:
       max-parallel: 1
     steps:
       - name: Checkout extension
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Cache Crowdin source files
         uses: actions/cache@v5
