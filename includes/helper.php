@@ -250,7 +250,10 @@ class helper
 					$this->metadata['open_graph']['og:description'] = $value;
 					$this->metadata['twitter_cards']['twitter:description'] = $value;
 					$this->metadata['json_ld']['description'] = $value;
-					$this->metadata['json_ld']['text'] = $value;
+				break;
+
+				case 'text':
+					$this->metadata['json_ld']['text'] = $this->clean_post_data($value);
 				break;
 
 				case 'image':
