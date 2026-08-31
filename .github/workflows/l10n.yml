@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-crowdin-cache-${{ github.ref_name }}-
 
       - name: Crowdin
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@v3
         with:
           crowdin_branch_name: ${{ env.BRANCH_NAME }}
           upload_sources: true
