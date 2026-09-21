@@ -159,6 +159,13 @@ class acp
 					'max_range' => 1
 				]
 			],
+			'seo_metadata_user_profile_metadata' => [
+				'filter' => FILTER_VALIDATE_INT,
+				'options' => [
+					'min_range' => 0,
+					'max_range' => 1
+				]
+			],
 			'seo_metadata_max_images' => [
 				'filter' => FILTER_VALIDATE_INT,
 				'options' => [
@@ -268,6 +275,10 @@ class acp
 				'seo_metadata_post_metadata' => $this->request->variable(
 					'seo_metadata_post_metadata',
 					0
+				),
+				'seo_metadata_user_profile_metadata' => $this->request->variable(
+					'seo_metadata_user_profile_metadata',
+					1
 				),
 				'seo_metadata_max_images' => $this->request->variable(
 					'seo_metadata_max_images',
@@ -444,6 +455,7 @@ class acp
 			'SEO_METADATA_ATTACHMENTS' => ((int) $this->config->offsetGet('seo_metadata_attachments') === 1),
 			'SEO_METADATA_PREFER_ATTACHMENTS' => ((int) $this->config->offsetGet('seo_metadata_prefer_attachments') === 1),
 			'SEO_METADATA_POST_METADATA' => ((int) $this->config->offsetGet('seo_metadata_post_metadata') === 1),
+			'SEO_METADATA_USER_PROFILE_METADATA' => ((int) $this->config->offsetGet('seo_metadata_user_profile_metadata') === 1),
 			'SEO_METADATA_MAX_IMAGES' => ((int) $this->config->offsetGet('seo_metadata_max_images')),
 			'SEO_METADATA_MAX_IMAGES_DEFAULT' => $this->helper::MAX_IMG_EXTRACTION,
 			'SEO_METADATA_OPEN_GRAPH' => ((int) $this->config->offsetGet('seo_metadata_open_graph') === 1),

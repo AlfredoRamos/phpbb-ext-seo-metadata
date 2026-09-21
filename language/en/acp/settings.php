@@ -66,6 +66,9 @@ $lang = array_merge($lang, [
 	'ACP_SEO_METADATA_POST_METADATA' => 'Post metadata',
 	'ACP_SEO_METADATA_POST_METADATA_EXPLAIN' => 'Also generate metadata for specific post URLs.',
 
+	'ACP_SEO_METADATA_USER_PROFILE_METADATA' => 'User profile metadata',
+	'ACP_SEO_METADATA_USER_PROFILE_METADATA_EXPLAIN' => 'Also generate metadata for user profile pages.',
+
 	'ACP_SEO_METADATA_MAX_IMAGES' => 'Number of images',
 	'ACP_SEO_METADATA_MAX_IMAGES_EXPLAIN' => 'Maximum number of images to extract per post. Be aware that increasing this number might negatively affect the first load time if images have not been extracted before for the topic or post. It has a hard maximum value of <samp>%d</samp>.',
 

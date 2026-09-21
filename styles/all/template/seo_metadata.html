@@ -2,7 +2,7 @@
 {% for CATEGORIES in SEO_METADATA %}
 {% for ITEM in attribute(CATEGORIES, CATEGORIES.NAME) %}
 {% if CATEGORIES.NAME is same as('JSON_LD') %}
-{% if S_TOPIC_ID > 0 %}
+{% if S_TOPIC_ID > 0 or S_PROFILE_METADATA %}
 <script type="application/ld+json">
 {{ ITEM.CONTENT }}
 </script>

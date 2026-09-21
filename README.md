@@ -50,6 +50,8 @@ If available, it will dynamically generate and include the following data inside
 
 #### JSON-LD
 
+##### Topic / Post
+
 ```html
 <script type="application/ld+json">
 {
@@ -90,6 +92,32 @@ If available, it will dynamically generate and include the following data inside
 			"url": "..."
 		}
 	}]
+}
+</script>
+```
+
+##### User profile
+
+```html
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "ProfilePage",
+	"dateCreated": "...",
+	"dateModified": "...",
+	"mainEntity": {
+		"@type": "Person",
+		"name": "...",
+		"alternateName": "...",
+		"identifier": "...",
+		"image": "...",
+		"url": "...",
+		"agentInteractionStatistic": {
+			"@type": "InteractionCounter",
+			"interactionType": "https://schema.org/WriteAction",
+			"userInteractionCount": n
+		}
+	}
 }
 </script>
 ```
