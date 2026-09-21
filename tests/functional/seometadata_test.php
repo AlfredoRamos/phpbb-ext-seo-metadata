@@ -26,7 +26,7 @@ class seometadata_test extends \phpbb_functional_test_case
 
 		$this->assertSame(1, $element->count());
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$element->attr('content')
 		);
 	}
@@ -88,11 +88,11 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['type']->attr('content')
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -154,11 +154,11 @@ class seometadata_test extends \phpbb_functional_test_case
 			$elements['site']->attr('content')
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['title']->attr('content')
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']->attr('content')
 		);
 		$this->assertSame(
@@ -200,15 +200,15 @@ class seometadata_test extends \phpbb_functional_test_case
 			))
 		);
 		$this->assertSame(
-			'Welcome to phpBB3',
+			'Welcome to phpBB',
 			$elements['headline']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['description']
 		);
 		$this->assertSame(
-			'This is an example post in your phpBB3 installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Dur',
+			'This is an example post in your phpBB installation. Everything seems to be working. You may delete this post if you like and continue to set up your board. Duri',
 			$elements['text']
 		);
 		$this->assertSame(
@@ -569,12 +569,12 @@ class seometadata_test extends \phpbb_functional_test_case
 		];
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['meta_description']->attr('content')
 		);
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['open_graph']['description']->attr('content')
 		);
 		$this->assertSame(
@@ -586,7 +586,7 @@ class seometadata_test extends \phpbb_functional_test_case
 		$this->assertSame('image/jpeg', $elements['open_graph']['type']->attr('content'));
 
 		$this->assertSame(
-			'Welcome to phpBB3 Post reply test',
+			'Welcome to phpBB Post reply test',
 			$elements['twitter_cards']['description']->attr('content')
 		);
 		$this->assertSame(
